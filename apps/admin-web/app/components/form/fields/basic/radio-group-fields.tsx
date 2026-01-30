@@ -1,7 +1,6 @@
-import { RadioGroup } from '@alianza/ui/radio-group'
+import { RadioGroup } from '@alianza/ui/components/ui/radio-group'
 import type { FieldPath, FieldValues } from 'react-hook-form'
-import { BaseFields } from '../shared'
-import type { BaseFieldsChildrenProps } from '../shared/base-fields'
+import { BaseFields, type BaseFieldsChildrenProps } from '../../base-field'
 
 interface RadioGroupFieldsProps<TFieldValues extends FieldValues = FieldValues, TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>> extends BaseFieldsChildrenProps<TFieldValues, TName> {
     orientation?: 'horizontal' | 'vertical'

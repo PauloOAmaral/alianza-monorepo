@@ -1,7 +1,7 @@
 import { DatePicker } from '@alianza/ui/date-picker'
 import type { FieldPath, FieldValues } from 'react-hook-form'
-import type { BaseFieldsChildrenProps } from '../shared/base-fields'
-import { BaseFields } from '../shared/base-fields'
+import type { BaseFieldsChildrenProps } from '../../base-field'
+import { BaseFields } from '../../base-field'
 
 const DatePickerField = <TFieldValues extends FieldValues = FieldValues, TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>>({
     name,
@@ -11,7 +11,7 @@ const DatePickerField = <TFieldValues extends FieldValues = FieldValues, TName e
 }: BaseFieldsChildrenProps<TFieldValues, TName>) => {
     return (
         <BaseFields label={label} name={name} required={required}>
-            {({ field }) => <DatePicker isDisabled={readOnly} {...field} />}
+            {({ field }) => <DatePicker disabled={readOnly} onSelect={field.onChange} required={required} selected={field.value} />}
         </BaseFields>
     )
 }

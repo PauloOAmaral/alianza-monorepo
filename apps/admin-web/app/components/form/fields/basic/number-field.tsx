@@ -1,7 +1,7 @@
 import { Input } from '@alianza/ui/input'
-import { cn } from '@alianza/ui/utils'
+import { cn } from '@alianza/ui/utils/cn'
 import type { FieldPath, FieldValues } from 'react-hook-form'
-import { BaseFields, type BaseFieldsChildrenProps } from '../shared/base-fields'
+import { BaseFields, type BaseFieldsChildrenProps } from '../../base-field'
 
 const NumberField = <TFieldValues extends FieldValues = FieldValues, TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>>({
     name,

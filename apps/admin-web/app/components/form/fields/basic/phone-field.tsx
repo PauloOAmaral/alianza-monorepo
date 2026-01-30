@@ -1,6 +1,6 @@
-import { Input } from '@alianza/ui/input'
+import { Input } from '@alianza/ui/components/ui/input'
 import type { FieldPath, FieldValues } from 'react-hook-form'
-import { BaseFields, type BaseFieldsChildrenProps } from '../shared/base-fields'
+import { BaseFields, type BaseFieldsChildrenProps } from '../../base-field'
 
 const PhoneField = ({ name, label, placeholder, required }: BaseFieldsChildrenProps<FieldValues, FieldPath<FieldValues>>) => {
     return (

@@ -21,50 +21,47 @@ async function getUserSessionQuery(db: AuthDatabaseClient, sessionId: string) {
             updatedAt: true
         },
         with: {
-            user: {
+            userTenant: {
                 columns: {
                     id: true,
-                    email: true
+                    tenantId: true
                 },
                 with: {
-                    userProfile: {
+                    user: {
                         columns: {
-                            firstName: true,
-                            lastName: true
-                        },
-                        extras(fields) {
-                            return {
-                                fullName: sql<string>`
-                                    CONCAT(${fields.firstName}, ' ', ${fields.lastName})
-                                `.as('fullName')
-                            }
+                            id: true,
+                            email: true
                         },
                         with: {
-                            avatar: {
-                                columns: { path: true },
+                            userProfile: {
+                                columns: {
+                                    firstName: true,
+                                    lastName: true
+                                },
                                 extras(fields) {
                                     return {
-                                        url: sql<string>`
-                                            CASE
-                                              WHEN ${fields.type} LIKE 'image/%'
-                                              THEN CONCAT('${sql.raw(ENV.CDN_BASE_URL)}','/width=160,height=160,quality=80/', ${fields.path})
-                                              ELSE NULL
-                                            END
-                                        `.as('url')
+                                        fullName: sql<string>`
+                                            CONCAT(${fields.firstName}, ' ', ${fields.lastName})
+                                        `.as('fullName')
+                                    }
+                                },
+                                with: {
+                                    avatar: {
+                                        columns: { path: true },
+                                        extras(fields) {
+                                            return {
+                                                url: sql<string>`
+                                                    CASE
+                                                      WHEN ${fields.type} LIKE 'image/%'
+                                                      THEN CONCAT('${sql.raw(ENV.CDN_BASE_URL)}','/width=160,height=160,quality=80/', ${fields.path})
+                                                      ELSE NULL
+                                                    END
+                                                `.as('url')
+                                            }
+                                        }
                                     }
                                 }
                             }
-                        }
-                    },
-                    userTenantSamlProviders: {
-                        columns: {
-                            id: true
-                        }
-                    },
-                    userTenants: {
-                        columns: {
-                            id: true,
-                            tenantId: true
                         }
                     }
                 }
@@ -128,13 +125,13 @@ export const getSession = createAction({ schema: getSessionSchema })
             createdAt: session.createdAt,
             updatedAt: session.updatedAt,
             user: {
-                id: session.user.id,
-                email: session.user.email,
-                firstName: session.user.userProfile.firstName,
-                lastName: session.user.userProfile.lastName,
-                fullName: session.user.userProfile.fullName,
-                avatar: session.user.userProfile.avatar,
-                isSsoLogin: session.user.userTenantSamlProviders.length > 0
+                id: session.userTenant.user.id,
+                email: session.userTenant.user.email,
+                firstName: session.userTenant.user.userProfile.firstName,
+                lastName: session.userTenant.user.userProfile.lastName,
+                fullName: session.userTenant.user.userProfile.fullName,
+                avatar: session.userTenant.user.userProfile.avatar,
+                isSsoLogin: false
             },
             currentTenant: {
                 id: session.currentTenant.id,

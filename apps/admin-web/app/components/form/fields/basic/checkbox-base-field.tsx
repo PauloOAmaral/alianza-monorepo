@@ -1,7 +1,7 @@
 import { Checkbox } from '@alianza/ui/checkbox'
-import { cn } from '@alianza/ui/utils'
+import { cn } from '@alianza/ui/utils/cn'
 import type { FieldPath, FieldValues } from 'react-hook-form'
-import { BaseFields, type BaseFieldsChildrenProps } from '../shared/base-fields'
+import { BaseFields, type BaseFieldsChildrenProps } from '../../base-field'
 
 interface CheckboxOption {
     value: string
@@ -27,8 +27,8 @@ const CheckboxBaseField = <TFieldValues extends FieldValues = FieldValues, TName
                 <div className={cn('mt-2 flex flex-col space-x-4', inline && 'flex-row')}>
                     {options.map(option => (
                         <Checkbox
-                            isDisabled={readOnly}
-                            isSelected={field.value === option.value}
+                            checked={field.value === option.value}
+                            disabled={readOnly}
                             key={option.value}
                             onChange={isSelected => {
                                 field.onChange(isSelected ? option.value : undefined)

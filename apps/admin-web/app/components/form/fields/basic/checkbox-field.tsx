@@ -1,6 +1,6 @@
-import { Checkbox } from '@alianza/ui/checkbox'
+import { Checkbox } from '@alianza/ui/components/ui/checkbox'
 import type { FieldPath, FieldValues } from 'react-hook-form'
-import { BaseFields, type BaseFieldsChildrenProps } from '../shared/base-fields'
+import { BaseFields, type BaseFieldsChildrenProps } from '../../base-field'
 
 interface CheckboxFieldProps<TFieldValues extends FieldValues = FieldValues, TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>> extends BaseFieldsChildrenProps<TFieldValues, TName> {
     checkboxLabel?: React.ReactNode
@@ -17,8 +17,8 @@ const CheckboxField = <TFieldValues extends FieldValues = FieldValues, TName ext
         <BaseFields label={label} name={name} required={required}>
             {({ field }) => (
                 <Checkbox
-                    isDisabled={readOnly}
-                    isSelected={field.value === true || field.value === 'true'}
+                    checked={field.value === true || field.value === 'true'}
+                    disabled={readOnly}
                     onChange={isSelected => {
                         field.onChange(isSelected ? 'true' : 'false')
                     }}

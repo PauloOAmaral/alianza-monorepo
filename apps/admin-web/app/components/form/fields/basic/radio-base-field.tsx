@@ -1,8 +1,8 @@
 import { Radio, RadioGroup } from '@alianza/ui/radio-group'
-import { cn } from '@alianza/ui/utils'
+import { cn } from '@alianza/ui/utils/cn'
 import type { FieldPath, FieldValues, PathValue } from 'react-hook-form'
 import { useFormContext } from 'react-hook-form'
-import { BaseFields, type BaseFieldsChildrenProps } from '../shared/base-fields'
+import { BaseFields, type BaseFieldsChildrenProps } from '../../base-field'
 
 interface RadioOption {
     value: string

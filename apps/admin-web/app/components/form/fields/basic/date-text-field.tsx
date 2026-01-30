@@ -1,10 +1,9 @@
 import { Input } from '@alianza/ui/input'
-import { cn } from '@alianza/ui/utils'
 import { format } from 'date-fns'
 import type { FieldPath, FieldValues } from 'react-hook-form'
-import { BaseFields, type BaseFieldsChildrenProps } from '../shared/base-fields'
+import { BaseFields, type BaseFieldsChildrenProps } from '../../base-field'
 
-const DateTextField = ({ name, label, required, readOnly = true }: BaseFieldsChildrenProps<FieldValues, FieldPath<FieldValues>>) => {
+const DateTextField = ({ name, label, required, readOnly }: BaseFieldsChildrenProps<FieldValues, FieldPath<FieldValues>>) => {
     return (
         <BaseFields label={label} name={name} required={required}>
             {({ field }) => {
