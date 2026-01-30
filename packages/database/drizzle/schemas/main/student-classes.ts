@@ -54,6 +54,7 @@ export const studentClasses = pgTable(
         deletedAt
     },
     table => [
+        index('student_classes__id_idx').on(table.id),
         index('idx_studentclass_id_classlink_removed').on(table.id, table.classLink, table.deletedAt),
         index('allocate_students_idx').on(table.teacherId, table.classDate, table.status, table.rescheduled, table.deletedAt),
         index('classes__student__status__date__time_idx').on(table.studentId, table.status, table.classDate),

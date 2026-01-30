@@ -1,4 +1,4 @@
-import { eq } from '@alianza/database/drizzle'
+import { and, eq } from '@alianza/database/drizzle'
 import { medias, users, userTenantPermissionGroups, userTenants } from '@alianza/database/schemas/common'
 import type { AuthDatabaseClient, AuthDatabaseTransaction } from '@alianza/database/types/common'
 import { getSessionsKv } from '@alianza/services/kv'
@@ -28,15 +28,20 @@ export const removeUserFromTenant = createAction({ schema: removeUserFromTenantS
             throw new ApplicationError('authCannotRemoveYourself')
         }
 
+        const userTenantRow = await db._query.userTenants.findFirst({
+            columns: { id: true },
+            where: (ut, { and, eq }) => and(eq(ut.userId, userId), eq(ut.tenantId, tenantId))
+        })
+
+        if (!userTenantRow) {
+            throw new ApplicationError('authUserNotFound')
+        }
+
         const userTenant = await db._query.userTenants.findFirst({
-            columns: {
-                id: true
-            },
+            columns: { id: true },
             with: {
                 user: {
-                    columns: {
-                        id: true
-                    },
+                    columns: { id: true },
                     with: {
                         userProfile: {
                             with: {
@@ -49,25 +54,23 @@ export const removeUserFromTenant = createAction({ schema: removeUserFromTenantS
                             }
                         },
                         userTenants: {
-                            columns: {
-                                id: true
-                            }
+                            columns: { id: true }
                         },
                         userSessions: {
-                            columns: {
-                                id: true
-                            },
-                            where: (fields, { and, eq, gt }) => and(eq(fields.userId, userId), eq(fields.currentTenantId, tenantId), gt(fields.expiresAt, new Date()))
+                            columns: { id: true },
+                            where: (fields, { and, eq, gt }) =>
+                                and(
+                                    eq(fields.userTenantId, userTenantRow.id),
+                                    gt(fields.expiresAt, new Date())
+                                )
                         }
                     }
                 },
                 tenant: {
-                    columns: {
-                        id: true
-                    }
+                    columns: { id: true }
                 }
             },
-            where: (userTenants, { and, eq }) => and(eq(userTenants.userId, userId), eq(userTenants.tenantId, tenantId))
+            where: (ut, { eq }) => eq(ut.id, userTenantRow.id)
         })
 
         if (!userTenant) {

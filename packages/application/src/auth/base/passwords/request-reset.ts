@@ -1,5 +1,6 @@
+import { eq } from '@alianza/database/drizzle'
 import { nanoid } from '@alianza/database/nanoid'
-import { userPasswordReset } from '@alianza/database/schemas/common'
+import { userPasswordReset, userTenants } from '@alianza/database/schemas/common'
 import type { AuthDatabaseClient, AuthDatabaseTransaction } from '@alianza/database/types/common'
 import { checkRateLimit, recordAttempt } from '@alianza/services/rate-limit'
 import { normalizeIpAddress } from '@alianza/utils/ip'
@@ -88,11 +89,21 @@ export const requestPasswordReset = createAction({ schema: requestPasswordResetS
             await recordAttempt('password-reset-ip', normalizedIp)
         }
 
+        const [userTenant] = await db
+            .select({ id: userTenants.id })
+            .from(userTenants)
+            .where(eq(userTenants.userId, user.id))
+            .limit(1)
+
+        if (!userTenant) {
+            throw new ApplicationError('authUserNotFound')
+        }
+
         const [passwordReset] = await db
             .insert(userPasswordReset)
             .values({
                 id: nanoid(16),
-                userId: user.id,
+                userTenantId: userTenant.id,
                 token: nanoid(32),
                 expiresAt: addHours(new Date(), 24),
                 userAgent,

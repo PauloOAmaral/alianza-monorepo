@@ -156,35 +156,6 @@ export const users = pgTable(
     ]
 )
 
-export const userPasswordReset = pgTable(
-    'user_password_reset',
-    {
-        id,
-        userId: varchar('user_id', { length: 16 }).notNull(),
-        token: varchar('token', { length: 32 }),
-        expiresAt: timestamp('expires_at', {
-            mode: 'date'
-        })
-            .default(sql`CURRENT_TIMESTAMP + INTERVAL '24 hours'`)
-            .notNull(),
-        usedAt: timestamp('used_at', {
-            mode: 'date'
-        }),
-        userAgent: varchar('user_agent', { length: 255 }),
-        ipAddress: varchar('ip_address', { length: 45 }),
-        createdAt,
-        updatedAt
-    },
-    table => [
-        uniqueIndex('password_reset_token_key').on(table.token),
-        foreignKey({
-            columns: [table.userId],
-            foreignColumns: [users.id],
-            name: 'password_reset_user_id_fkey'
-        }).onDelete('cascade')
-    ]
-)
-
 export const userTenants = pgTable(
     'user_tenants',
     {
@@ -213,6 +184,35 @@ export const userTenants = pgTable(
             columns: [table.userId],
             foreignColumns: [users.id],
             name: 'user_tenants_user_id_fkey'
+        }).onDelete('cascade')
+    ]
+)
+
+export const userPasswordReset = pgTable(
+    'user_password_reset',
+    {
+        id,
+        userTenantId: varchar('user_tenant_id', { length: 16 }).notNull(),
+        token: varchar('token', { length: 32 }),
+        expiresAt: timestamp('expires_at', {
+            mode: 'date'
+        })
+            .default(sql`CURRENT_TIMESTAMP + INTERVAL '24 hours'`)
+            .notNull(),
+        usedAt: timestamp('used_at', {
+            mode: 'date'
+        }),
+        userAgent: varchar('user_agent', { length: 255 }),
+        ipAddress: varchar('ip_address', { length: 45 }),
+        createdAt,
+        updatedAt
+    },
+    table => [
+        uniqueIndex('password_reset_token_key').on(table.token),
+        foreignKey({
+            columns: [table.userTenantId],
+            foreignColumns: [userTenants.id],
+            name: 'password_reset_user_tenant_id_fkey'
         }).onDelete('cascade')
     ]
 )
@@ -249,7 +249,7 @@ export const userSessions = pgTable(
     'user_sessions',
     {
         id,
-        userId: varchar('user_id', { length: 16 }).notNull(),
+        userTenantId: varchar('user_tenant_id', { length: 16 }).notNull(),
         userAgent: varchar('user_agent', { length: 255 }),
         ipAddress: varchar('ip_address', { length: 45 }),
         expiresAt: timestamp('expires_at', {
@@ -261,9 +261,9 @@ export const userSessions = pgTable(
     },
     table => [
         foreignKey({
-            columns: [table.userId],
-            foreignColumns: [users.id],
-            name: 'user_sessions_user_id_fkey'
+            columns: [table.userTenantId],
+            foreignColumns: [userTenants.id],
+            name: 'user_sessions_user_tenant_id_fkey'
         }).onDelete('cascade'),
         foreignKey({
             columns: [table.currentTenantId],
@@ -348,7 +348,7 @@ export const termsOfUseAcceptances = pgTable(
     'terms_of_use_acceptances',
     {
         id,
-        userId: varchar('user_id', { length: 16 }).notNull(),
+        userTenantId: varchar('user_tenant_id', { length: 16 }).notNull(),
         termsOfUseId: varchar('terms_of_use_id', { length: 16 }).notNull(),
         userAgent: varchar('user_agent', { length: 255 }),
         ipAddress: varchar('ip_address', { length: 45 }),
@@ -356,9 +356,9 @@ export const termsOfUseAcceptances = pgTable(
     },
     table => [
         foreignKey({
-            columns: [table.userId],
-            foreignColumns: [users.id],
-            name: 'terms_of_use_acceptances_user_id_fkey'
+            columns: [table.userTenantId],
+            foreignColumns: [userTenants.id],
+            name: 'terms_of_use_acceptances_user_tenant_id_fkey'
         }).onDelete('cascade'),
         foreignKey({
             columns: [table.termsOfUseId],

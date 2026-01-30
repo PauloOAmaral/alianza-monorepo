@@ -1,11 +1,9 @@
 import { sql } from 'drizzle-orm'
 import { boolean, timestamp, varchar } from 'drizzle-orm/pg-core'
-import { customAlphabet } from 'nanoid'
-
-const nanoid16 = customAlphabet('0123456789abcdefghijklmnopqrstuvwxyz', 16)
+import { nanoid } from '../../src/nanoid'
 
 const id = varchar('id', { length: 16 })
-    .$defaultFn(() => nanoid16())
+    .$defaultFn(() => nanoid(16))
     .primaryKey()
     .notNull()
 

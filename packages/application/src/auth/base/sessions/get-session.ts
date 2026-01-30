@@ -12,7 +12,7 @@ async function getUserSessionQuery(db: AuthDatabaseClient, sessionId: string) {
     return db._query.userSessions.findFirst({
         columns: {
             id: true,
-            userId: true,
+            userTenantId: true,
             currentTenantId: true,
             userAgent: true,
             ipAddress: true,
@@ -119,15 +119,9 @@ export const getSession = createAction({ schema: getSessionSchema })
             }
         }
 
-        const userTenantId = session.user.userTenants.find(ut => ut.tenantId === session.currentTenantId)?.id
-
-        if (!userTenantId) {
-            throw new ApplicationError('authUserHasNoTenant')
-        }
-
         return {
             id: session.id,
-            userTenantId,
+            userTenantId: session.userTenantId,
             userAgent: session.userAgent,
             ipAddress: session.ipAddress,
             expiresAt: session.expiresAt,

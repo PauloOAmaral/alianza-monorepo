@@ -1,5 +1,6 @@
+import { and, eq } from '@alianza/database/drizzle'
 import { nanoid } from '@alianza/database/nanoid'
-import { userSessions } from '@alianza/database/schemas/common'
+import { userSessions, userTenants } from '@alianza/database/schemas/common'
 import type { AuthDatabaseClient, AuthDatabaseTransaction } from '@alianza/database/types/common'
 import { addSeconds } from 'date-fns'
 import { z } from 'zod'
@@ -26,12 +27,22 @@ export const createSession = createAction({ schema: createSessionSchema })
             throw new ApplicationError('databaseNotFound')
         }
 
+        const [userTenant] = await db
+            .select({ id: userTenants.id })
+            .from(userTenants)
+            .where(and(eq(userTenants.userId, userId), eq(userTenants.tenantId, currentTenantId)))
+            .limit(1)
+
+        if (!userTenant) {
+            throw new ApplicationError('authUserHasNoTenant')
+        }
+
         const expiresAt = data.expiresAt || addSeconds(new Date(), Number(ENV.SESSION_EXPIRATION))
         const sessionId = nanoid(16)
 
         await db.insert(userSessions).values({
             id: sessionId,
-            userId,
+            userTenantId: userTenant.id,
             currentTenantId,
             expiresAt,
             userAgent,
