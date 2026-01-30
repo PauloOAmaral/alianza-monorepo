@@ -1,0 +1,39 @@
+{
+    "name": "@alianza/services",
+    "version": "1.0.0",
+    "main": "./index.ts",
+    "types": "./index.ts",
+    "license": "MIT",
+    "scripts": {
+        "clean": "rm -rf .turbo node_modules",
+        "lint": "biome check .",
+        "format": "biome check --write --unsafe .",
+        "typecheck": "tsc --noEmit"
+    },
+    "devDependencies": {
+        "@cloudflare/workers-types": "^4.20251213.0",
+        "@types/node": "^20.11.24",
+        "@types/bun": "latest",
+        "typescript": "5.9.3",
+        "@alianza/tsconfig": "*"
+    },
+    "dependencies": {
+        "@mjackson/file-storage": "^0.7.0",
+        "@mjackson/lazy-file": "^3.4.0",
+        "aws4fetch": "^1.0.20",
+        "jose": "^6.1.3",
+        "resend": "^4.8.0"
+    },
+    "exports": {
+        "./email/resend": "./src/email/resend.ts",
+        "./captcha/turnstile": "./src/captcha/turnstile.ts",
+        "./google/places": "./src/google/places.ts",
+        "./storage": "./src/storage/index.ts",
+        "./storage/types": "./src/storage/storage.types.ts",
+        "./kv": "./src/kv/index.ts",
+        "./kv/types": "./src/kv/kv.types.ts",
+        "./streaming": "./src/streaming/index.ts",
+        "./rendering": "./src/rendering/index.ts",
+        "./rate-limit": "./src/rate-limit/index.ts"
+    }
+}

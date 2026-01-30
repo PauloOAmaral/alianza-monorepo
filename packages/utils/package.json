@@ -1,0 +1,37 @@
+{
+    "name": "@alianza/utils",
+    "version": "1.0.0",
+    "main": "./index.ts",
+    "types": "./index.ts",
+    "license": "MIT",
+    "scripts": {
+        "clean": "rm -rf .turbo node_modules",
+        "lint": "biome check .",
+        "format": "biome check --write --unsafe .",
+        "typecheck": "tsc --noEmit"
+    },
+    "dependencies": {
+        "dequal": "^2.0.3",
+        "sanitize-filename": "^1.6.3",
+        "zod": "^4.1.13"
+    },
+    "devDependencies": {
+        "@types/node": "^20.11.24",
+        "@types/bun": "latest",
+        "typescript": "5.9.3",
+        "@alianza/tsconfig": "*"
+    },
+    "exports": {
+        "./jobs": "./src/jobs/index.ts",
+        "./forms": "./src/forms.ts",
+        "./headers": "./src/headers.ts",
+        "./io": "./src/io.ts",
+        "./routes": "./src/routes.ts",
+        "./common": "./src/common.ts",
+        "./comparer": "./src/comparer.ts",
+        "./validations": "./src/validations.ts",
+        "./token-encryption": "./src/token-encryption.ts",
+        "./ip": "./src/ip.ts",
+        "./iso-countries": "./src/iso-countries.ts"
+    }
+}

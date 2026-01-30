@@ -1,0 +1,82 @@
+---
+description: Padrões para Drizzle ORM com SQL-LIKE e transactions
+globs: packages/database/**/*.ts
+alwaysApply: false
+---
+
+# Drizzle ORM Patterns
+
+## SQL-LIKE Queries
+
+Sempre prefira SQL-LIKE do Drizzle ao invés de query builder quando possível:
+
+```typescript
+import { sql } from "drizzle-orm";
+
+const result = await db.execute(
+  sql`SELECT * FROM users WHERE email = ${email} AND active = true`
+);
+
+const complexQuery = await db.execute(
+  sql`
+    SELECT u.id, u.name, COUNT(o.id) as order_count
+    FROM users u
+    LEFT JOIN orders o ON o.user_id = u.id
+    WHERE u.created_at > ${date}
+    GROUP BY u.id, u.name
+    HAVING COUNT(o.id) > 0
+  `
+);
+```
+
+## Transactions
+
+Use transactions para operações que precisam de atomicidade:
+
+```typescript
+import { db } from "@alianza/database";
+
+await db.transaction(async (tx) => {
+  await tx.insert(users).values({ name: "John" });
+  await tx.insert(profiles).values({ userId: userId, bio: "..." });
+  
+  await tx.execute(
+    sql`UPDATE accounts SET balance = balance - ${amount} WHERE id = ${accountId}`
+  );
+});
+```
+
+## Quando Usar Transactions
+
+- Múltiplas operações que devem ser atômicas
+- Operações que dependem de resultados anteriores
+- Operações que precisam rollback em caso de erro
+- Atualizações relacionadas em múltiplas tabelas
+
+## Quando NÃO Usar Transactions
+
+- Operações de leitura simples
+- Operações independentes
+- Queries de apenas uma tabela sem dependências
+
+## Error Handling em Transactions
+
+Transactions fazem rollback automático em caso de erro:
+
+```typescript
+try {
+  await db.transaction(async (tx) => {
+    await tx.insert(users).values({ name });
+    await tx.insert(profiles).values({ userId });
+  });
+} catch (error) {
+  console.error("Transaction failed:", error);
+  throw error;
+}
+```
+
+## Preferências
+
+- SQL-LIKE para queries complexas ou quando performance é crítica
+- Query builder para queries simples e type-safe
+- Transactions sempre que houver múltiplas operações relacionadas

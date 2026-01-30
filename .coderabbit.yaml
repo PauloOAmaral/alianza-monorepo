@@ -1,0 +1,210 @@
+language: "en-US"
+
+tone_instructions: |
+  Be direct—skip pleasantries and generic praise. Focus on bugs, inconsistencies, and pattern deviations. Explain concrete risks when suggesting changes. Require concrete reasons for all answers.
+
+early_access: true
+
+reviews:
+  pre_merge_checks:
+    docstrings:
+      mode: "off"
+    title:
+      mode: "off"
+    description:
+      mode: "error"
+    issue_assessment:
+      mode: "off"
+  request_changes_workflow: true
+  high_level_summary: true
+  poem: false
+  review_status: true
+  collapse_walkthrough: true
+  changed_files_summary: true
+  sequence_diagrams: false
+  labeling_instructions: []
+
+  auto_review:
+    enabled: true
+    drafts: false
+    base_branches:
+      - "develop"
+    ignore_title_keywords:
+      - "WIP"
+      - "DO NOT MERGE"
+      - "[skip ci]"
+      - "[no review]"
+
+  finishing_touches:
+    docstrings:
+      enabled: false
+    unit_tests:
+      enabled: false
+
+  path_filters:
+    - "!**/*.lock"
+    - "!**/package-lock.json"
+    - "!**/bun.lockb"
+    - "!**/*.snap"
+    - "!**/migrations/**"
+    - "!**/.generated/**"
+    - "!**/dbml/output/**"
+    - "!**/dist/**"
+    - "!**/build/**"
+    - "!**/storybook-static/**"
+
+  path_instructions:
+    - path: "**/*"
+      instructions: |
+        CRITICAL - Review priorities:
+        1. Logic errors and potential bugs
+        2. Missing error handling
+        3. Security issues (SQL injection, XSS, auth bypasses)
+        4. Breaking changes to shared packages
+
+        This is a TypeScript monorepo using Bun, Turborepo, and Biome.
+
+        Coding standards to enforce:
+        - Always use braces with new lines for if statements
+        - Use simple truthy checks when possible (avoid explicit !== undefined unless needed for falsy values)
+        - No unnecessary comments - code should be self-documenting
+        - Follow existing patterns in the file/folder being modified
+        - No direct database access from apps - all DB operations through @alianza/application
+
+        DO NOT comment on:
+        - Missing JSDoc or docstrings
+        - Import ordering (Biome handles this)
+        - Formatting issues (Biome handles this)
+        - Suggesting "consider adding tests" without specific test cases
+        - Generic type safety suggestions that don't point to actual issues
+
+    - path: "apps/admin/**"
+      instructions: |
+        admin is a React Router 7 app deployed to Cloudflare Workers.
+
+        BUG-PRONE AREAS to scrutinize:
+        - Missing await on async operations in loaders/actions
+        - Uncaught errors that would crash the worker
+        - Missing tenant isolation in data fetching
+        - Permission checks bypassed or missing
+
+        Architecture enforcement:
+        - REJECT: Any import from @alianza/database - must use @alianza/application
+        - REJECT: Direct Drizzle queries in route files
+        - WARN: Missing requireSession/requireTenantRole/requirePermission in protected routes
+
+        Patterns to verify:
+        - Route structure: File-based routing with underscore prefixes for layouts (_layout.tsx)
+        - Actions: Use intent pattern for multiple actions in same route
+        - Forms: Zod schemas with exported types, React Hook Form integration
+        - i18n: All user-facing strings must use translation functions
+        - Status displays: Consistent switch patterns with Chip component variants
+
+    - path: "packages/application/**"
+      instructions: |
+        CQRS application layer - THE boundary for all business logic.
+
+        BUG-PRONE AREAS:
+        - Missing tenantId filtering (data leak between tenants - not all projects or features are tenant-isolated)
+        - Missing isNull(table.deletedAt) filter (showing deleted records)
+        - Race conditions in commands that read-then-write
+        - Missing transaction boundaries for multi-table operations
+
+        Structure enforcement:
+        - One file per operation in /queries/[domain]/ or /commands/[domain]/
+        - Action builder: createAction().withData<T>().withSession().build()
+        - Prefer Query API (db.query.*) over Select API for consistency
+        - Use ApplicationError with specific error codes, not generic throws
+        - Avoid try/catch blocks - let the action builder handle errors
+
+        Required patterns:
+        - Export result types for frontend type safety
+        - Include audit fields (createdAt, updatedAt) in mutations
+
+    - path: "packages/database/**"
+      instructions: |
+        Drizzle ORM layer with PostgreSQL (Neon serverless).
+
+        CRITICAL checks:
+        - Foreign key references must be valid
+        - Soft delete fields: deletedAt (timestamp)
+        - Audit fields: createdAt, updatedAt
+
+        Schema standards:
+        - Define relations for Query API usage
+        - Use consistent naming: camelCase for columns, snake_case in DB
+
+        REJECT: Manually created migration files - must use drizzle-kit generate
+
+    - path: "packages/ui/**"
+      instructions: |
+        React Aria Components design system.
+
+        Accessibility is non-negotiable:
+        - Verify keyboard navigation works for interactive elements
+        - Check ARIA attributes are properly passed through
+
+        Component standards:
+        - CVA for variant definitions
+        - Props: isDisabled, isLoading, onPress (not onClick for buttons)
+        - State styling via data attributes: data-[pressed], data-[focused], data-[selected]
+        - Mobile-first responsive: start with mobile styles, add sm:/md:/lg: breakpoints
+
+        WARN: Any onClick on buttons (should be onPress for React Aria)
+
+    - path: "packages/services/**"
+      instructions: |
+        External service integrations.
+
+        CRITICAL:
+        - No Node.js APIs (must work in Cloudflare Workers)
+        - Check for: fs, path, crypto (use Web Crypto), Buffer (use Uint8Array)
+
+        All external calls must have try/catch with meaningful error messages.
+        Environment variables must be typed and validated.
+
+    - path: "packages/jobs/**"
+      instructions: |
+        Cloudflare Workers cron jobs.
+
+        BUG-PRONE AREAS:
+        - Non-idempotent operations (running twice causes issues)
+        - Missing error handling that stops entire job on single item failure
+        - Database connections not properly scoped to request
+        - Operations exceeding worker timeout limits
+
+        Required patterns:
+        - Batch processing with per-item error handling
+        - Structured logging with job context (jobId, timestamp)
+        - Explicit timeout/retry configuration
+
+    - path: "packages/notifications/**"
+      instructions: |
+        React Email templates.
+
+        Verify:
+        - Both HTML and plain text versions render correctly
+        - No broken variable interpolation
+        - Consistent styling with other email templates
+        - Links are absolute URLs
+
+    - path: "packages/utils/**"
+      instructions: |
+        Shared utilities.
+
+        Strict requirements:
+        - Pure functions only - no side effects
+        - Full type safety - no `any` types
+        - Consider if utility belongs here vs in consuming package
+
+chat:
+  auto_reply: true
+
+knowledge_base:
+  opt_out: false
+  learnings:
+    scope: "auto"
+  issues:
+    scope: "auto"
+  pull_requests:
+    scope: "auto"

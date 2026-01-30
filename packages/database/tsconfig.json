@@ -1,0 +1,6 @@
+{
+    "extends": "@alianza/tsconfig/base.json",
+    "include": [
+        "src"
+    ]
+}

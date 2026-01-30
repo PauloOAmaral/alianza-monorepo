@@ -1,0 +1,86 @@
+---
+description: Padrões React para o projeto
+globs: **/*.tsx
+alwaysApply: false
+---
+
+# React Patterns
+
+## Componentes Funcionais
+
+Sempre use componentes funcionais com a keyword `function`:
+
+```typescript
+export function UserCard({ user }: UserCardProps) {
+  return <div>{user.name}</div>;
+}
+```
+
+## Hooks
+
+- Use hooks apenas no topo do componente
+- Extraia lógica reutilizável em custom hooks
+- Use `useMemo` para cálculos custosos
+- Use `useCallback` para funções passadas como props
+
+```typescript
+function UserList({ users }: UserListProps) {
+  const sortedUsers = useMemo(
+    () => users.sort((a, b) => a.name.localeCompare(b.name)),
+    [users]
+  );
+
+  const handleClick = useCallback((id: string) => {
+    navigate(`/users/${id}`);
+  }, []);
+
+  return (
+    <div>
+      {sortedUsers.map(user => (
+        <UserCard key={user.id} user={user} onClick={handleClick} />
+      ))}
+    </div>
+  );
+}
+```
+
+## Server Components vs Client Components
+
+- Prefira Server Components quando possível
+- Use `"use client"` apenas quando necessário (interatividade, hooks do browser)
+- Minimize o uso de `useState` e `useEffect`
+
+## Type Safety
+
+Sempre defina tipos para props:
+
+```typescript
+interface UserCardProps {
+  user: {
+    id: string;
+    name: string;
+    email: string;
+  };
+  onClick?: (id: string) => void;
+}
+
+export function UserCard({ user, onClick }: UserCardProps) {
+  return <div onClick={() => onClick?.(user.id)}>{user.name}</div>;
+}
+```
+
+## Conditional Rendering
+
+Use ternário ou short-circuit:
+
+```typescript
+{isLoading ? <Spinner /> : <Content />}
+{error && <ErrorMessage error={error} />}
+{items.length > 0 && <ItemList items={items} />}
+```
+
+## Performance
+
+- Use `React.memo` para componentes que re-renderizam frequentemente
+- Evite criar objetos/funções inline no render
+- Prefira composition over prop drilling

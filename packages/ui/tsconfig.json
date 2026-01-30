@@ -1,0 +1,17 @@
+{
+  "extends": "@alianza/tsconfig/dom.json",
+  "include": [
+    "src",
+    "global.d.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ],
+  "compilerOptions": {
+    "paths": {
+      "~/*": [
+        "./src/*"
+      ]
+    }
+  }
+}

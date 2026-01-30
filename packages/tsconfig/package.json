@@ -1,0 +1,16 @@
+{
+    "name": "@alianza/tsconfig",
+    "private": true,
+    "version": "1.0.0",
+    "type": "module",
+    "files": [
+        "base.json",
+        "dom.json",
+        "app.json"
+    ],
+    "exports": {
+        "./base.json": "./base.json",
+        "./dom.json": "./dom.json",
+        "./app.json": "./app.json"
+    }
+}

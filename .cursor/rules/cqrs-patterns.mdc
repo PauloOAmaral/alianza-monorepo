@@ -1,0 +1,114 @@
+---
+description: Padrões CQRS (Command Query Responsibility Segregation)
+globs: packages/application/**/*.ts
+alwaysApply: false
+---
+
+# CQRS Patterns
+
+## Separação de Commands e Queries
+
+Separe claramente operações de leitura (queries) e escrita (commands):
+
+### Queries (Read)
+
+```typescript
+export async function getUserById(id: string) {
+  return await db.execute(
+    sql`SELECT * FROM users WHERE id = ${id} LIMIT 1`
+  );
+}
+
+export async function listUsers(filters: UserFilters) {
+  return await db.execute(
+    sql`SELECT * FROM users WHERE ${buildWhereClause(filters)}`
+  );
+}
+```
+
+### Commands (Write)
+
+```typescript
+export async function createUser(data: CreateUserInput) {
+  return await db.transaction(async (tx) => {
+    const [user] = await tx.insert(users).values(data).returning();
+    await tx.insert(userProfiles).values({ userId: user.id });
+    return user;
+  });
+}
+
+export async function updateUser(id: string, data: UpdateUserInput) {
+  return await db.transaction(async (tx) => {
+    await tx.update(users).set(data).where(eq(users.id, id));
+    await tx.execute(sql`UPDATE user_stats SET updated_at = NOW() WHERE user_id = ${id}`);
+  });
+}
+```
+
+## Estrutura de Pastas
+
+Organize por domínio e separe commands/queries:
+
+```
+packages/application/
+  users/
+    commands/
+      create-user.ts
+      update-user.ts
+      delete-user.ts
+    queries/
+      get-user-by-id.ts
+      list-users.ts
+      search-users.ts
+```
+
+## Naming Conventions
+
+- Commands: verbos no infinitivo (create, update, delete)
+- Queries: verbos de leitura (get, list, find, search)
+- Use nomes descritivos que indiquem a ação
+
+## React Router Integration
+
+- Loaders usam queries
+- Actions usam commands
+
+```typescript
+export async function loader({ params }: Route.LoaderArgs) {
+  const user = await getUserById(params.id);
+  return { user };
+}
+
+export async function action({ request }: Route.ActionArgs) {
+  const formData = await request.formData();
+  await createUser({ name: formData.get("name") });
+  return redirect("/users");
+}
+```
+
+## Error Handling
+
+Commands devem retornar resultados ou lançar erros específicos:
+
+```typescript
+export async function createUser(data: CreateUserInput) {
+  try {
+    return await db.transaction(async (tx) => {
+      return await tx.insert(users).values(data).returning();
+    });
+  } catch (error) {
+    if (error.code === "23505") {
+      throw new UserAlreadyExistsError();
+    }
+    throw error;
+  }
+}
+```
+
+## Princípios
+
+- Queries nunca modificam estado
+- Commands sempre modificam estado
+- Commands podem usar queries internamente
+- Queries nunca usam commands
+- Use transactions em commands com múltiplas operações

@@ -1,0 +1,41 @@
+﻿import { char, index, integer, pgTable, timestamp, uniqueIndex, varchar } from "drizzle-orm/pg-core"
+import { deletedAt, id, updatedAt } from "../../utils/fields"
+
+export const refreshTokens = pgTable(
+	"refresh_tokens",
+	{
+		id,
+		userId: varchar("user_id", { length: 16 }).notNull(),
+		userName: varchar("user_name", { length: 200 }).notNull(),
+		userType: integer("user_type").notNull(),
+		tokenHash: char("token_hash", { length: 64 }).notNull(),
+		createdAt: timestamp("created_at", {
+			precision: 6,
+			withTimezone: true,
+			mode: "date",
+		}).notNull(),
+		expiresAt: timestamp("expires_at", {
+			precision: 6,
+			withTimezone: true,
+			mode: "date",
+		}).notNull(),
+		revokedAt: timestamp("revoked_at", {
+			precision: 6,
+			withTimezone: true,
+			mode: "date",
+		}),
+		replacedByTokenHash: char("replaced_by_token_hash", { length: 64 }),
+		updatedAt,
+		deletedAt,
+	},
+	(table) => [
+		uniqueIndex("refresh_tokens__token_hash_key").on(table.tokenHash),
+		index("refresh_tokens__user_type__user_id__revoked_at__expires_at_idx").on(
+			table.userType,
+			table.userId,
+			table.revokedAt,
+			table.expiresAt,
+		),
+		index("refresh_tokens__user_type__user_name_idx").on(table.userType, table.userName),
+	],
+)

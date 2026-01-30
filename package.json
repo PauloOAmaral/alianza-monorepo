@@ -1,0 +1,38 @@
+{
+    "name": "alianza-monorepo",
+    "private": true,
+    "scripts": {
+        "build": "turbo run build",
+        "build:admin": "turbo run build --filter=@alianza/admin-web",
+        "deploy:admin": "turbo run deploy --filter=@alianza/admin-web",
+        "dev": "turbo run dev",
+        "clean": "turbo clean",
+        "dev:admin": "turbo run dev --filter=@alianza/admin-web",
+        "lint": "biome check . --apply",
+        "format": "biome format . --write",
+        "check-types": "turbo run check-types",
+        "docker:up": "cd docker && docker-compose up -d",
+        "docker:down": "cd docker && docker-compose down",
+        "docker:logs": "cd docker && docker-compose logs -f",
+        "docker:ps": "cd docker && docker-compose ps"
+    },
+    "devDependencies": {
+        "turbo": "^2.7.6",
+        "typescript": "5.9.3",
+        "@biomejs/biome": "^2.3.8",
+        "@manypkg/cli": "^0.24.0",
+        "@total-typescript/tsconfig": "^1.0.4",
+        "@types/bun": "^1.3.4",
+        "husky": "^9.1.7",
+        "lint-staged": "^16.2.7"
+    },
+    "packageManager": "bun@1.2.11",
+    "workspaces": [
+        "apps/*",
+        "packages/*"
+    ],
+    "type": "module",
+    "lint-staged": {
+        "*.{js,jsx,ts,tsx,json,css}": "biome check --write --no-errors-on-unmatched"
+    }
+}

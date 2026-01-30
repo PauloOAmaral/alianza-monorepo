@@ -1,0 +1,117 @@
+{
+  "$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
+  "assist": {
+      "actions": {
+          "source": {
+              "organizeImports": "on",
+              "useSortedAttributes": "on",
+              "useSortedProperties": "on"
+          }
+      }
+  },
+  "files": {
+      "includes": [
+          "**",
+          "!**/worker-configuration.d.ts",
+          "!**/dist",
+          "!**/build",
+          "!**/.wrangler",
+          "!**/node_modules",
+          "!**/coverage",
+          "!**/drizzle/migrations",
+          "!**/.turbo",
+          "!**/storybook-static",
+          "!**/.cache",
+          "!**/+types",
+          "!**/.react-router"
+      ]
+  },
+  "linter": {
+      "includes": [
+          "**",
+          "!**/node_modules",
+          "!**/node_modules/**",
+          "!**/dist",
+          "!**/dist/**",
+          "!**/.wrangler",
+          "!**/.wrangler/**",
+          "!**/build",
+          "!**/build/**",
+          "!**/storybook-static",
+          "!**/storybook-static/**",
+          "!**/.cache",
+          "!**/.cache/**",
+          "!**/coverage",
+          "!**/coverage/**",
+          "!**/.turbo",
+          "!**/.turbo/**",
+          "!**/+types",
+          "!**/+types/**",
+          "!**/.react-router",
+          "!**/.react-router/**",
+          "!**/drizzle/migrations",
+          "!**/drizzle/migrations/**",
+          "!**/worker-configuration.d.ts",
+          "!**/worker-configuration.d.ts"
+      ],
+      "enabled": true,
+      "rules": {
+          "recommended": true,
+          "a11y": {
+              "noSvgWithoutTitle": "off",
+              "noLabelWithoutControl": "off"
+          },
+          "style": {
+              "noNonNullAssertion": "off",
+              "useConst": "off",
+              "noParameterAssign": "error",
+              "useAsConstAssertion": "error",
+              "useDefaultParameterLast": "error",
+              "useEnumInitializers": "error",
+              "useSelfClosingElements": "error",
+              "useSingleVarDeclarator": "error",
+              "noUnusedTemplateLiteral": "error",
+              "useNumberNamespace": "error",
+              "noInferrableTypes": "error",
+              "noUselessElse": "error"
+          },
+          "correctness": {
+              "useExhaustiveDependencies": "off",
+              "useUniqueElementIds": "off"
+          },
+          "suspicious": {
+              "noExplicitAny": "off",
+              "noUnknownAtRules": "off",
+              "noConfusingVoidType": "off"
+          }
+      }
+  },
+  "formatter": {
+      "lineEnding": "lf",
+      "indentStyle": "space",
+      "indentWidth": 4,
+      "lineWidth": 100
+  },
+  "javascript": {
+      "formatter": {
+          "semicolons": "asNeeded",
+          "arrowParentheses": "always",
+          "bracketSameLine": false,
+          "bracketSpacing": true,
+          "jsxQuoteStyle": "double",
+          "trailingCommas": "all"
+      }
+  },
+  "json": {
+      "formatter": {
+          "indentStyle": "space",
+          "indentWidth": 4,
+          "lineWidth": 100
+      }
+  },
+  "css": {
+      "parser": {
+          "tailwindDirectives": true
+      }
+  }
+}

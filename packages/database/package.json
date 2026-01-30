@@ -1,0 +1,40 @@
+{
+    "name": "@alianza/database",
+    "version": "1.0.0",
+    "type": "module",
+    "scripts": {
+        "db:reset:admin": "tsx src/utils/reset/reset-admin.ts",
+        "db:seed:admin": "tsx src/utils/reset/seed-admin.ts",
+        "db:generate:admin": "drizzle-kit generate --config=drizzle/configs/main.ts",
+        "db:migrate:admin": "tsx drizzle/migrations/migrate-main.ts",
+        "db:dbml:admin": "tsx src/dbml/admin.config.ts",
+        "clean": "rm -rf .turbo node_modules",
+        "lint": "biome check .",
+        "format": "biome check --write --unsafe .",
+        "typecheck": "tsc --noEmit"
+    },
+    "devDependencies": {
+        "@alianza/tsconfig": "*",
+        "@types/bun": "latest",
+        "@types/node": "^20.11.24",
+        "@types/pg": "^8.16.0",
+        "dotenv": "^16.6.1",
+        "drizzle-dbml-generator": "^0.10.0",
+        "drizzle-kit": "^1.0.0-beta.11-05230d9",
+        "tsx": "^4.21.0",
+        "typescript": "5.9.3"
+    },
+    "dependencies": {
+        "drizzle-orm": "^1.0.0-beta.11-05230d9",
+        "nanoid": "^5.1.6",
+        "pg": "^8.17.2"
+    },
+    "exports": {
+        "./clients/main": "./src/clients/main.ts",
+        "./drizzle": "./src/drizzle.ts",
+        "./schemas/admin": "./drizzle/schemas/main/index.ts",
+        "./schemas/common": "./drizzle/schemas/common/index.ts",
+        "./nanoid": "./src/nanoid.ts",
+        "./types/common": "./src/types/common.ts"
+    }
+}

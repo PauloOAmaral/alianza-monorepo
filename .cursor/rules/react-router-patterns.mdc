@@ -1,0 +1,116 @@
+---
+description: Padrões e convenções para React Router v7
+globs: apps/**/*.tsx
+alwaysApply: false
+---
+
+# React Router Patterns
+
+## Estrutura de Rotas
+
+Use file-based routing do React Router. Cada rota deve exportar:
+- `loader` para dados do servidor
+- `action` para mutations (POST, PUT, DELETE)
+- `meta` para metadados da página
+- Componente default para renderização
+
+```typescript
+import type { Route } from "./+types/home";
+
+export function loader({ context }: Route.LoaderArgs) {
+  return { data: "value" };
+}
+
+export function action({ request, context }: Route.ActionArgs) {
+  return { success: true };
+}
+
+export function meta({}: Route.MetaArgs) {
+  return [{ title: "Page Title" }];
+}
+
+export default function Home({ loaderData }: Route.ComponentProps) {
+  return <div>{loaderData.data}</div>;
+}
+```
+
+## Loaders e Actions
+
+- Loaders são apenas para leitura (queries)
+- Actions são para mutations (commands)
+- Sempre use `context` para acessar dependências (DB, services)
+- Retorne objetos simples, não componentes React
+
+```typescript
+export async function loader({ context }: Route.LoaderArgs) {
+  const db = context.cloudflare.env.DB;
+  const result = await db.select().from(users);
+  return { users: result };
+}
+
+export async function action({ request, context }: Route.ActionArgs) {
+  const formData = await request.formData();
+  const name = formData.get("name");
+  
+  await db.insert(users).values({ name });
+  return redirect("/users");
+}
+```
+
+## ErrorBoundary
+
+Sempre adicione ErrorBoundary no escopo da rota para capturar erros:
+
+```typescript
+import type { Route } from "./+types/home";
+
+export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
+  return (
+    <div>
+      <h1>Erro</h1>
+      <p>{error.message}</p>
+      <a href="/">Voltar ao início</a>
+    </div>
+  );
+}
+```
+
+### Quando Usar
+
+- Adicione ErrorBoundary em todas as rotas que fazem operações que podem falhar
+- Use para capturar erros de loaders, actions e componentes
+- Permite tratamento de erro específico por rota
+
+### Acesso a Dados do Erro
+
+```typescript
+export function ErrorBoundary({ error, routeError }: Route.ErrorBoundaryProps) {
+  const status = routeError?.status ?? 500;
+  const message = routeError?.message ?? error.message;
+
+  return (
+    <div>
+      <h1>{status} - Erro</h1>
+      <p>{message}</p>
+    </div>
+  );
+}
+```
+
+### Lançando Erros em Loaders/Actions
+
+```typescript
+export async function loader({ params }: Route.LoaderArgs) {
+  const user = await getUserById(params.id);
+  
+  if (!user) {
+    throw new Response("User not found", { status: 404 });
+  }
+  
+  return { user };
+}
+```
+
+## Type Safety
+
+Sempre use os tipos gerados pelo React Router (`Route.LoaderArgs`, `Route.ActionArgs`, etc.)

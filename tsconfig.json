@@ -1,0 +1,3 @@
+{
+    "extends": "@alianza/tsconfig/base.json"
+}

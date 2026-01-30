@@ -1,0 +1,16 @@
+{
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "biomejs.biome",
+    "editor.codeActionsOnSave": {
+        "source.fixAll.biome": "always",
+        "source.organizeImports.biome": "always"
+    },
+    "debug.javascript.autoAttachFilter": "smart",
+    "search.exclude": {
+        "**/node_modules": true
+    },
+    "typescript.disableAutomaticTypeAcquisition": true,
+    "[jsonc]": {
+        "editor.defaultFormatter": "vscode.json-language-features"
+    }
+}

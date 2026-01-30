@@ -1,0 +1,32 @@
+{
+    "name": "@alianza/notifications",
+    "version": "1.0.0",
+    "main": "./index.ts",
+    "types": "./index.ts",
+    "license": "MIT",
+    "scripts": {
+        "clean": "rm -rf .turbo node_modules"
+    },
+    "devDependencies": {
+        "@types/node": "^20.11.24",
+        "typescript": "5.9.3",
+        "@alianza/tsconfig": "*",
+        "@react-email/preview-server": "^5.1.1",
+        "@types/bun": "latest",
+        "react": "^19.2.3",
+        "react-dom": "^19.2.3",
+        "react-email": "^5.1.1"
+    },
+    "peerDependencies": {
+        "react": "^19.2.3",
+        "react-dom": "^19.2.3",
+        "typescript": "^5.9.3"
+    },
+    "dependencies": {
+        "@alianza/services": "workspace:*",
+        "@react-email/components": "^1.0.3"
+    },
+    "exports": {
+        "./admin/templates": "./src/admin/templates/index.ts"
+    }
+}

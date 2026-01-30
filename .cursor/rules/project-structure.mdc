@@ -1,0 +1,45 @@
+---
+description: Estrutura e organização do projeto monorepo
+alwaysApply: true
+---
+
+# Project Structure
+
+## Monorepo Organization
+
+- `apps/*`: Aplicações (React Router, Next.js)
+- `packages/*`: Pacotes compartilhados
+
+## Packages
+
+- `@alianza/database`: Camada de dados (Drizzle ORM)
+- `@alianza/application`: Lógica de aplicação (CQRS)
+- `@alianza/services`: Serviços compartilhados
+- `@alianza/ui`: Componentes React compartilhados
+- `@alianza/utils`: Utilitários
+- `@alianza/kv`: Key-value store
+- `@alianza/jobs`: Processamento de jobs
+- `@alianza/notifications`: Sistema de notificações
+
+## Dependencies
+
+- Apps dependem de packages
+- Packages não dependem de apps
+- Packages podem depender de outros packages
+
+## Imports
+
+Use imports absolutos quando possível:
+
+```typescript
+import { db } from "@alianza/database";
+import { createUser } from "@alianza/application/users/commands/create-user";
+import { Button } from "@alianza/ui";
+```
+
+## File Naming
+
+- Componentes: PascalCase (`UserCard.tsx`)
+- Utilitários: camelCase (`formatDate.ts`)
+- Commands/Queries: kebab-case (`create-user.ts`, `get-user-by-id.ts`)
+- Rotas: kebab-case (`user-profile.tsx`)

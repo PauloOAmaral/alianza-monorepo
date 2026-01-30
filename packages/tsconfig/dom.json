@@ -1,0 +1,18 @@
+{
+    "$schema": "https://json.schemastore.org/tsconfig",
+    "extends": "@total-typescript/tsconfig/bundler/dom/library-monorepo",
+    "compilerOptions": {
+        "jsx": "react-jsx"
+    },
+    "exclude": [
+        ".trees",
+        "node_modules",
+        "**/node_modules",
+        "**/dist",
+        "**/build",
+        "**/.react-router",
+        "**/.wrangler",
+        "**/.turbo",
+        "**/coverage"
+    ]
+}

@@ -1,0 +1,101 @@
+{
+    "$schema": "https://unpkg.com/wrangler@latest/config-schema.json",
+    "name": "jobs",
+    "compatibility_date": "2025-04-04",
+    "compatibility_flags": ["nodejs_compat", "nodejs_compat_populate_process_env"],
+    "main": "src/index.ts",
+    "observability": {
+        "enabled": true
+    },
+    "triggers": {
+        "crons": ["*/5 * * * *", "*/10 * * * *", "0 10 * * 2"]
+    },
+    "workers_dev": false,
+    "r2_buckets": [
+        {
+            "binding": "IMAGES_BUCKET",
+            "bucket_name": "prod-images"
+        },
+        {
+            "binding": "VIDEOS_BUCKET",
+            "bucket_name": "prod-videos"
+        },
+        {
+            "binding": "DOCUMENTS_BUCKET",
+            "bucket_name": "prod-documents"
+        }
+    ],
+    "kv_namespaces": [
+        {
+            "binding": "SESSIONS_KV",
+            "id": "187eb108255144f78c54f2f4c6ff7fc3"
+        },
+        {
+            "binding": "RATE_LIMIT_KV",
+            "id": "ad98ef60762946f58438076823e2573d"
+        }
+    ],
+    "env": {
+        "local": {
+            "name": "jobs-local",
+            "workers_dev": false,
+            "r2_buckets": [
+                {
+                    "binding": "IMAGES_BUCKET",
+                    "bucket_name": "local-images",
+                    "remote": true
+                },
+                {
+                    "binding": "VIDEOS_BUCKET",
+                    "bucket_name": "local-videos",
+                    "remote": true
+                },
+
+                {
+                    "binding": "DOCUMENTS_BUCKET",
+                    "bucket_name": "local-documents",
+                    "remote": true
+                }
+            ],
+            "kv_namespaces": [
+                {
+                    "binding": "SESSIONS_KV",
+                    "id": "49c62ad626ea42b89851409cae676539"
+                },
+                {
+                    "binding": "RATE_LIMIT_KV",
+                    "id": "7bd762009dc34e6399cbd217ed2c2f5f"
+                }
+            ]
+        },
+        "test": {
+            "name": "jobs-test",
+            "workers_dev": false,
+            "r2_buckets": [
+                {
+                    "binding": "IMAGES_BUCKET",
+                    "bucket_name": "test-images"
+                },
+                {
+                    "binding": "VIDEOS_BUCKET",
+                    "bucket_name": "test-videos"
+                },
+                {
+                    "binding": "DOCUMENTS_BUCKET",
+                    "bucket_name": "test-documents"
+                }
+            ],
+            "kv_namespaces": [
+                {
+                    "binding": "SESSIONS_KV",
+                    "id": "02a049885e454be58f2adf64298464ea"
+                },
+                {
+                    "binding": "RATE_LIMIT_KV",
+                    "id": "9cbea4e0f4304ec497e11251783d23b5"
+                }
+            ]
+        }
+    },
+    "keep_vars": true
+}

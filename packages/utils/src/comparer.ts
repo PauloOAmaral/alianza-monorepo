@@ -1,0 +1,1 @@
+export { dequal } from "dequal"
