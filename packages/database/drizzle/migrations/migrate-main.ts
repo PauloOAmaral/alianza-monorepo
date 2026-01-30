@@ -1,4 +1,4 @@
-import { migrate } from "drizzle-orm/node-postgres/migrator"
+import { migrate } from "drizzle-orm/neon-serverless/migrator"
 import { createMainDbClient } from "../../src/clients/main"
 
 async function runMigration() {

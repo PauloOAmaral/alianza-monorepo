@@ -1,12 +1,11 @@
-import type { NodePgDatabase, NodePgTransaction } from "drizzle-orm/node-postgres"
+import type { NeonDatabase, NeonQueryResultHKT } from "drizzle-orm/neon-serverless"
+import type { PgAsyncTransaction } from "drizzle-orm/pg-core"
 import type * as schema from "../../drizzle/schemas/common"
 
-export type DatabaseClient = NodePgDatabase
-export type DatabaseTransaction = NodePgTransaction<any, any, any>
+export type DatabaseClient = NeonDatabase<typeof schema>
+export type DatabaseTransaction = PgAsyncTransaction<NeonQueryResultHKT, any, any>
 
-export type DocumentType = typeof schema.documentType
-
-export type AuthDatabaseClient = NodePgDatabase<typeof schema>
+export type AuthDatabaseClient = NeonDatabase<typeof schema>
 export type AuthDatabaseTransaction = Parameters<
 	Parameters<AuthDatabaseClient["transaction"]>[0]
 >[0]
