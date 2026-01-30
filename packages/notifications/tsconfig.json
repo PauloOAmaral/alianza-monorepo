@@ -1,13 +1,9 @@
 {
     "extends": "@alianza/tsconfig/dom.json",
-    "include": [
-        "src"
-    ],
+    "include": ["src"],
     "compilerOptions": {
         "paths": {
-            "~/*": [
-                "./src/*"
-            ]
+            "~/*": ["./src/*"]
         }
     }
 }

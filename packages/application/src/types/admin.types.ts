@@ -1,1 +1,1 @@
-export * from "@alianza/database/types/admin"
+export * from '@alianza/database/types/admin'

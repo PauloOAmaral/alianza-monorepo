@@ -1,5 +1,5 @@
 export function isCpfValid(cpf: string) {
-    const cleanCpf = cpf.replace(/[^\d]/g, "")
+    const cleanCpf = cpf.replace(/[^\d]/g, '')
 
     if (cleanCpf.length !== 11) {
         return false
@@ -47,7 +47,7 @@ export function isCpfValid(cpf: string) {
 }
 
 export function isCnpjValid(cnpj: string) {
-    const cleanCnpj = cnpj.replace(/[^\d]/g, "")
+    const cleanCnpj = cnpj.replace(/[^\d]/g, '')
 
     if (cleanCnpj.length !== 14) {
         return false

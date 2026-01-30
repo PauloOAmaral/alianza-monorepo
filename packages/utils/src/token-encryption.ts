@@ -27,15 +27,12 @@ async function getKey(): Promise<CryptoKey> {
     const keyString = process.env.TOKEN_ENCRYPTION_KEY
 
     if (!keyString) {
-        throw new Error("TOKEN_ENCRYPTION_KEY not found in environment variables")
+        throw new Error('TOKEN_ENCRYPTION_KEY not found in environment variables')
     }
 
-    const keyData = Uint8Array.from(atob(keyString), (c) => c.charCodeAt(0))
+    const keyData = Uint8Array.from(atob(keyString), c => c.charCodeAt(0))
 
-    return await crypto.subtle.importKey("raw", keyData, { name: "AES-GCM", length: 256 }, false, [
-        "encrypt",
-        "decrypt",
-    ])
+    return await crypto.subtle.importKey('raw', keyData, { name: 'AES-GCM', length: 256 }, false, ['encrypt', 'decrypt'])
 }
 
 /**
@@ -57,7 +54,7 @@ export async function encrypt<T>(data: T, ttlMinutes: number): Promise<string> {
     // Wrap data with expiry time
     const payload: EncryptedPayload<T> = {
         data,
-        expires: Date.now() + ttlMinutes * 60 * 1000,
+        expires: Date.now() + ttlMinutes * 60 * 1000
     }
 
     // Convert to JSON and encode
@@ -69,7 +66,7 @@ export async function encrypt<T>(data: T, ttlMinutes: number): Promise<string> {
     const iv = crypto.getRandomValues(new Uint8Array(12))
 
     // Encrypt
-    const encryptedData = await crypto.subtle.encrypt({ name: "AES-GCM", iv }, key, dataBuffer)
+    const encryptedData = await crypto.subtle.encrypt({ name: 'AES-GCM', iv }, key, dataBuffer)
 
     // Combine IV and encrypted data
     const encryptedArray = new Uint8Array(encryptedData)
@@ -81,7 +78,7 @@ export async function encrypt<T>(data: T, ttlMinutes: number): Promise<string> {
     // Convert to URL-safe base64
     const base64 = btoa(String.fromCharCode(...combined))
 
-    return base64.replace(/\+/g, "-").replace(/\//g, "_").replace(/=/g, "")
+    return base64.replace(/\+/g, '-').replace(/\//g, '_').replace(/=/g, '')
 }
 
 /**
@@ -97,18 +94,18 @@ async function decrypt<T>(token: string): Promise<EncryptedPayload<T>> {
     const key = await getKey()
 
     // Convert URL-safe base64 back to normal base64
-    const base64 = token.replace(/-/g, "+").replace(/_/g, "/")
-    const paddedBase64 = base64 + "==".substring(0, (4 - (base64.length % 4)) % 4)
+    const base64 = token.replace(/-/g, '+').replace(/_/g, '/')
+    const paddedBase64 = base64 + '=='.substring(0, (4 - (base64.length % 4)) % 4)
 
     // Convert to Uint8Array
-    const combined = Uint8Array.from(atob(paddedBase64), (c) => c.charCodeAt(0))
+    const combined = Uint8Array.from(atob(paddedBase64), c => c.charCodeAt(0))
 
     // Extract IV and encrypted data
     const iv = combined.slice(0, 12)
     const encryptedData = combined.slice(12)
 
     // Decrypt
-    const decryptedBuffer = await crypto.subtle.decrypt({ name: "AES-GCM", iv }, key, encryptedData)
+    const decryptedBuffer = await crypto.subtle.decrypt({ name: 'AES-GCM', iv }, key, encryptedData)
 
     // Convert back to JSON
     const decoder = new TextDecoder()
@@ -144,20 +141,20 @@ export async function validate<T = any>(token: string): Promise<ValidationResult
         if (payload.expires < Date.now()) {
             return {
                 valid: false,
-                error: "Token expired",
+                error: 'Token expired'
             }
         }
 
         // Token is valid, return the original data
         return {
             valid: true,
-            data: payload.data,
+            data: payload.data
         }
     } catch (_) {
         // Decryption failed - invalid token
         return {
             valid: false,
-            error: "Invalid token",
+            error: 'Invalid token'
         }
     }
 }

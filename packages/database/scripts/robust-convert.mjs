@@ -57,29 +57,26 @@ function convertLine(line, context) {
         let converted = line
 
         // First pass: convert property names and DB names
-        converted = converted.replace(
-            /(\s*)(\w+):\s*(\w+)\(['"']([^'"']+)['"']/g,
-            (match, indent, prop, type, dbName) => {
-                const snakeProp = toSnakeCase(prop)
-                const snakeDb = toSnakeCase(dbName)
+        converted = converted.replace(/(\s*)(\w+):\s*(\w+)\(['"']([^'"']+)['"']/g, (match, indent, prop, type, dbName) => {
+            const snakeProp = toSnakeCase(prop)
+            const snakeDb = toSnakeCase(dbName)
 
-                // Track imports
-                if (!context.imports.has(type)) {
-                    context.imports.add(type)
-                }
-
-                // Check if this is a foreign key (ends with Id and is int type)
-                const isForeignKey = prop.match(/Id$/) && type === 'int' && !line.includes('autoincrement')
-
-                if (isForeignKey) {
-                    context.imports.add('varchar')
-                    // Replace int with varchar and add length parameter
-                    return `${indent}${snakeProp}: varchar("${snakeDb}", { length: 16 }`
-                }
-
-                return `${indent}${snakeProp}: ${type}("${snakeDb}"`
+            // Track imports
+            if (!context.imports.has(type)) {
+                context.imports.add(type)
             }
-        )
+
+            // Check if this is a foreign key (ends with Id and is int type)
+            const isForeignKey = prop.match(/Id$/) && type === 'int' && !line.includes('autoincrement')
+
+            if (isForeignKey) {
+                context.imports.add('varchar')
+                // Replace int with varchar and add length parameter
+                return `${indent}${snakeProp}: varchar("${snakeDb}", { length: 16 }`
+            }
+
+            return `${indent}${snakeProp}: ${type}("${snakeDb}"`
+        })
 
         return converted
     }
@@ -94,7 +91,7 @@ function convertLine(line, context) {
         const isUnique = line.includes('uniqueIndex')
         context.imports.add(isUnique ? 'uniqueIndex' : 'index')
 
-        let converted = line.replace(/['"']IX_[^'"']+['"']/g, (match) => {
+        let converted = line.replace(/['"']IX_[^'"']+['"']/g, match => {
             const name = match.slice(1, -1)
             const suffix = isUnique ? '_key' : '_idx'
             return `"${toSnakeCase(name.replace(/^IX_/, ''))}${suffix}"`
@@ -178,7 +175,9 @@ function convertTable(table) {
 
     return {
         code: result.join('\n'),
-        imports: Array.from(context.imports).filter(i => i !== 'mysqlTable').sort(),
+        imports: Array.from(context.imports)
+            .filter(i => i !== 'mysqlTable')
+            .sort(),
         foreignTables: Array.from(context.foreignTables).sort()
     }
 }

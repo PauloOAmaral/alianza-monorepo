@@ -184,7 +184,7 @@ function convertTableDefinition(table) {
                 imports.add(isUnique ? 'uniqueIndex' : 'index')
 
                 // Convert index name
-                line = line.replace(/"IX_[^"]+"/g, (match) => {
+                line = line.replace(/"IX_[^"]+"/g, match => {
                     const name = match.slice(1, -1) // Remove quotes
                     const suffix = isUnique ? '_key' : '_idx'
                     const converted = toSnakeCase(name.replace(/^IX_/, '')) + suffix
@@ -246,7 +246,9 @@ function convertTableDefinition(table) {
 
     return {
         code: result.join('\n'),
-        imports: Array.from(imports).filter(i => i !== 'mysqlTable').sort(),
+        imports: Array.from(imports)
+            .filter(i => i !== 'mysqlTable')
+            .sort(),
         foreignTables: Array.from(foreignTables).sort()
     }
 }

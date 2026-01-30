@@ -1,9 +1,9 @@
-import { useSyncExternalStore } from "react"
+import { useSyncExternalStore } from 'react'
 
 // https://github.com/sergiodxa/remix-utils/blob/main/src/react/use-hydrated.ts
 
 function subscribe() {
-    return () => { }
+    return () => {}
 }
 
 /**
@@ -27,6 +27,6 @@ export function useHydrated() {
     return useSyncExternalStore(
         subscribe,
         () => true,
-        () => false,
+        () => false
     )
 }

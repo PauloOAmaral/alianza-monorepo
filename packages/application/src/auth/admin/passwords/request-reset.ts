@@ -1,18 +1,14 @@
-import { createMainDbClient } from "@alianza/database/clients/main"
-import {
-    PasswordResetHtml,
-    type PasswordResetProps,
-    PasswordResetText,
-} from "@alianza/notifications/admin/templates"
-import { resendClient } from "@alianza/services/email/resend"
-import { getUserInformationFromRequest } from "@alianza/utils/headers"
-import { z } from "zod"
-import { ENV } from "~/utils/env"
-import { createAction } from "../../../action-builder"
-import { requestPasswordReset as baseRequestPasswordReset } from "../../base"
+import { createMainDbClient } from '@alianza/database/clients/main'
+import { PasswordResetHtml, type PasswordResetProps, PasswordResetText } from '@alianza/notifications/admin/templates'
+import { resendClient } from '@alianza/services/email/resend'
+import { getUserInformationFromRequest } from '@alianza/utils/headers'
+import { z } from 'zod'
+import { ENV } from '~/utils/env'
+import { createAction } from '../../../action-builder'
+import { requestPasswordReset as baseRequestPasswordReset } from '../../base'
 
 const requestPasswordResetSchema = z.object({
-    email: z.email(),
+    email: z.email()
 })
 
 export const requestPasswordReset = createAction({ schema: requestPasswordResetSchema })
@@ -27,11 +23,11 @@ export const requestPasswordReset = createAction({ schema: requestPasswordResetS
 
         const result = await baseRequestPasswordReset({
             data: { email, userAgent, ipAddress },
-            dbClient: db,
+            dbClient: db
         })
 
         const passwordResetEmailProps: PasswordResetProps = {
-            token: result.data.token,
+            token: result.data.token
         }
 
         const client = resendClient()
@@ -39,9 +35,9 @@ export const requestPasswordReset = createAction({ schema: requestPasswordResetS
         await client.sendEmail({
             from: ENV.APP_EMAIL_FROM,
             to: email,
-            subject: "Redefina sua senha",
+            subject: 'Redefina sua senha',
             react: PasswordResetHtml(passwordResetEmailProps),
-            text: PasswordResetText(passwordResetEmailProps),
+            text: PasswordResetText(passwordResetEmailProps)
         })
     })
 

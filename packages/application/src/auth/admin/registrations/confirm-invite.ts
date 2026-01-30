@@ -1,11 +1,11 @@
-import { createMainDbClient } from "@alianza/database/clients/main"
-import { z } from "zod"
-import { createAction } from "../../../action-builder"
-import { confirmInvite as baseConfirmInvite } from "../../base"
+import { createMainDbClient } from '@alianza/database/clients/main'
+import { z } from 'zod'
+import { createAction } from '../../../action-builder'
+import { confirmInvite as baseConfirmInvite } from '../../base'
 
 const confirmInviteSchema = z.object({
     token: z.string().min(1),
-    password: z.string().optional(),
+    password: z.string().optional()
 })
 
 export const confirmInvite = createAction({ schema: confirmInviteSchema })
@@ -17,7 +17,7 @@ export const confirmInvite = createAction({ schema: confirmInviteSchema })
 
         const result = await baseConfirmInvite({
             data: { token, password },
-            dbClient: db,
+            dbClient: db
         })
 
         return result.data

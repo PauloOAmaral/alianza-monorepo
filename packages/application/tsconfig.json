@@ -1,17 +1,10 @@
 {
     "extends": "@alianza/tsconfig/dom.json",
-    "include": [
-        "src"
-    ],
+    "include": ["src"],
     "compilerOptions": {
-        "types": [
-            "@types/bun",
-            "@cloudflare/workers-types"
-        ],
+        "types": ["@types/bun", "@cloudflare/workers-types"],
         "paths": {
-            "~/*": [
-                "./src/*"
-            ]
+            "~/*": ["./src/*"]
         }
     }
 }

@@ -1,4 +1,4 @@
-import type { RedisStorage } from "./kv.types"
+import type { RedisStorage } from './kv.types'
 
 /**
  * A Redis-like storage implementation for Cloudflare KV.
@@ -30,10 +30,10 @@ export class KVStorage implements RedisStorage {
 
     async set(key: string, value: string, options?: { expirationTtl?: number }): Promise<string> {
         await this.kv.put(key, value, {
-            expirationTtl: options?.expirationTtl,
+            expirationTtl: options?.expirationTtl
         })
 
-        return "OK"
+        return 'OK'
     }
 
     async delete(key: string): Promise<number> {

@@ -1,4 +1,4 @@
-import { getPlace } from "@alianza/services/google/places"
+import { getPlace } from '@alianza/services/google/places'
 
 export async function parseFormAddress<
     T extends {
@@ -10,7 +10,7 @@ export async function parseFormAddress<
         state?: string
         country?: string
         postalCode?: string
-    },
+    }
 >(data: T | undefined) {
     if (!data) {
         return
@@ -28,21 +28,17 @@ export async function parseFormAddress<
         latitude?: string
         longitude?: string
     } = {
-        country: "",
+        country: ''
     }
 
     if (data.externalId) {
         const addressFromExternalProvider = await getPlace({
-            name: data.externalId,
-        }).catch((_) => {
+            name: data.externalId
+        }).catch(_ => {
             return null
         })
 
-        if (
-            !addressFromExternalProvider ||
-            !addressFromExternalProvider.id ||
-            !addressFromExternalProvider.country_code
-        ) {
+        if (!addressFromExternalProvider || !addressFromExternalProvider.id || !addressFromExternalProvider.country_code) {
             return
         }
 

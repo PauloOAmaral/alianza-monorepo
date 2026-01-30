@@ -6,19 +6,11 @@
             "type": "node",
             "request": "launch",
             "runtimeExecutable": "bun",
-            "runtimeArgs": [
-                "--inspect-wait",
-                "run",
-                "dev"
-            ],
+            "runtimeArgs": ["--inspect-wait", "run", "dev"],
             "cwd": "${workspaceFolder}/apps/admin-web",
             "console": "integratedTerminal",
             "internalConsoleOptions": "neverOpen",
-            "skipFiles": [
-                "<node_internals>/**",
-                "**/node_modules/**",
-                "**/.vite/**"
-            ],
+            "skipFiles": ["<node_internals>/**", "**/node_modules/**", "**/.vite/**"],
             "env": {
                 "NODE_ENV": "development"
             },
@@ -47,11 +39,7 @@
                 "!**/node_modules/**",
                 "!**/.vite/**"
             ],
-            "skipFiles": [
-                "<node_internals>/**",
-                "**/node_modules/**",
-                "**/.vite/**"
-            ],
+            "skipFiles": ["<node_internals>/**", "**/node_modules/**", "**/.vite/**"],
             "localRoot": "${workspaceFolder}",
             "remoteRoot": "${workspaceFolder}",
             "smartStep": true,
@@ -83,10 +71,7 @@
     "compounds": [
         {
             "name": "Debug Admin Web (Full Stack)",
-            "configurations": [
-                "Debug Backend (Bun + Vite)",
-                "Debug Admin Web (Chrome)"
-            ],
+            "configurations": ["Debug Backend (Bun + Vite)", "Debug Admin Web (Chrome)"],
             "stopAll": true
         }
     ]

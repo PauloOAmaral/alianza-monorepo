@@ -1,7 +1,7 @@
-import type { DatabaseClient, DatabaseTransaction } from "@alianza/database/types/common"
-import type * as z from "zod"
-import type { BaseUserSession } from "./auth/base"
-import { ApplicationError } from "./error"
+import type { DatabaseClient, DatabaseTransaction } from '@alianza/database/types/common'
+import type * as z from 'zod'
+import type { BaseUserSession } from './auth/base'
+import { ApplicationError } from './error'
 
 interface RequestActionContext {
     request: Request
@@ -28,20 +28,14 @@ type TriggerHandler<TResult, TData> = (result: TResult, data: TData) => Promise<
 
 interface ActionWithTrigger<TResult, TContext, TData> {
     (request: TContext): Promise<ActionResponse<TResult>>
-    trigger: (
-        handler: TriggerHandler<TResult, TData>,
-    ) => ActionWithTrigger<TResult, TContext, TData>
+    trigger: (handler: TriggerHandler<TResult, TData>) => ActionWithTrigger<TResult, TContext, TData>
 }
 
 interface CreateActionOptions<TSchema extends z.ZodType = any> {
     schema?: TSchema
 }
 
-class ActionBuilder<
-    TPublicContext = unknown,
-    TPrivateContext = unknown,
-    TSchema extends z.ZodType = any,
-> {
+class ActionBuilder<TPublicContext = unknown, TPrivateContext = unknown, TSchema extends z.ZodType = any> {
     private validationSchema?: TSchema
 
     constructor(options?: CreateActionOptions<TSchema>) {
@@ -49,52 +43,25 @@ class ActionBuilder<
     }
 
     withRequest() {
-        return this as unknown as ActionBuilder<
-            TPublicContext & RequestActionContext,
-            TPrivateContext & RequestActionContext,
-            TSchema
-        >
+        return this as unknown as ActionBuilder<TPublicContext & RequestActionContext, TPrivateContext & RequestActionContext, TSchema>
     }
 
-    withData<TData = TSchema extends z.ZodType ? z.infer<TSchema> : never>(): ActionBuilder<
-        TPublicContext & DataActionRequest<TData>,
-        TPrivateContext & DataActionRequest<TData>,
-        TSchema
-    > {
-        return this as unknown as ActionBuilder<
-            TPublicContext & DataActionRequest<TData>,
-            TPrivateContext & DataActionRequest<TData>,
-            TSchema
-        >
+    withData<TData = TSchema extends z.ZodType ? z.infer<TSchema> : never>(): ActionBuilder<TPublicContext & DataActionRequest<TData>, TPrivateContext & DataActionRequest<TData>, TSchema> {
+        return this as unknown as ActionBuilder<TPublicContext & DataActionRequest<TData>, TPrivateContext & DataActionRequest<TData>, TSchema>
     }
 
     withSession<TSession = BaseUserSession>() {
-        return this as unknown as ActionBuilder<
-            TPublicContext & AuthenticatedActionRequest<TSession>,
-            TPrivateContext & AuthenticatedActionRequest<TSession>,
-            TSchema
-        >
+        return this as unknown as ActionBuilder<TPublicContext & AuthenticatedActionRequest<TSession>, TPrivateContext & AuthenticatedActionRequest<TSession>, TSchema>
     }
 
     withDatabase<TClient extends DatabaseClient, TTransaction extends DatabaseTransaction>() {
-        return this as unknown as ActionBuilder<
-            TPublicContext & DatabaseActionRequest<DatabaseClient, DatabaseTransaction>,
-            TPrivateContext & DatabaseActionRequest<TClient, TTransaction>,
-            TSchema
-        >
+        return this as unknown as ActionBuilder<TPublicContext & DatabaseActionRequest<DatabaseClient, DatabaseTransaction>, TPrivateContext & DatabaseActionRequest<TClient, TTransaction>, TSchema>
     }
 
     build<TResult>(
-        actionFn: (request: TPrivateContext) => Promise<TResult>,
-    ): ActionWithTrigger<
-        TResult,
-        TPublicContext,
-        TPrivateContext extends DataActionRequest<infer TData> ? TData : Record<string, never>
-    > {
-        type TriggerHandlerType = TriggerHandler<
-            TResult,
-            TPrivateContext extends DataActionRequest<infer TData> ? TData : Record<string, never>
-        >
+        actionFn: (request: TPrivateContext) => Promise<TResult>
+    ): ActionWithTrigger<TResult, TPublicContext, TPrivateContext extends DataActionRequest<infer TData> ? TData : Record<string, never>> {
+        type TriggerHandlerType = TriggerHandler<TResult, TPrivateContext extends DataActionRequest<infer TData> ? TData : Record<string, never>>
 
         const triggers: TriggerHandlerType[] = []
 
@@ -106,10 +73,7 @@ class ActionBuilder<
                     const validationResult = await this.validationSchema.safeParseAsync(req.data)
 
                     if (!validationResult.success) {
-                        throw new ApplicationError(
-                            "commonValidationError",
-                            validationResult.error.issues.map((issue) => issue.message).join("; "),
-                        )
+                        throw new ApplicationError('commonValidationError', validationResult.error.issues.map(issue => issue.message).join('; '))
                     }
 
                     req = { ...req, data: validationResult.data }
@@ -129,15 +93,11 @@ class ActionBuilder<
 
                 console.error(error)
 
-                throw new ApplicationError(["unexpectedError"])
+                throw new ApplicationError(['unexpectedError'])
             }
         }
 
-        const actionWithTrigger = executeAction as ActionWithTrigger<
-            TResult,
-            TPublicContext,
-            TPrivateContext extends DataActionRequest<infer TData> ? TData : Record<string, never>
-        >
+        const actionWithTrigger = executeAction as ActionWithTrigger<TResult, TPublicContext, TPrivateContext extends DataActionRequest<infer TData> ? TData : Record<string, never>>
 
         actionWithTrigger.trigger = (handler: TriggerHandlerType) => {
             triggers.push(handler)
@@ -148,8 +108,6 @@ class ActionBuilder<
     }
 }
 
-export function createAction<TSchema extends z.ZodType = never>(
-    options?: CreateActionOptions<TSchema>,
-): ActionBuilder<unknown, unknown, TSchema> {
+export function createAction<TSchema extends z.ZodType = never>(options?: CreateActionOptions<TSchema>): ActionBuilder<unknown, unknown, TSchema> {
     return new ActionBuilder(options)
 }

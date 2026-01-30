@@ -1,4 +1,4 @@
-import { Slot as ReactSlot } from "@radix-ui/react-slot"
+import { Slot as ReactSlot } from '@radix-ui/react-slot'
 
 export interface SlotProps extends React.AllHTMLAttributes<HTMLElement> {
     children?: React.ReactNode

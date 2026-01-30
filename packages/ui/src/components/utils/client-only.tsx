@@ -1,5 +1,5 @@
-import type React from "react"
-import { useHydrated } from "~/hooks"
+import type React from 'react'
+import { useHydrated } from '~/hooks'
 
 // https://github.com/sergiodxa/remix-utils/blob/main/src/react/client-only.tsx
 

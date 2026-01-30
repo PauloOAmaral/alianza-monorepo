@@ -3,13 +3,13 @@
 
 export type CloudflareStreamResponse<T> =
     | {
-        success: true
-        data: T
-    }
+          success: true
+          data: T
+      }
     | {
-        success: false
-        error: string | null
-    }
+          success: false
+          error: string | null
+      }
 
 export interface CloudflareStreamConfig {
     r2Region: string
@@ -48,7 +48,7 @@ export interface ImportVideoRequest {
 export interface ImportVideoResponse {
     uid: string
     status: {
-        state: "pending" | "downloading" | "queued" | "inprogress" | "ready" | "error"
+        state: 'pending' | 'downloading' | 'queued' | 'inprogress' | 'ready' | 'error'
         pctComplete: string
         errorReasonCode: string
         errorReasonText: string
@@ -65,7 +65,7 @@ export interface ImportVideoResponse {
 export interface VideoStatusResponse {
     uid: string
     status: {
-        state: "pending" | "downloading" | "queued" | "inprogress" | "ready" | "error"
+        state: 'pending' | 'downloading' | 'queued' | 'inprogress' | 'ready' | 'error'
         pctComplete: string
         errorReasonCode: string
         errorReasonText: string
@@ -116,7 +116,7 @@ export interface ImportVideoResult {
 }
 
 export interface VideoStatus {
-    status: "pending" | "downloading" | "queued" | "inprogress" | "ready" | "error"
+    status: 'pending' | 'downloading' | 'queued' | 'inprogress' | 'ready' | 'error'
     duration?: number
     thumbnail?: string
     preview?: string
@@ -128,4 +128,4 @@ export interface CreateStreamTokenResult {
     token: string
 }
 
-export interface FindVideoResult extends VideoStatusResponse { }
+export interface FindVideoResult extends VideoStatusResponse {}

@@ -1,6 +1,6 @@
-import { Field, FieldError, FormField, FormItem } from "@alianza/ui/components/ui/field"
-import { Textarea } from "@alianza/ui/textarea"
-import type { Control, FieldPath, FieldValues } from "react-hook-form"
+import { Field, FieldError, FormField, FormItem } from '@alianza/ui/components/ui/field'
+import { Textarea } from '@alianza/ui/textarea'
+import type { Control, FieldPath, FieldValues } from 'react-hook-form'
 
 interface TableTextareaFieldProps<TFieldValues extends FieldValues = FieldValues> {
     name: FieldPath<TFieldValues>
@@ -11,29 +11,15 @@ interface TableTextareaFieldProps<TFieldValues extends FieldValues = FieldValues
     style?: React.CSSProperties
 }
 
-const TableTextareaField = <TFieldValues extends FieldValues = FieldValues>({
-    name,
-    className,
-    control,
-    onFocus,
-    onInput,
-    style,
-}: TableTextareaFieldProps<TFieldValues>) => {
+const TableTextareaField = <TFieldValues extends FieldValues = FieldValues>({ name, className, control, onFocus, onInput, style }: TableTextareaFieldProps<TFieldValues>) => {
     return (
         <FormField
             control={control}
             name={name}
             render={({ field }) => (
-                <FormItem className="m-0 gap-0">
+                <FormItem className='m-0 gap-0'>
                     <Field>
-                        <Textarea
-                            {...field}
-                            className={className}
-                            onFocus={onFocus}
-                            onInput={onInput}
-                            rows={1}
-                            style={style}
-                        />
+                        <Textarea {...field} className={className} onFocus={onFocus} onInput={onInput} rows={1} style={style} />
                     </Field>
                     <FieldError />
                 </FormItem>
@@ -42,7 +28,7 @@ const TableTextareaField = <TFieldValues extends FieldValues = FieldValues>({
     )
 }
 
-TableTextareaField.displayName = "TableTextareaField"
+TableTextareaField.displayName = 'TableTextareaField'
 
 export { TableTextareaField }
 export type { TableTextareaFieldProps }

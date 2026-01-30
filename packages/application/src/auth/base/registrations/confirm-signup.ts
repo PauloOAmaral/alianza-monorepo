@@ -1,16 +1,13 @@
-import { eq } from "@alianza/database/drizzle"
-import { users, userTenants } from "@alianza/database/schemas/common"
-import type {
-    AuthDatabaseClient,
-    AuthDatabaseTransaction,
-} from "@alianza/database/types/common"
-import { isAfter } from "date-fns"
-import { z } from "zod"
-import { createAction } from "../../../action-builder"
-import { ApplicationError } from "../../../error"
+import { eq } from '@alianza/database/drizzle'
+import { users, userTenants } from '@alianza/database/schemas/common'
+import type { AuthDatabaseClient, AuthDatabaseTransaction } from '@alianza/database/types/common'
+import { isAfter } from 'date-fns'
+import { z } from 'zod'
+import { createAction } from '../../../action-builder'
+import { ApplicationError } from '../../../error'
 
 const confirmSignupSchema = z.object({
-    token: z.string().min(1),
+    token: z.string().min(1)
 })
 
 export const confirmSignup = createAction({ schema: confirmSignupSchema })
@@ -26,7 +23,7 @@ export const confirmSignup = createAction({ schema: confirmSignupSchema })
                 userId: true,
                 tenantId: true,
                 invitationExpiresAt: true,
-                invitationToken: true,
+                invitationToken: true
             },
             where: (userTenants, { and, eq, isNull, exists }) =>
                 and(
@@ -36,47 +33,42 @@ export const confirmSignup = createAction({ schema: confirmSignupSchema })
                         db
                             .select()
                             .from(users)
-                            .where(
-                                and(
-                                    eq(users.id, userTenants.userId),
-                                    eq(users.emailConfirmed, false),
-                                ),
-                            ),
-                    ),
-                ),
+                            .where(and(eq(users.id, userTenants.userId), eq(users.emailConfirmed, false)))
+                    )
+                )
         })
 
         if (!userTenant) {
-            throw new ApplicationError("authUserNotFound")
+            throw new ApplicationError('authUserNotFound')
         }
 
         if (isAfter(new Date(), userTenant.invitationExpiresAt!)) {
-            throw new ApplicationError("authSignupConfirmationExpired")
+            throw new ApplicationError('authSignupConfirmationExpired')
         }
 
         await db
             .update(users)
             .set({
                 emailConfirmed: true,
-                emailConfirmedAt: new Date(),
+                emailConfirmedAt: new Date()
             })
             .where(eq(users.id, userTenant.userId))
 
         const firstUserTenant = await db._query.userTenants.findFirst({
             columns: {
-                tenantId: true,
+                tenantId: true
             },
-            where: eq(userTenants.userId, userTenant.userId),
+            where: eq(userTenants.userId, userTenant.userId)
         })
 
         if (!firstUserTenant) {
-            throw new ApplicationError("authUserHasNoTenant")
+            throw new ApplicationError('authUserHasNoTenant')
         }
 
         return {
             userId: userTenant.userId,
-            currentTenantId: firstUserTenant.tenantId,
+            currentTenantId: firstUserTenant.tenantId
         }
     })
 
-export type ConfirmSignupResult = Awaited<ReturnType<typeof confirmSignup>>["data"]
+export type ConfirmSignupResult = Awaited<ReturnType<typeof confirmSignup>>['data']

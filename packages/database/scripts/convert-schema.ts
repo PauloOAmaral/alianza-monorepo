@@ -18,14 +18,11 @@ function extractTableName(exportStatement: string): string | null {
 // Utility: Convert column name from PascalCase to snake_case
 function convertColumnName(columnDef: string): string {
     // Match patterns like: columnName: type("ColumnName", ...)
-    return columnDef.replace(
-        /(\w+):\s*(\w+)\("([^"]+)"/g,
-        (match, propName, type, dbName) => {
-            const snakeProp = toSnakeCase(propName)
-            const snakeDb = toSnakeCase(dbName)
-            return `${snakeProp}: ${type}("${snakeDb}"`
-        }
-    )
+    return columnDef.replace(/(\w+):\s*(\w+)\("([^"]+)"/g, (match, propName, type, dbName) => {
+        const snakeProp = toSnakeCase(propName)
+        const snakeDb = toSnakeCase(dbName)
+        return `${snakeProp}: ${type}("${snakeDb}"`
+    })
 }
 
 // Utility: Check if column is ID field
@@ -47,7 +44,7 @@ function isTimestampField(line: string): boolean {
 function convertForeignKeyColumn(line: string): string {
     // Match: columnId: integer("ColumnId")
     const match = line.match(/^(\s*)(\w+):\s*int\(["']([^"']+)["']\)(.*)$/)
-    if (match && match[2].endsWith('Id') || match && match[2].endsWith('_id')) {
+    if ((match && match[2].endsWith('Id')) || (match && match[2].endsWith('_id'))) {
         const [, indent, propName, dbName, rest] = match
         const snakeProp = toSnakeCase(propName)
         const snakeDb = toSnakeCase(dbName)
@@ -67,12 +64,12 @@ function convertIndexName(line: string, tableName: string): string {
 
     // Convert IX_TableName_Column to table_name_column_idx
     return line
-        .replace(/index\(["']IX_\w+["']\)/g, (match) => {
+        .replace(/index\(["']IX_\w+["']\)/g, match => {
             const name = match.match(/["']([^"']+)["']/)?.[1] || ''
             const snakeName = toSnakeCase(name.replace(/^IX_/, '')) + '_idx'
             return `index("${snakeName}")`
         })
-        .replace(/uniqueIndex\(["']IX_\w+["']\)/g, (match) => {
+        .replace(/uniqueIndex\(["']IX_\w+["']\)/g, match => {
             const name = match.match(/["']([^"']+)["']/)?.[1] || ''
             const snakeName = toSnakeCase(name.replace(/^IX_/, '')) + '_key'
             return `uniqueIndex("${snakeName}")`
@@ -88,7 +85,7 @@ function convertForeignKeyConstraint(line: string, tableName: string): string {
 
     // Convert FK_Table_RelatedTable_Column to table_column_fkey
     return line
-        .replace(/name:\s*["']FK_\w+["']/g, (match) => {
+        .replace(/name:\s*["']FK_\w+["']/g, match => {
             const name = match.match(/["']([^"']+)["']/)?.[1] || ''
             // Extract just the column part
             const parts = name.split('_')
@@ -266,7 +263,9 @@ function generateTableFile(tableName: string, tableCode: string): string {
     const lines: string[] = []
 
     // Add imports
-    const drizzleImports = Array.from(imports).filter(i => i !== 'mysqlTable').sort()
+    const drizzleImports = Array.from(imports)
+        .filter(i => i !== 'mysqlTable')
+        .sort()
     if (drizzleImports.length > 0) {
         lines.push(`import { mysqlTable, ${drizzleImports.join(', ')} } from "drizzle-orm/mysql-core"`)
     } else {

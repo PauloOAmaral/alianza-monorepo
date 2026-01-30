@@ -1,7 +1,7 @@
-import { Breadcrumb, BreadcrumbItem, BreadcrumbList } from "@alianza/ui/components/ui/breadcrumb"
-import { ChevronRight } from "lucide-react"
-import type { ReactNode } from "react"
-import { useMatches } from "react-router"
+import { Breadcrumb, BreadcrumbItem, BreadcrumbList } from '@alianza/ui/components/ui/breadcrumb'
+import { ChevronRight } from 'lucide-react'
+import type { ReactNode } from 'react'
+import { useMatches } from 'react-router'
 
 interface BreadcrumbHandle {
     breadcrumb?: (data: unknown) => ReactNode | ReactNode[]
@@ -43,14 +43,14 @@ const Breadcrumbs = () => {
     const matches = useMatches() as MatchWithBreadcrumb[]
 
     const breadcrumbs: BreadcrumbItemData[] = matches
-        .filter((match) => Boolean(match.handle?.breadcrumb))
+        .filter(match => Boolean(match.handle?.breadcrumb))
         .flatMap((match, matchIndex) => {
             const breadcrumbResult = match.handle?.breadcrumb?.(match.data) ?? null
 
             if (Array.isArray(breadcrumbResult)) {
                 return breadcrumbResult.map((breadcrumb, breadcrumbIndex) => ({
                     id: `${matchIndex}-${breadcrumbIndex}`,
-                    breadcrumb,
+                    breadcrumb
                 }))
             }
 
@@ -59,7 +59,7 @@ const Breadcrumbs = () => {
         .map((item, index) => ({
             id: item.id,
             breadcrumb: item.breadcrumb,
-            index,
+            index
         }))
 
     if (!breadcrumbs.length) {
@@ -68,13 +68,11 @@ const Breadcrumbs = () => {
 
     return (
         <Breadcrumb>
-            <BreadcrumbList className="flex [&>li]:flex [&>li]:items-center">
-                {breadcrumbs.map((item) => (
+            <BreadcrumbList className='flex [&>li]:flex [&>li]:items-center'>
+                {breadcrumbs.map(item => (
                     <BreadcrumbItem key={item.id}>
                         {item.breadcrumb}
-                        {item.index < breadcrumbs.length - 1 && (
-                            <ChevronRight className="h-4 w-4" />
-                        )}
+                        {item.index < breadcrumbs.length - 1 && <ChevronRight className='h-4 w-4' />}
                     </BreadcrumbItem>
                 ))}
             </BreadcrumbList>

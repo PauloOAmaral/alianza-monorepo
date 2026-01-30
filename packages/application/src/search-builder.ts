@@ -1,4 +1,4 @@
-import { and, or } from "drizzle-orm"
+import { and, or } from 'drizzle-orm'
 
 export class SearchBuilder {
     protected orConditions: any[] = []

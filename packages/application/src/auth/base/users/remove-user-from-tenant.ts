@@ -1,23 +1,15 @@
-import { eq } from "@alianza/database/drizzle"
-import {
-    medias,
-    users,
-    userTenantPermissionGroups,
-    userTenants,
-} from "@alianza/database/schemas/common"
-import type {
-    AuthDatabaseClient,
-    AuthDatabaseTransaction,
-} from "@alianza/database/types/common"
-import { getSessionsKv } from "@alianza/services/kv"
-import { getImagesBucket } from "@alianza/services/storage"
-import { z } from "zod"
-import { createAction } from "../../../action-builder"
-import { ApplicationError } from "../../../error"
+import { eq } from '@alianza/database/drizzle'
+import { medias, users, userTenantPermissionGroups, userTenants } from '@alianza/database/schemas/common'
+import type { AuthDatabaseClient, AuthDatabaseTransaction } from '@alianza/database/types/common'
+import { getSessionsKv } from '@alianza/services/kv'
+import { getImagesBucket } from '@alianza/services/storage'
+import { z } from 'zod'
+import { createAction } from '../../../action-builder'
+import { ApplicationError } from '../../../error'
 
 const removeUserFromTenantSchema = z.object({
     userId: z.string().min(1),
-    tenantId: z.string().min(1),
+    tenantId: z.string().min(1)
 })
 
 export const removeUserFromTenant = createAction({ schema: removeUserFromTenantSchema })
@@ -29,21 +21,21 @@ export const removeUserFromTenant = createAction({ schema: removeUserFromTenantS
         const db = dbClient || dbTransaction
 
         if (!db) {
-            throw new ApplicationError("databaseNotFound")
+            throw new ApplicationError('databaseNotFound')
         }
 
         if (session.user.id === userId) {
-            throw new ApplicationError("authCannotRemoveYourself")
+            throw new ApplicationError('authCannotRemoveYourself')
         }
 
         const userTenant = await db._query.userTenants.findFirst({
             columns: {
-                id: true,
+                id: true
             },
             with: {
                 user: {
                     columns: {
-                        id: true,
+                        id: true
                     },
                     with: {
                         userProfile: {
@@ -51,47 +43,39 @@ export const removeUserFromTenant = createAction({ schema: removeUserFromTenantS
                                 avatar: {
                                     columns: {
                                         id: true,
-                                        path: true,
-                                    },
-                                },
-                            },
+                                        path: true
+                                    }
+                                }
+                            }
                         },
                         userTenants: {
                             columns: {
-                                id: true,
-                            },
+                                id: true
+                            }
                         },
                         userSessions: {
                             columns: {
-                                id: true,
+                                id: true
                             },
-                            where: (fields, { and, eq, gt }) =>
-                                and(
-                                    eq(fields.userId, userId),
-                                    eq(fields.currentTenantId, tenantId),
-                                    gt(fields.expiresAt, new Date()),
-                                ),
-                        },
-                    },
+                            where: (fields, { and, eq, gt }) => and(eq(fields.userId, userId), eq(fields.currentTenantId, tenantId), gt(fields.expiresAt, new Date()))
+                        }
+                    }
                 },
                 tenant: {
                     columns: {
-                        id: true,
-                    },
-                },
+                        id: true
+                    }
+                }
             },
-            where: (userTenants, { and, eq }) =>
-                and(eq(userTenants.userId, userId), eq(userTenants.tenantId, tenantId)),
+            where: (userTenants, { and, eq }) => and(eq(userTenants.userId, userId), eq(userTenants.tenantId, tenantId))
         })
 
         if (!userTenant) {
-            throw new ApplicationError("authUserNotFound")
+            throw new ApplicationError('authUserNotFound')
         }
 
-        await db.transaction(async (tx) => {
-            await tx
-                .delete(userTenantPermissionGroups)
-                .where(eq(userTenantPermissionGroups.userTenantId, userTenant.id))
+        await db.transaction(async tx => {
+            await tx.delete(userTenantPermissionGroups).where(eq(userTenantPermissionGroups.userTenantId, userTenant.id))
 
             await tx.delete(userTenants).where(eq(userTenants.id, userTenant.id))
 
@@ -109,10 +93,8 @@ export const removeUserFromTenant = createAction({ schema: removeUserFromTenantS
         }
 
         if (userTenant.user.userSessions.length) {
-            await Promise.allSettled(
-                userTenant.user.userSessions.map((session) => getSessionsKv().delete(session.id)),
-            )
+            await Promise.allSettled(userTenant.user.userSessions.map(session => getSessionsKv().delete(session.id)))
         }
     })
 
-export type RemoveUserFromTenantResult = Awaited<ReturnType<typeof removeUserFromTenant>>["data"]
+export type RemoveUserFromTenantResult = Awaited<ReturnType<typeof removeUserFromTenant>>['data']

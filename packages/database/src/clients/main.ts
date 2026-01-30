@@ -1,6 +1,6 @@
-import * as mainSchema from "../../drizzle/schemas"
-import { ENV } from "../utils/env"
-import { createDbClient } from "./base"
+import * as mainSchema from '../../drizzle/schemas'
+import { ENV } from '../utils/env'
+import { createDbClient } from './base'
 
 interface CreateMainDbClientOptions {
     usePool?: boolean
@@ -8,12 +8,10 @@ interface CreateMainDbClientOptions {
 
 export const createMainDbClient = (
     options: CreateMainDbClientOptions = {
-        usePool: true,
-    },
+        usePool: true
+    }
 ) => {
     return createDbClient(mainSchema, {
-        connectionString: options.usePool
-            ? ENV.MAIN_POOL_DATABASE_URL
-            : ENV.MAIN_DIRECT_DATABASE_URL,
+        connectionString: options.usePool ? ENV.MAIN_POOL_DATABASE_URL : ENV.MAIN_DIRECT_DATABASE_URL
     })
 }

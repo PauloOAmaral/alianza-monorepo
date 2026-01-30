@@ -26,6 +26,7 @@
     },
     "dependencies": {
         "@neondatabase/serverless": "^1.0.2",
+        "@types/ws": "^8.18.1",
         "drizzle-orm": "^1.0.0-beta.11-05230d9",
         "nanoid": "^5.1.6",
         "ws": "^8.18.3"

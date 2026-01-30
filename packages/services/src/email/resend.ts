@@ -1,5 +1,5 @@
-import { type CreateBatchOptions, type CreateEmailOptions, Resend } from "resend"
-import { ENV } from "~/utils/env"
+import { type CreateBatchOptions, type CreateEmailOptions, Resend } from 'resend'
+import { ENV } from '~/utils/env'
 
 export function resendClient() {
     const resend = new Resend(ENV.RESEND_API_KEY)
@@ -14,6 +14,6 @@ export function resendClient() {
 
     return {
         sendEmail,
-        sendBatchEmail,
+        sendBatchEmail
     }
 }

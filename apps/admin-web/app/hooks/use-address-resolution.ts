@@ -1,6 +1,6 @@
-import { useEffect } from "react"
-import { useFetcher } from "react-router"
-import type { loader as loaderAddress } from "../routes/resources.places.$id/route"
+import { useEffect } from 'react'
+import { useFetcher } from 'react-router'
+import type { loader as loaderAddress } from '../routes/resources.places.$id/route'
 
 interface UseAddressResolutionProps {
     address: Partial<{
@@ -49,7 +49,7 @@ export function useAddressResolution({ address }: UseAddressResolutionProps) {
             city: fetcherData.data.city,
             state: fetcherData.data.state,
             postalCode: fetcherData.data.postal_code,
-            country: fetcherData.data.country_code,
+            country: fetcherData.data.country_code
         }
     }
 

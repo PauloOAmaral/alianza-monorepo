@@ -1,13 +1,13 @@
-import { sql } from "drizzle-orm"
-import { createMainDbClient } from "../../clients/main"
+import { sql } from 'drizzle-orm'
+import { createMainDbClient } from '../../clients/main'
 
 async function reset() {
-    console.log("⏳ Resetting Admin database...")
+    console.log('⏳ Resetting Admin database...')
 
     try {
         const db = createMainDbClient({ usePool: false })
 
-        await db.transaction(async (tx) => {
+        await db.transaction(async tx => {
             // Obter lista de todas as tabelas
             const result = await tx.execute(sql`
                 SELECT tablename
@@ -25,18 +25,18 @@ async function reset() {
             }
         })
     } catch (error) {
-        console.error("❌ Error resetting Admin database:", error)
+        console.error('❌ Error resetting Admin database:', error)
 
         process.exit(1)
     }
 
-    console.log("✅ Admin database reset completed successfully\n")
+    console.log('✅ Admin database reset completed successfully\n')
 
     process.exit(0)
 }
 
-reset().catch((error) => {
-    console.error("❌ Error resetting Admin database:", error)
+reset().catch(error => {
+    console.error('❌ Error resetting Admin database:', error)
 
     process.exit(1)
 })

@@ -1,12 +1,12 @@
-import { createMainDbClient } from "@alianza/database/clients/main"
-import { z } from "zod"
-import { createAction } from "../../../action-builder"
-import { updateUserPermissionGroups as baseUpdateUserPermissionGroups } from "../../base"
+import { createMainDbClient } from '@alianza/database/clients/main'
+import { z } from 'zod'
+import { createAction } from '../../../action-builder'
+import { updateUserPermissionGroups as baseUpdateUserPermissionGroups } from '../../base'
 
 const updateUserPermissionGroupsSchema = z.object({
     userId: z.string().min(1),
     tenantId: z.string().min(1),
-    permissionGroupIds: z.array(z.string()),
+    permissionGroupIds: z.array(z.string())
 })
 
 export const updateUserPermissionGroups = createAction({ schema: updateUserPermissionGroupsSchema })
@@ -18,12 +18,10 @@ export const updateUserPermissionGroups = createAction({ schema: updateUserPermi
         const result = await baseUpdateUserPermissionGroups({
             data,
             session,
-            dbClient: db,
+            dbClient: db
         })
 
         return result.data
     })
 
-export type UpdateUserPermissionGroupsResult = Awaited<
-    ReturnType<typeof updateUserPermissionGroups>
->
+export type UpdateUserPermissionGroupsResult = Awaited<ReturnType<typeof updateUserPermissionGroups>>

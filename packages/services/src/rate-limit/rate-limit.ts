@@ -1,15 +1,12 @@
-import { getRateLimitKv } from "../kv"
-import { RATE_LIMIT_CONFIGS } from "./config"
-import type { RateLimitConfig, RateLimitData, RateLimitResult, RateLimitType } from "./types"
+import { getRateLimitKv } from '../kv'
+import { RATE_LIMIT_CONFIGS } from './config'
+import type { RateLimitConfig, RateLimitData, RateLimitResult, RateLimitType } from './types'
 
 function getRateLimitKey(type: RateLimitType, identifier: string): string {
     return `rate-limit:${type}:${identifier.toLowerCase()}`
 }
 
-async function getRateLimitData(
-    type: RateLimitType,
-    identifier: string,
-): Promise<RateLimitData | null> {
+async function getRateLimitData(type: RateLimitType, identifier: string): Promise<RateLimitData | null> {
     const kv = getRateLimitKv()
     const key = getRateLimitKey(type, identifier)
     const data = await kv.get(key)
@@ -21,26 +18,16 @@ async function getRateLimitData(
     return JSON.parse(data) as RateLimitData
 }
 
-async function setRateLimitData(
-    type: RateLimitType,
-    identifier: string,
-    data: RateLimitData,
-    expirationMinutes: number,
-): Promise<void> {
+async function setRateLimitData(type: RateLimitType, identifier: string, data: RateLimitData, expirationMinutes: number): Promise<void> {
     const kv = getRateLimitKv()
     const key = getRateLimitKey(type, identifier)
 
     await kv.set(key, JSON.stringify(data), {
-        expirationTtl: expirationMinutes * 60,
+        expirationTtl: expirationMinutes * 60
     })
 }
 
-function findViolatedTier(
-    configs: RateLimitConfig[],
-    attempts: number,
-    firstAttemptAt: number,
-    now: number,
-): { tier: number; config: RateLimitConfig } | null {
+function findViolatedTier(configs: RateLimitConfig[], attempts: number, firstAttemptAt: number, now: number): { tier: number; config: RateLimitConfig } | null {
     for (let i = configs.length - 1; i >= 0; i--) {
         const config = configs[i]
 
@@ -58,10 +45,7 @@ function findViolatedTier(
     return null
 }
 
-export async function checkRateLimit(
-    type: RateLimitType,
-    identifier: string,
-): Promise<RateLimitResult> {
+export async function checkRateLimit(type: RateLimitType, identifier: string): Promise<RateLimitResult> {
     const data = await getRateLimitData(type, identifier)
     const now = Date.now()
 
@@ -73,7 +57,7 @@ export async function checkRateLimit(
         return {
             allowed: false,
             lockedUntil: new Date(data.lockedUntil),
-            lockoutDurationMinutes: Math.ceil((data.lockedUntil - now) / (60 * 1000)),
+            lockoutDurationMinutes: Math.ceil((data.lockedUntil - now) / (60 * 1000))
         }
     }
 
@@ -85,7 +69,7 @@ export async function checkRateLimit(
         return {
             allowed: false,
             lockedUntil: new Date(now + violatedTier.config.lockoutMinutes * 60 * 1000),
-            lockoutDurationMinutes: violatedTier.config.lockoutMinutes,
+            lockoutDurationMinutes: violatedTier.config.lockoutMinutes
         }
     }
 
@@ -96,7 +80,7 @@ export async function checkRateLimit(
 
         return {
             allowed: true,
-            remainingAttempts: remainingAttempts > 0 ? remainingAttempts : 0,
+            remainingAttempts: remainingAttempts > 0 ? remainingAttempts : 0
         }
     }
 
@@ -107,7 +91,7 @@ export async function recordAttempt(type: RateLimitType, identifier: string): Pr
     const data = await getRateLimitData(type, identifier)
     const now = Date.now()
     const configs = RATE_LIMIT_CONFIGS[type]
-    const maxWindowMinutes = Math.max(...configs.map((c) => c.windowMinutes))
+    const maxWindowMinutes = Math.max(...configs.map(c => c.windowMinutes))
 
     if (!data) {
         await setRateLimitData(
@@ -116,9 +100,9 @@ export async function recordAttempt(type: RateLimitType, identifier: string): Pr
             {
                 attempts: 1,
                 firstAttemptAt: now,
-                currentTier: 0,
+                currentTier: 0
             },
-            maxWindowMinutes,
+            maxWindowMinutes
         )
 
         return
@@ -139,9 +123,9 @@ export async function recordAttempt(type: RateLimitType, identifier: string): Pr
             {
                 attempts: 1,
                 firstAttemptAt: now,
-                currentTier: 0,
+                currentTier: 0
             },
-            maxWindowMinutes,
+            maxWindowMinutes
         )
 
         return
@@ -150,7 +134,7 @@ export async function recordAttempt(type: RateLimitType, identifier: string): Pr
     const updatedAttempts = data.attempts + 1
     const updatedData: RateLimitData = {
         ...data,
-        attempts: updatedAttempts,
+        attempts: updatedAttempts
     }
 
     const violatedTier = findViolatedTier(configs, updatedAttempts, data.firstAttemptAt, now)

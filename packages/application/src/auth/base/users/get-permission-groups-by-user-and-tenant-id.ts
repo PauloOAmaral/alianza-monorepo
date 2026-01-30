@@ -1,17 +1,14 @@
-import type {
-    AuthDatabaseClient,
-    AuthDatabaseTransaction,
-} from "@alianza/database/types/common"
-import { z } from "zod"
-import { createAction } from "../../../action-builder"
+import type { AuthDatabaseClient, AuthDatabaseTransaction } from '@alianza/database/types/common'
+import { z } from 'zod'
+import { createAction } from '../../../action-builder'
 
 const getPermissionGroupsByUserAndTenantIdSchema = z.object({
     userId: z.string().min(1),
-    tenantId: z.string().min(1),
+    tenantId: z.string().min(1)
 })
 
 export const getPermissionGroupsByUserAndTenantId = createAction({
-    schema: getPermissionGroupsByUserAndTenantIdSchema,
+    schema: getPermissionGroupsByUserAndTenantIdSchema
 })
     .withData()
     .withDatabase<AuthDatabaseClient, AuthDatabaseTransaction>()
@@ -20,7 +17,7 @@ export const getPermissionGroupsByUserAndTenantId = createAction({
         const db = dbClient || dbTransaction
 
         if (!db) {
-            throw new ApplicationError("databaseNotFound")
+            throw new ApplicationError('databaseNotFound')
         }
 
         const result = await db._query.userTenants.findFirst({
@@ -32,24 +29,21 @@ export const getPermissionGroupsByUserAndTenantId = createAction({
                         permissionGroup: {
                             columns: {
                                 id: true,
-                                name: true,
-                            },
-                        },
-                    },
-                },
+                                name: true
+                            }
+                        }
+                    }
+                }
             },
-            where: (userTenants, { and, eq }) =>
-                and(eq(userTenants.userId, userId), eq(userTenants.tenantId, tenantId)),
+            where: (userTenants, { and, eq }) => and(eq(userTenants.userId, userId), eq(userTenants.tenantId, tenantId))
         })
 
         return (
-            result?.permissionGroups?.map((permissionGroup) => ({
+            result?.permissionGroups?.map(permissionGroup => ({
                 id: permissionGroup.permissionGroup.id,
-                name: permissionGroup.permissionGroup.name,
+                name: permissionGroup.permissionGroup.name
             })) || []
         )
     })
 
-export type GetPermissionGroupsByUserAndTenantIdResult = Awaited<
-    ReturnType<typeof getPermissionGroupsByUserAndTenantId>
->["data"]
+export type GetPermissionGroupsByUserAndTenantIdResult = Awaited<ReturnType<typeof getPermissionGroupsByUserAndTenantId>>['data']

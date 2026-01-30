@@ -1,5 +1,5 @@
-import { useRouteLoaderData } from "react-router"
-import type { loader } from "~/routes/_app/route"
+import { useRouteLoaderData } from 'react-router'
+import type { loader } from '~/routes/_app/route'
 
 /**
  * Hook to get the user session from the layout route
@@ -7,10 +7,10 @@ import type { loader } from "~/routes/_app/route"
  * @returns user session
  */
 export function useUserSession() {
-    const data = useRouteLoaderData<typeof loader>("routes/_app")
+    const data = useRouteLoaderData<typeof loader>('routes/_app')
 
     if (!data?.session) {
-        throw new Error("User session not found from (routes/_app) route")
+        throw new Error('User session not found from (routes/_app) route')
     }
 
     return data.session

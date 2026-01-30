@@ -1,6 +1,6 @@
-import { type RetryConfig, withRetry } from "./error-handler"
-import { logger } from "./logger"
-import { metricsCollector } from "./metrics"
+import { type RetryConfig, withRetry } from './error-handler'
+import { logger } from './logger'
+import { metricsCollector } from './metrics'
 
 interface JobConfig {
     handler: () => Promise<void>
@@ -9,7 +9,7 @@ interface JobConfig {
 }
 
 function camelToKebab(str: string): string {
-    return str.replace(/[A-Z]/g, (match, offset) => (offset > 0 ? "-" : "") + match.toLowerCase())
+    return str.replace(/[A-Z]/g, (match, offset) => (offset > 0 ? '-' : '') + match.toLowerCase())
 }
 
 interface InternalJobConfig extends JobConfig {
@@ -44,10 +44,10 @@ export class JobManager {
         const jobLogger = logger.child({
             jobName: config.name,
             cronExpression,
-            executionId,
+            executionId
         })
 
-        jobLogger.info("Starting job execution")
+        jobLogger.info('Starting job execution')
         const startTime = Date.now()
 
         try {
@@ -61,10 +61,7 @@ export class JobManager {
             }
 
             if (config.retry) {
-                const retryConfig: RetryConfig =
-                    config.retry === true
-                        ? { maxRetries: 3, retryDelay: 1000, backoffMultiplier: 2 }
-                        : config.retry
+                const retryConfig: RetryConfig = config.retry === true ? { maxRetries: 3, retryDelay: 1000, backoffMultiplier: 2 } : config.retry
 
                 await withRetry(executeJob, retryConfig, { jobName: config.name })
             } else {
@@ -73,7 +70,7 @@ export class JobManager {
 
             const duration = Date.now() - startTime
 
-            jobLogger.info("Job completed successfully", { duration })
+            jobLogger.info('Job completed successfully', { duration })
 
             metricsCollector.recordExecution(config.name, true, duration)
 
@@ -81,14 +78,14 @@ export class JobManager {
                 {
                     jobName: config.name,
                     success: true,
-                    duration,
-                },
+                    duration
+                }
             ]
         } catch (error) {
             const duration = Date.now() - startTime
             const err = error instanceof Error ? error : new Error(String(error))
 
-            jobLogger.error("Job failed", err, { duration })
+            jobLogger.error('Job failed', err, { duration })
 
             metricsCollector.recordExecution(config.name, false, duration, err)
 
@@ -97,8 +94,8 @@ export class JobManager {
                     jobName: config.name,
                     success: false,
                     duration,
-                    error: err,
-                },
+                    error: err
+                }
             ]
         }
     }

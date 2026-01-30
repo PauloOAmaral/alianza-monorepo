@@ -1,15 +1,9 @@
-import { nanoid } from "@alianza/database/nanoid"
-import {
-    addresses,
-    permissionGroups,
-    permissionGroupsPermissions,
-    tenantProfiles,
-    tenants,
-} from "@alianza/database/schemas/common"
-import type { AuthDatabaseTransaction, DocumentType } from "@alianza/database/types/common"
-import { z } from "zod"
-import { createAction } from "../../../action-builder"
-import { ApplicationError } from "../../../error"
+import { nanoid } from '@alianza/database/nanoid'
+import { addresses, permissionGroups, permissionGroupsPermissions, tenantProfiles, tenants } from '@alianza/database/schemas/common'
+import type { AuthDatabaseTransaction, DocumentType } from '@alianza/database/types/common'
+import { z } from 'zod'
+import { createAction } from '../../../action-builder'
+import { ApplicationError } from '../../../error'
 
 const createTenantCoreSchema = z.object({
     name: z.string().min(1),
@@ -30,25 +24,16 @@ const createTenantCoreSchema = z.object({
             country: z.string(),
             postalCode: z.string().optional(),
             latitude: z.string().optional(),
-            longitude: z.string().optional(),
+            longitude: z.string().optional()
         })
-        .optional(),
+        .optional()
 })
 
 export const createTenantCore = createAction({ schema: createTenantCoreSchema })
     .withData()
     .withDatabase<AuthDatabaseTransaction, AuthDatabaseTransaction>()
     .build(async ({ data, dbClient, dbTransaction }) => {
-        const {
-            name,
-            legalName,
-            documentNumber,
-            documentType,
-            contactFirstName,
-            contactLastName,
-            contactEmail,
-            address,
-        } = data
+        const { name, legalName, documentNumber, documentType, contactFirstName, contactLastName, contactEmail, address } = data
 
         const createTenantCoreTransaction = async (transaction: AuthDatabaseTransaction) => {
             let createdAddress: { id: string } | undefined
@@ -68,12 +53,12 @@ export const createTenantCore = createAction({ schema: createTenantCoreSchema })
                         country: address.country,
                         postalCode: address.postalCode,
                         latitude: address.latitude?.toString(),
-                        longitude: address.longitude?.toString(),
+                        longitude: address.longitude?.toString()
                     })
                     .returning({ id: addresses.id })
 
                 if (!createdAddress) {
-                    throw new ApplicationError("unexpectedError")
+                    throw new ApplicationError('unexpectedError')
                 }
             }
 
@@ -89,7 +74,7 @@ export const createTenantCore = createAction({ schema: createTenantCoreSchema })
                     contactFirstName,
                     contactLastName,
                     contactEmail,
-                    addressId: createdAddress?.id,
+                    addressId: createdAddress?.id
                 })
                 .returning({
                     id: tenantProfiles.id,
@@ -98,11 +83,11 @@ export const createTenantCore = createAction({ schema: createTenantCoreSchema })
                     documentType: tenantProfiles.documentType,
                     contactFirstName: tenantProfiles.contactFirstName,
                     contactLastName: tenantProfiles.contactLastName,
-                    contactEmail: tenantProfiles.contactEmail,
+                    contactEmail: tenantProfiles.contactEmail
                 })
 
             if (!createdTenantProfile) {
-                throw new ApplicationError("unexpectedError")
+                throw new ApplicationError('unexpectedError')
             }
 
             const tenantId = nanoid(16)
@@ -110,12 +95,12 @@ export const createTenantCore = createAction({ schema: createTenantCoreSchema })
                 .insert(tenants)
                 .values({
                     id: tenantId,
-                    tenantProfileId: createdTenantProfile.id,
+                    tenantProfileId: createdTenantProfile.id
                 })
                 .returning({ id: tenants.id })
 
             if (!createdTenant) {
-                throw new ApplicationError("unexpectedError")
+                throw new ApplicationError('unexpectedError')
             }
 
             const permissionGroupId = nanoid(16)
@@ -123,13 +108,13 @@ export const createTenantCore = createAction({ schema: createTenantCoreSchema })
                 .insert(permissionGroups)
                 .values({
                     id: permissionGroupId,
-                    name: "Admin",
-                    tenantId: createdTenant.id,
+                    name: 'Admin',
+                    tenantId: createdTenant.id
                 })
                 .returning({ id: permissionGroups.id, name: permissionGroups.name })
 
             if (!createdPermissionGroup) {
-                throw new ApplicationError("unexpectedError")
+                throw new ApplicationError('unexpectedError')
             }
 
             const [createdPermissionGroupPermission] = await transaction
@@ -137,18 +122,18 @@ export const createTenantCore = createAction({ schema: createTenantCoreSchema })
                 .values({
                     id: nanoid(16),
                     permissionGroupId: createdPermissionGroup.id,
-                    permission: "full",
+                    permission: 'full'
                 })
                 .returning({ id: permissionGroupsPermissions.id })
 
             if (!createdPermissionGroupPermission) {
-                throw new ApplicationError("unexpectedError")
+                throw new ApplicationError('unexpectedError')
             }
 
             return {
                 ...createdTenant,
                 tenantProfile: createdTenantProfile,
-                permissionGroup: createdPermissionGroup,
+                permissionGroup: createdPermissionGroup
             }
         }
 
@@ -159,4 +144,4 @@ export const createTenantCore = createAction({ schema: createTenantCoreSchema })
         return await createTenantCoreTransaction(dbTransaction!)
     })
 
-export type CreateTenantResult = Awaited<ReturnType<typeof createTenantCore>>["data"]
+export type CreateTenantResult = Awaited<ReturnType<typeof createTenantCore>>['data']

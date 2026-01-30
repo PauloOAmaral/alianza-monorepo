@@ -1,9 +1,9 @@
-import { z } from "zod"
-import { createAction } from "../../../action-builder"
-import { getCachedSession } from "../_shared"
+import { z } from 'zod'
+import { createAction } from '../../../action-builder'
+import { getCachedSession } from '../_shared'
 
 const getSessionSchema = z.object({
-    sessionId: z.string().min(1),
+    sessionId: z.string().min(1)
 })
 
 export const getSession = createAction({ schema: getSessionSchema })
@@ -16,4 +16,4 @@ export const getSession = createAction({ schema: getSessionSchema })
         return session.data
     })
 
-export type { UserSession } from "../_shared"
+export type { UserSession } from '../_shared'

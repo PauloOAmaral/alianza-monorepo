@@ -1,4 +1,4 @@
-import bcrypt from "bcrypt-edge"
+import bcrypt from 'bcrypt-edge'
 
 const SALT_ROUNDS = 10
 

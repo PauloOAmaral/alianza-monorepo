@@ -1,11 +1,5 @@
-import type {
-    FileKey,
-    FileMetadata,
-    FileStorage,
-    ListOptions,
-    ListResult,
-} from "@mjackson/file-storage"
-import { type LazyContent, LazyFile } from "@mjackson/lazy-file"
+import type { FileKey, FileMetadata, FileStorage, ListOptions, ListResult } from '@mjackson/file-storage'
+import { type LazyContent, LazyFile } from '@mjackson/lazy-file'
 
 export namespace R2FileStorage {
     export interface CustomMetadata extends Record<string, string> {
@@ -36,13 +30,13 @@ export class R2FileStorage implements FileStorage {
     async put(key: string, file: File) {
         const customMetadata = {
             name: key,
-            type: file.type,
+            type: file.type
         } satisfies R2FileStorage.CustomMetadata
 
         // Always use multipart upload since we don't know the size
         const multipartUpload = await this.r2.createMultipartUpload(key, {
             httpMetadata: { contentType: file.type },
-            customMetadata,
+            customMetadata
         })
 
         const parts = []
@@ -65,25 +59,16 @@ export class R2FileStorage implements FileStorage {
 
                     while (valueOffset < value.length) {
                         // Copy data into buffer
-                        const bytesToCopy = Math.min(
-                            PART_SIZE - bufferOffset,
-                            value.length - valueOffset,
-                        )
+                        const bytesToCopy = Math.min(PART_SIZE - bufferOffset, value.length - valueOffset)
 
-                        buffer.set(
-                            value.subarray(valueOffset, valueOffset + bytesToCopy),
-                            bufferOffset,
-                        )
+                        buffer.set(value.subarray(valueOffset, valueOffset + bytesToCopy), bufferOffset)
 
                         bufferOffset += bytesToCopy
                         valueOffset += bytesToCopy
 
                         // Upload when buffer is full
                         if (bufferOffset === PART_SIZE) {
-                            const uploadedPart = await multipartUpload.uploadPart(
-                                partNumber,
-                                buffer,
-                            )
+                            const uploadedPart = await multipartUpload.uploadPart(partNumber, buffer)
 
                             parts.push(uploadedPart)
                             partNumber++
@@ -122,7 +107,7 @@ export class R2FileStorage implements FileStorage {
         const object = await this.get(key)
 
         if (!object) {
-            throw new Error("failed to create file")
+            throw new Error('failed to create file')
         }
 
         return object
@@ -139,12 +124,12 @@ export class R2FileStorage implements FileStorage {
 
         const lazyContent: LazyContent = {
             byteLength: object.size,
-            stream: () => object.body as unknown as ReadableStream<Uint8Array>,
+            stream: () => object.body as unknown as ReadableStream<Uint8Array>
         }
 
         const lazyFile = new LazyFile(lazyContent, metadata?.name ?? key, {
             type: object.httpMetadata?.contentType ?? metadata?.type,
-            lastModified: object.uploaded.getTime(),
+            lastModified: object.uploaded.getTime()
         })
 
         return lazyFile as unknown as File
@@ -158,11 +143,11 @@ export class R2FileStorage implements FileStorage {
         const result = await this.r2.list({
             cursor: options?.cursor,
             limit: options?.limit,
-            prefix: options?.prefix,
+            prefix: options?.prefix
         })
 
         return {
-            files: result.objects.map((object) => {
+            files: result.objects.map(object => {
                 const metadata = object.customMetadata as unknown as R2FileStorage.CustomMetadata
 
                 if (options?.includeMetadata === true) {
@@ -171,13 +156,13 @@ export class R2FileStorage implements FileStorage {
                         lastModified: object.uploaded.getTime(),
                         size: object.size,
                         name: metadata?.name ?? object.key,
-                        type: object.httpMetadata?.contentType ?? metadata?.type,
+                        type: object.httpMetadata?.contentType ?? metadata?.type
                     } satisfies FileMetadata
                 }
 
                 return { key: object.key } satisfies FileKey
-            }) as ListResult<T>["files"],
-            cursor: result.truncated ? result.cursor : undefined,
+            }) as ListResult<T>['files'],
+            cursor: result.truncated ? result.cursor : undefined
         }
     }
 }

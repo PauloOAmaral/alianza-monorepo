@@ -1,16 +1,11 @@
-import { type $ZodType, type output, safeParseAsync, type util } from "zod/v4/core"
+import { type $ZodType, type output, safeParseAsync, type util } from 'zod/v4/core'
 
 export async function parseFormDataWithZod<Schema extends $ZodType>(
     formData: FormData,
-    schema: Schema,
-): Promise<
-    | { success: true; value: output<Schema>; errors?: string[] }
-    | { success: false; value: null; errors?: string[] }
-> {
+    schema: Schema
+): Promise<{ success: true; value: output<Schema>; errors?: string[] } | { success: false; value: null; errors?: string[] }> {
     const nestedObj = formDataToNestedObject(formData)
-    const result = (await safeParseAsync(schema, nestedObj)) as unknown as util.SafeParseResult<
-        output<Schema>
-    >
+    const result = (await safeParseAsync(schema, nestedObj)) as unknown as util.SafeParseResult<output<Schema>>
 
     if (result.success) {
         return { success: true, value: result.data, errors: undefined }
@@ -19,8 +14,7 @@ export async function parseFormDataWithZod<Schema extends $ZodType>(
     return {
         success: false,
         value: null,
-        errors: result.error.issues
-            .map((issue) => issue.path.join(".") + " " + issue.message),
+        errors: result.error.issues.map(issue => issue.path.join('.') + ' ' + issue.message)
     }
 }
 
@@ -91,7 +85,7 @@ function parsePathToSegments(path: string): string[] {
     // "items[0]" => "items 0"
     // "profile.contact.email" => ["profile", "contact", "email"]
     // "user[address]" => ["user", "address"]
-    return path.replace(/\]/g, "").split(/\[|\./).filter(Boolean)
+    return path.replace(/\]/g, '').split(/\[|\./).filter(Boolean)
 }
 
 /**
@@ -110,12 +104,8 @@ function isIndexSegment(segment: string): boolean {
  * @param parentKey - The key from the parent object (for recursion).
  * @returns A FormData instance with all keys/values appended.
  */
-export function objectToFormData(
-    data: any,
-    formData: FormData = new FormData(),
-    parentKey?: string,
-): FormData {
-    if (data === null || typeof data === "undefined") {
+export function objectToFormData(data: any, formData: FormData = new FormData(), parentKey?: string): FormData {
+    if (data === null || typeof data === 'undefined') {
         return formData
     }
 
@@ -141,7 +131,7 @@ export function objectToFormData(
     }
 
     // Handle objects (plain objects)
-    if (typeof data === "object") {
+    if (typeof data === 'object') {
         for (const key of Object.keys(data)) {
             const value = data[key]
             const formKey = parentKey ? `${parentKey}[${key}]` : key

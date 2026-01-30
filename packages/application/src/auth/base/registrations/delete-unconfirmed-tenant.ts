@@ -1,22 +1,14 @@
-import { and, eq, exists, isNotNull, not, notExists, or } from "@alianza/database/drizzle"
-import {
-    addresses,
-    medias,
-    tenantProfiles,
-    tenants,
-    userProfiles,
-    users,
-    userTenants,
-} from "@alianza/database/schemas/common"
-import type { AuthDatabaseClient, AuthDatabaseTransaction } from "@alianza/database/types/common"
-import { getSessionsKv } from "@alianza/services/kv"
-import { getImagesBucket } from "@alianza/services/storage"
-import { z } from "zod"
-import { createAction } from "../../../action-builder"
-import { ApplicationError } from "../../../error"
+import { and, eq, exists, isNotNull, not, notExists, or } from '@alianza/database/drizzle'
+import { addresses, medias, tenantProfiles, tenants, userProfiles, users, userTenants } from '@alianza/database/schemas/common'
+import type { AuthDatabaseClient, AuthDatabaseTransaction } from '@alianza/database/types/common'
+import { getSessionsKv } from '@alianza/services/kv'
+import { getImagesBucket } from '@alianza/services/storage'
+import { z } from 'zod'
+import { createAction } from '../../../action-builder'
+import { ApplicationError } from '../../../error'
 
 const deleteUnconfirmedTenantSchema = z.object({
-    id: z.string().min(1),
+    id: z.string().min(1)
 })
 
 export const deleteUnconfirmedTenant = createAction({ schema: deleteUnconfirmedTenantSchema })
@@ -33,8 +25,8 @@ export const deleteUnconfirmedTenant = createAction({ schema: deleteUnconfirmedT
                     tenantProfileId: tenants.tenantProfileId,
                     tenantProfile: {
                         avatarId: tenantProfiles.avatarId,
-                        addressId: tenantProfiles.addressId,
-                    },
+                        addressId: tenantProfiles.addressId
+                    }
                 })
                 .from(tenants)
                 .leftJoin(tenantProfiles, eq(tenants.tenantProfileId, tenantProfiles.id))
@@ -47,20 +39,15 @@ export const deleteUnconfirmedTenant = createAction({ schema: deleteUnconfirmedT
                                 transaction
                                     .select({ id: userTenants.id })
                                     .from(userTenants)
-                                    .where(
-                                        and(
-                                            eq(userTenants.tenantId, tenants.id),
-                                            isNotNull(userTenants.invitationConfirmedAt),
-                                        ),
-                                    ),
-                            ),
-                        ),
-                    ),
+                                    .where(and(eq(userTenants.tenantId, tenants.id), isNotNull(userTenants.invitationConfirmedAt)))
+                            )
+                        )
+                    )
                 )
                 .limit(1)
 
             if (!tenantToBeDeleted) {
-                throw new ApplicationError("unexpectedError")
+                throw new ApplicationError('unexpectedError')
             }
 
             // select all users that are only associated with this tenant and not to any other tenant
@@ -70,8 +57,8 @@ export const deleteUnconfirmedTenant = createAction({ schema: deleteUnconfirmedT
                     userProfileId: users.userProfileId,
                     userProfile: {
                         avatarId: userProfiles.avatarId,
-                        addressId: userProfiles.addressId,
-                    },
+                        addressId: userProfiles.addressId
+                    }
                 })
                 .from(users)
                 .leftJoin(userProfiles, eq(users.userProfileId, userProfiles.id))
@@ -82,77 +69,45 @@ export const deleteUnconfirmedTenant = createAction({ schema: deleteUnconfirmedT
                             transaction
                                 .select({ id: userTenants.id })
                                 .from(userTenants)
-                                .where(
-                                    and(
-                                        eq(userTenants.userId, users.id),
-                                        eq(userTenants.tenantId, id),
-                                    ),
-                                ),
+                                .where(and(eq(userTenants.userId, users.id), eq(userTenants.tenantId, id)))
                         ),
                         // user is NOT associated with any other tenant
                         notExists(
                             transaction
                                 .select({ id: userTenants.id })
                                 .from(userTenants)
-                                .where(
-                                    and(
-                                        eq(userTenants.userId, users.id),
-                                        not(eq(userTenants.tenantId, id)),
-                                    ),
-                                ),
-                        ),
-                    ),
+                                .where(and(eq(userTenants.userId, users.id), not(eq(userTenants.tenantId, id))))
+                        )
+                    )
                 )
 
             const actions: Promise<any>[] = [transaction.delete(tenants).where(eq(tenants.id, id))]
 
             if (tenantToBeDeleted.tenantProfileId) {
-                actions.push(
-                    transaction
-                        .delete(tenantProfiles)
-                        .where(eq(tenantProfiles.id, tenantToBeDeleted.tenantProfileId)),
-                )
+                actions.push(transaction.delete(tenantProfiles).where(eq(tenantProfiles.id, tenantToBeDeleted.tenantProfileId)))
             }
 
             if (tenantToBeDeleted.tenantProfile?.avatarId) {
-                actions.push(
-                    transaction
-                        .delete(medias)
-                        .where(eq(medias.id, tenantToBeDeleted.tenantProfile.avatarId)),
-                )
+                actions.push(transaction.delete(medias).where(eq(medias.id, tenantToBeDeleted.tenantProfile.avatarId)))
             }
 
             if (tenantToBeDeleted.tenantProfile?.addressId) {
-                actions.push(
-                    transaction
-                        .delete(addresses)
-                        .where(eq(addresses.id, tenantToBeDeleted.tenantProfile.addressId)),
-                )
+                actions.push(transaction.delete(addresses).where(eq(addresses.id, tenantToBeDeleted.tenantProfile.addressId)))
             }
 
             for (const user of usersToDelete) {
                 actions.push(transaction.delete(users).where(eq(users.id, user.id)))
 
                 if (user.userProfileId) {
-                    actions.push(
-                        transaction
-                            .delete(userProfiles)
-                            .where(eq(userProfiles.id, user.userProfileId)),
-                    )
+                    actions.push(transaction.delete(userProfiles).where(eq(userProfiles.id, user.userProfileId)))
                 }
 
                 if (user.userProfile?.avatarId) {
-                    actions.push(
-                        transaction.delete(medias).where(eq(medias.id, user.userProfile.avatarId)),
-                    )
+                    actions.push(transaction.delete(medias).where(eq(medias.id, user.userProfile.avatarId)))
                 }
 
                 if (user.userProfile?.addressId) {
-                    actions.push(
-                        transaction
-                            .delete(addresses)
-                            .where(eq(addresses.id, user.userProfile.addressId)),
-                    )
+                    actions.push(transaction.delete(addresses).where(eq(addresses.id, user.userProfile.addressId)))
                 }
             }
 
@@ -161,12 +116,12 @@ export const deleteUnconfirmedTenant = createAction({ schema: deleteUnconfirmedT
             return {
                 tenant: {
                     id: tenantToBeDeleted.id,
-                    avatarId: tenantToBeDeleted.tenantProfile?.avatarId,
+                    avatarId: tenantToBeDeleted.tenantProfile?.avatarId
                 },
-                users: usersToDelete.map((user) => ({
+                users: usersToDelete.map(user => ({
                     id: user.id,
-                    userAvatarId: user.userProfile?.avatarId,
-                })),
+                    userAvatarId: user.userProfile?.avatarId
+                }))
             }
         }
 
@@ -176,7 +131,7 @@ export const deleteUnconfirmedTenant = createAction({ schema: deleteUnconfirmedT
             result = await dbClient.transaction(deleteTenantTransaction)
         } else {
             if (!dbTransaction) {
-                throw new ApplicationError("databaseNotFound")
+                throw new ApplicationError('databaseNotFound')
             }
 
             result = await deleteTenantTransaction(dbTransaction)
@@ -203,6 +158,4 @@ export const deleteUnconfirmedTenant = createAction({ schema: deleteUnconfirmedT
         }
     })
 
-export type DeleteUnconfirmedTenantResult = Awaited<
-    ReturnType<typeof deleteUnconfirmedTenant>
->["data"]
+export type DeleteUnconfirmedTenantResult = Awaited<ReturnType<typeof deleteUnconfirmedTenant>>['data']

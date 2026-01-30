@@ -1,11 +1,7 @@
-import type {
-    AuthDatabaseClient,
-    AuthDatabaseTransaction,
-    DocumentType,
-} from "@alianza/database/types/common"
-import { z } from "zod"
-import { createAction } from "../../../action-builder"
-import { createTenantCore } from "../_shared"
+import type { AuthDatabaseClient, AuthDatabaseTransaction, DocumentType } from '@alianza/database/types/common'
+import { z } from 'zod'
+import { createAction } from '../../../action-builder'
+import { createTenantCore } from '../_shared'
 
 const createTenantSchema = z.object({
     name: z.string().min(1),
@@ -25,9 +21,9 @@ const createTenantSchema = z.object({
             country: z.string(),
             postalCode: z.string().optional(),
             latitude: z.string().optional(),
-            longitude: z.string().optional(),
+            longitude: z.string().optional()
         })
-        .optional(),
+        .optional()
 })
 
 export const createTenant = createAction({ schema: createTenantSchema })
@@ -39,4 +35,4 @@ export const createTenant = createAction({ schema: createTenantSchema })
         return response.data
     })
 
-export type CreateTenantResult = Awaited<ReturnType<typeof createTenant>>["data"]
+export type CreateTenantResult = Awaited<ReturnType<typeof createTenant>>['data']

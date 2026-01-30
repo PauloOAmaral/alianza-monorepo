@@ -25,7 +25,7 @@ export function maskCPF(cpf: string | null | undefined): string | null | undefin
         return
     }
 
-    const digits = cpf.replace(/\D/g, "")
+    const digits = cpf.replace(/\D/g, '')
 
     if (digits.length !== 11) {
         return cpf
@@ -41,15 +41,15 @@ export function alphanumericSearch(textValue: string, inputValue: string) {
 
     const inputValueWithoutNonAlphanumeric = inputValue
         .toLowerCase()
-        .normalize("NFD")
-        .replace(/[\u0300-\u036f]/g, "")
-        .replace(/[^a-zA-Z0-9]/g, "")
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .replace(/[^a-zA-Z0-9]/g, '')
 
     const textValueWithoutNonAlphanumeric = textValue
         .toLowerCase()
-        .normalize("NFD")
-        .replace(/[\u0300-\u036f]/g, "")
-        .replace(/[^a-zA-Z0-9]/g, "")
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .replace(/[^a-zA-Z0-9]/g, '')
 
     return textValueWithoutNonAlphanumeric.includes(inputValueWithoutNonAlphanumeric)
 }

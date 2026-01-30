@@ -1,4 +1,4 @@
-type LogLevel = "debug" | "info" | "warn" | "error"
+type LogLevel = 'debug' | 'info' | 'warn' | 'error'
 
 interface LogContext {
     jobName?: string
@@ -22,35 +22,35 @@ class Logger {
             level,
             message,
             ...this.context,
-            ...extra,
+            ...extra
         }
 
         switch (level) {
-            case "debug":
+            case 'debug':
                 console.debug(JSON.stringify(logEntry))
                 break
-            case "info":
+            case 'info':
                 console.info(JSON.stringify(logEntry))
                 break
-            case "warn":
+            case 'warn':
                 console.warn(JSON.stringify(logEntry))
                 break
-            case "error":
+            case 'error':
                 console.error(JSON.stringify(logEntry))
                 break
         }
     }
 
     debug(message: string, extra?: LogContext) {
-        this.log("debug", message, extra)
+        this.log('debug', message, extra)
     }
 
     info(message: string, extra?: LogContext) {
-        this.log("info", message, extra)
+        this.log('info', message, extra)
     }
 
     warn(message: string, extra?: LogContext) {
-        this.log("warn", message, extra)
+        this.log('warn', message, extra)
     }
 
     error(message: string, error?: Error | unknown, extra?: LogContext) {
@@ -64,7 +64,7 @@ class Logger {
             errorDetails.errorDetails = error
         }
 
-        this.log("error", message, errorDetails)
+        this.log('error', message, errorDetails)
     }
 
     child(context: LogContext): Logger {

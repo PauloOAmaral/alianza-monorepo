@@ -1,25 +1,16 @@
-import { and, eq } from "@alianza/database/drizzle"
-import { nanoid } from "@alianza/database/nanoid"
-import {
-    tenants,
-    userProfiles,
-    users,
-    userTenantPermissionGroups,
-    userTenants,
-} from "@alianza/database/schemas/common"
-import type {
-    AuthDatabaseClient,
-    AuthDatabaseTransaction,
-} from "@alianza/database/types/common"
-import { addDays } from "date-fns"
-import { z } from "zod"
-import { createAction } from "../../../action-builder"
-import { ApplicationError } from "../../../error"
+import { and, eq } from '@alianza/database/drizzle'
+import { nanoid } from '@alianza/database/nanoid'
+import { tenants, userProfiles, users, userTenantPermissionGroups, userTenants } from '@alianza/database/schemas/common'
+import type { AuthDatabaseClient, AuthDatabaseTransaction } from '@alianza/database/types/common'
+import { addDays } from 'date-fns'
+import { z } from 'zod'
+import { createAction } from '../../../action-builder'
+import { ApplicationError } from '../../../error'
 
 const addUserToTenantCoreSchema = z.object({
     email: z.string().min(1),
     tenantId: z.string().min(1),
-    permissionGroupIds: z.array(z.string()),
+    permissionGroupIds: z.array(z.string())
 })
 
 export const addUserToTenantCore = createAction({ schema: addUserToTenantCoreSchema })
@@ -31,51 +22,48 @@ export const addUserToTenantCore = createAction({ schema: addUserToTenantCoreSch
         const addUserToTenantCoreTransaction = async (transaction: AuthDatabaseTransaction) => {
             const existingTenant = await transaction._query.tenants.findFirst({
                 columns: {
-                    id: true,
+                    id: true
                 },
                 with: {
                     tenantProfile: {
                         columns: {
-                            name: true,
-                        },
-                    },
+                            name: true
+                        }
+                    }
                 },
-                where: eq(tenants.id, tenantId),
+                where: eq(tenants.id, tenantId)
             })
 
             if (!existingTenant) {
-                throw new ApplicationError("authTenantNotFound")
+                throw new ApplicationError('authTenantNotFound')
             }
 
             const existingUser = await transaction._query.users.findFirst({
                 columns: {
                     id: true,
-                    email: true,
+                    email: true
                 },
                 with: {
                     userProfile: {
                         columns: {
                             firstName: true,
-                            lastName: true,
-                        },
-                    },
+                            lastName: true
+                        }
+                    }
                 },
-                where: eq(users.email, email),
+                where: eq(users.email, email)
             })
 
             if (!existingUser) {
                 const userProfileId = nanoid(16)
-                const [createdUserProfile] = await transaction
-                    .insert(userProfiles)
-                    .values({ id: userProfileId })
-                    .returning({
-                        id: userProfiles.id,
-                        firstName: userProfiles.firstName,
-                        lastName: userProfiles.lastName,
-                    })
+                const [createdUserProfile] = await transaction.insert(userProfiles).values({ id: userProfileId }).returning({
+                    id: userProfiles.id,
+                    firstName: userProfiles.firstName,
+                    lastName: userProfiles.lastName
+                })
 
                 if (!createdUserProfile) {
-                    throw new ApplicationError("unexpectedError")
+                    throw new ApplicationError('unexpectedError')
                 }
 
                 const userId = nanoid(16)
@@ -84,15 +72,15 @@ export const addUserToTenantCore = createAction({ schema: addUserToTenantCoreSch
                     .values({
                         id: userId,
                         email,
-                        userProfileId: createdUserProfile.id,
+                        userProfileId: createdUserProfile.id
                     })
                     .returning({
                         id: users.id,
-                        email: users.email,
+                        email: users.email
                     })
 
                 if (!createdUser) {
-                    throw new ApplicationError("unexpectedError")
+                    throw new ApplicationError('unexpectedError')
                 }
 
                 const userTenantId = nanoid(16)
@@ -103,23 +91,23 @@ export const addUserToTenantCore = createAction({ schema: addUserToTenantCoreSch
                         userId: createdUser.id,
                         tenantId,
                         invitationToken: nanoid(32),
-                        invitationExpiresAt: addDays(new Date(), 7),
+                        invitationExpiresAt: addDays(new Date(), 7)
                     })
                     .returning({
                         id: userTenants.id,
-                        invitationToken: userTenants.invitationToken,
+                        invitationToken: userTenants.invitationToken
                     })
 
                 if (!createdUserTenant) {
-                    throw new ApplicationError("unexpectedError")
+                    throw new ApplicationError('unexpectedError')
                 }
 
                 await transaction.insert(userTenantPermissionGroups).values(
-                    permissionGroupIds.map((permissionGroupId) => ({
+                    permissionGroupIds.map(permissionGroupId => ({
                         id: nanoid(16),
                         userTenantId: createdUserTenant.id,
-                        permissionGroupId,
-                    })),
+                        permissionGroupId
+                    }))
                 )
 
                 return {
@@ -128,23 +116,20 @@ export const addUserToTenantCore = createAction({ schema: addUserToTenantCoreSch
                     userProfile: createdUserProfile,
                     userTenant: {
                         ...createdUserTenant,
-                        tenant: existingTenant,
-                    },
+                        tenant: existingTenant
+                    }
                 }
             }
 
             const existingUserTenant = await transaction._query.userTenants.findFirst({
                 columns: {
-                    id: true,
+                    id: true
                 },
-                where: and(
-                    eq(userTenants.tenantId, tenantId),
-                    eq(userTenants.userId, existingUser.id),
-                ),
+                where: and(eq(userTenants.tenantId, tenantId), eq(userTenants.userId, existingUser.id))
             })
 
             if (existingUserTenant) {
-                throw new ApplicationError("authUserAlreadyExistsWithinTenant")
+                throw new ApplicationError('authUserAlreadyExistsWithinTenant')
             }
 
             const userTenantId = nanoid(16)
@@ -155,23 +140,23 @@ export const addUserToTenantCore = createAction({ schema: addUserToTenantCoreSch
                     userId: existingUser.id,
                     tenantId,
                     invitationToken: nanoid(32),
-                    invitationExpiresAt: addDays(new Date(), 7),
+                    invitationExpiresAt: addDays(new Date(), 7)
                 })
                 .returning({
                     id: userTenants.id,
-                    invitationToken: userTenants.invitationToken,
+                    invitationToken: userTenants.invitationToken
                 })
 
             if (!createdUserTenant) {
-                throw new ApplicationError("unexpectedError")
+                throw new ApplicationError('unexpectedError')
             }
 
             await transaction.insert(userTenantPermissionGroups).values(
-                permissionGroupIds.map((permissionGroupId) => ({
+                permissionGroupIds.map(permissionGroupId => ({
                     id: nanoid(16),
                     userTenantId: createdUserTenant.id,
-                    permissionGroupId,
-                })),
+                    permissionGroupId
+                }))
             )
 
             return {
@@ -180,8 +165,8 @@ export const addUserToTenantCore = createAction({ schema: addUserToTenantCoreSch
                 userProfile: existingUser.userProfile,
                 userTenant: {
                     ...createdUserTenant,
-                    tenant: existingTenant,
-                },
+                    tenant: existingTenant
+                }
             }
         }
 
@@ -192,4 +177,4 @@ export const addUserToTenantCore = createAction({ schema: addUserToTenantCoreSch
         return await addUserToTenantCoreTransaction(dbTransaction!)
     })
 
-export type AddUserToTenantResult = Awaited<ReturnType<typeof addUserToTenantCore>>["data"]
+export type AddUserToTenantResult = Awaited<ReturnType<typeof addUserToTenantCore>>['data']

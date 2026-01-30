@@ -1,27 +1,27 @@
-import { createMainDbClient } from "@alianza/database/clients/main"
-import { userTenantPermissionGroups } from "@alianza/database/schemas/common"
-import type { AuthDatabaseClient } from "@alianza/database/types/common"
-import { z } from "zod"
-import { ENV } from "~/utils/env"
-import { createAction } from "../../../action-builder"
-import { ApplicationError } from "../../../error"
-import { getSession as baseGetSession } from "../../base"
-import { getCachedOrFetch } from "../../utils"
+import { createMainDbClient } from '@alianza/database/clients/main'
+import { userTenantPermissionGroups } from '@alianza/database/schemas/common'
+import type { AuthDatabaseClient } from '@alianza/database/types/common'
+import { z } from 'zod'
+import { ENV } from '~/utils/env'
+import { createAction } from '../../../action-builder'
+import { ApplicationError } from '../../../error'
+import { getSession as baseGetSession } from '../../base'
+import { getCachedOrFetch } from '../../utils'
 
 async function getUserSessionQuery(db: AuthDatabaseClient, sessionId: string) {
     return db._query.userSessions.findFirst({
         columns: {
-            currentTenantId: true,
+            currentTenantId: true
         },
         with: {
             user: {
                 with: {
                     userTenantSamlProviders: {
-                        columns: { id: true },
+                        columns: { id: true }
                     },
                     userTenants: {
                         columns: {
-                            tenantId: true,
+                            tenantId: true
                         },
                         with: {
                             permissionGroups: {
@@ -30,36 +30,29 @@ async function getUserSessionQuery(db: AuthDatabaseClient, sessionId: string) {
                                     permissionGroup: {
                                         columns: {
                                             id: true,
-                                            name: true,
-                                        },
-                                    },
-                                },
-                            },
+                                            name: true
+                                        }
+                                    }
+                                }
+                            }
                         },
                         where: (userTenants, { eq, exists }) =>
-                            exists(
-                                db
-                                    .select({ id: userTenantPermissionGroups.id })
-                                    .from(userTenantPermissionGroups)
-                                    .where(
-                                        eq(userTenantPermissionGroups.userTenantId, userTenants.id),
-                                    ),
-                            ),
-                    },
-                },
+                            exists(db.select({ id: userTenantPermissionGroups.id }).from(userTenantPermissionGroups).where(eq(userTenantPermissionGroups.userTenantId, userTenants.id)))
+                    }
+                }
             },
             currentTenant: {
                 columns: {
                     id: true
                 }
-            },
+            }
         },
-        where: (userSessions, { eq }) => eq(userSessions.id, sessionId),
+        where: (userSessions, { eq }) => eq(userSessions.id, sessionId)
     })
 }
 
 const getCachedSessionSchema = z.object({
-    sessionId: z.string().min(1),
+    sessionId: z.string().min(1)
 })
 
 export const getCachedSession = createAction({ schema: getCachedSessionSchema })
@@ -75,29 +68,25 @@ export const getCachedSession = createAction({ schema: getCachedSessionSchema })
                 const [baseSession, projectSession] = await Promise.all([
                     baseGetSession({
                         data: { sessionId },
-                        dbClient: db,
+                        dbClient: db
                     }),
-                    getUserSessionQuery(db, sessionId),
+                    getUserSessionQuery(db, sessionId)
                 ])
 
                 if (!projectSession) {
-                    throw new ApplicationError("commonNotFound")
+                    throw new ApplicationError('commonNotFound')
                 }
 
-                const currentUserTenant = projectSession.user.userTenants.find(
-                    (ut) => ut.tenantId === projectSession.currentTenantId,
-                )
+                const currentUserTenant = projectSession.user.userTenants.find(ut => ut.tenantId === projectSession.currentTenantId)
 
                 if (!currentUserTenant) {
-                    throw new ApplicationError("commonNotFound")
+                    throw new ApplicationError('commonNotFound')
                 }
 
-                const permissionGroups = currentUserTenant.permissionGroups.map(
-                    (permissionGroup) => ({
-                        id: permissionGroup.permissionGroup.id,
-                        name: permissionGroup.permissionGroup.name,
-                    }),
-                )
+                const permissionGroups = currentUserTenant.permissionGroups.map(permissionGroup => ({
+                    id: permissionGroup.permissionGroup.id,
+                    name: permissionGroup.permissionGroup.name
+                }))
 
                 return {
                     id: baseSession.data.id,
@@ -112,17 +101,17 @@ export const getCachedSession = createAction({ schema: getCachedSessionSchema })
                         firstName: baseSession.data.user.firstName,
                         lastName: baseSession.data.user.lastName,
                         fullName: baseSession.data.user.fullName,
-                        avatar: baseSession.data.user.avatar,
+                        avatar: baseSession.data.user.avatar
                     },
                     currentTenant: {
                         id: baseSession.data.currentTenant.id,
                         name: baseSession.data.currentTenant.name,
                         legalName: baseSession.data.currentTenant.legalName
                     },
-                    permissionGroups,
+                    permissionGroups
                 }
-            },
+            }
         })
     })
 
-export type UserSession = NonNullable<Awaited<ReturnType<typeof getCachedSession>>["data"]>
+export type UserSession = NonNullable<Awaited<ReturnType<typeof getCachedSession>>['data']>

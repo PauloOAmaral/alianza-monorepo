@@ -1,4 +1,4 @@
-import { type ClientActionFunctionArgs, isRouteErrorResponse } from "react-router"
+import { type ClientActionFunctionArgs, isRouteErrorResponse } from 'react-router'
 
 export async function clientActionHandler({ serverAction }: ClientActionFunctionArgs) {
     try {

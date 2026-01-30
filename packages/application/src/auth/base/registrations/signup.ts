@@ -1,18 +1,15 @@
-import type {
-    AuthDatabaseClient,
-    AuthDatabaseTransaction,
-} from "@alianza/database/types/common"
-import { z } from "zod"
-import { createAction } from "../../../action-builder"
-import { ApplicationError } from "../../../error"
-import { createUserAndTenant } from "./create-user-and-tenant"
+import type { AuthDatabaseClient, AuthDatabaseTransaction } from '@alianza/database/types/common'
+import { z } from 'zod'
+import { createAction } from '../../../action-builder'
+import { ApplicationError } from '../../../error'
+import { createUserAndTenant } from './create-user-and-tenant'
 
 const signupSchema = z.object({
     email: z.email(),
     password: z.string().min(1),
     firstName: z.string().min(1),
     lastName: z.string().min(1),
-    tenantName: z.string().min(1),
+    tenantName: z.string().min(1)
 })
 
 export const signup = createAction({ schema: signupSchema })
@@ -27,32 +24,32 @@ export const signup = createAction({ schema: signupSchema })
                     email,
                     password,
                     firstName,
-                    lastName,
+                    lastName
                 },
                 tenant: {
-                    name: tenantName,
-                },
+                    name: tenantName
+                }
             },
             dbClient,
-            dbTransaction,
+            dbTransaction
         })
 
         if (!result.data) {
-            throw new ApplicationError("unexpectedError")
+            throw new ApplicationError('unexpectedError')
         }
 
         const { user, tenant } = result.data
 
         if (!user || !tenant) {
-            throw new ApplicationError("unexpectedError")
+            throw new ApplicationError('unexpectedError')
         }
 
         return {
             email: user.email,
             firstName: user.userProfile.firstName,
             lastName: user.userProfile.lastName,
-            token: user.userTenant.invitationToken,
+            token: user.userTenant.invitationToken
         }
     })
 
-export type SignupResult = Awaited<ReturnType<typeof signup>>["data"]
+export type SignupResult = Awaited<ReturnType<typeof signup>>['data']

@@ -1,4 +1,4 @@
-import { logger } from "./logger"
+import { logger } from './logger'
 
 interface JobMetrics {
     jobName: string
@@ -19,7 +19,7 @@ class MetricsCollector {
             executionCount: 0,
             successCount: 0,
             failureCount: 0,
-            averageDuration: 0,
+            averageDuration: 0
         }
 
         existing.executionCount++
@@ -34,9 +34,7 @@ class MetricsCollector {
             }
         }
 
-        existing.averageDuration =
-            (existing.averageDuration * (existing.executionCount - 1) + duration) /
-            existing.executionCount
+        existing.averageDuration = (existing.averageDuration * (existing.executionCount - 1) + duration) / existing.executionCount
 
         existing.lastExecution = new Date()
 
@@ -54,18 +52,15 @@ class MetricsCollector {
     logMetrics() {
         const allMetrics = this.getMetrics() as JobMetrics[]
 
-        logger.info("Job execution metrics", {
-            metrics: allMetrics.map((m) => ({
+        logger.info('Job execution metrics', {
+            metrics: allMetrics.map(m => ({
                 jobName: m.jobName,
                 executionCount: m.executionCount,
-                successRate:
-                    m.executionCount > 0
-                        ? `${((m.successCount / m.executionCount) * 100).toFixed(2)}%`
-                        : "N/A",
+                successRate: m.executionCount > 0 ? `${((m.successCount / m.executionCount) * 100).toFixed(2)}%` : 'N/A',
                 averageDuration: Math.round(m.averageDuration),
                 lastExecution: m.lastExecution?.toISOString(),
-                lastError: m.lastError,
-            })),
+                lastError: m.lastError
+            }))
         })
     }
 

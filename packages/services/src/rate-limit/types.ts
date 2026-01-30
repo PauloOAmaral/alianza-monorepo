@@ -1,4 +1,4 @@
-export type RateLimitType = "login" | "password-reset" | "password-reset-ip"
+export type RateLimitType = 'login' | 'password-reset' | 'password-reset-ip'
 
 export interface RateLimitConfig {
     attempts: number

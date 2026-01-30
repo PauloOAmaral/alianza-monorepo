@@ -1,12 +1,12 @@
-import { createMainDbClient } from "@alianza/database/clients/main"
-import { z } from "zod"
-import { createAction } from "../../../action-builder"
-import { changePassword as baseChangePassword } from "../../base"
+import { createMainDbClient } from '@alianza/database/clients/main'
+import { z } from 'zod'
+import { createAction } from '../../../action-builder'
+import { changePassword as baseChangePassword } from '../../base'
 
 const changePasswordSchema = z.object({
     userId: z.string().min(1),
     currentPassword: z.string().min(1),
-    newPassword: z.string().min(1),
+    newPassword: z.string().min(1)
 })
 
 export const changePassword = createAction({ schema: changePasswordSchema })
@@ -18,7 +18,7 @@ export const changePassword = createAction({ schema: changePasswordSchema })
 
         const result = await baseChangePassword({
             data: { userId, currentPassword, newPassword },
-            dbClient: db,
+            dbClient: db
         })
 
         return result.data

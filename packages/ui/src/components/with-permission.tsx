@@ -1,7 +1,7 @@
-import type { ReactNode } from "react"
-import { createContext, useContext } from "react"
-import { Tooltip, TooltipTrigger } from "./ui/tooltip"
-import { ClientOnly, Slot } from "./utils"
+import type { ReactNode } from 'react'
+import { createContext, useContext } from 'react'
+import { Tooltip, TooltipTrigger } from './ui/tooltip'
+import { ClientOnly, Slot } from './utils'
 
 export interface PermissionContextType {
     errorMessageForPage: string
@@ -16,16 +16,12 @@ export interface PermissionProviderProps {
     children: ReactNode
 }
 
-export function PermissionProvider({
-    errorMessageForPage,
-    errorMessageForAction,
-    children,
-}: PermissionProviderProps) {
+export function PermissionProvider({ errorMessageForPage, errorMessageForAction, children }: PermissionProviderProps) {
     return (
         <PermissionContext.Provider
             value={{
                 errorMessageForPage,
-                errorMessageForAction,
+                errorMessageForAction
             }}
         >
             {children}
@@ -36,15 +32,15 @@ export function PermissionProvider({
 function usePermission() {
     const context = useContext(PermissionContext)
     if (!context) {
-        throw new Error("usePermission must be used within a PermissionProvider")
+        throw new Error('usePermission must be used within a PermissionProvider')
     }
     return context
 }
 
 export interface WithPermissionProps {
     hasPermission: boolean
-    type?: "page" | "action"
-    mode?: "tooltip" | "disabled" | "hide"
+    type?: 'page' | 'action'
+    mode?: 'tooltip' | 'disabled' | 'hide'
     children: ReactNode
 }
 
@@ -56,37 +52,32 @@ export interface WithPermissionProps {
  * @param children - The component to render.
  * @returns The component to render.
  */
-const WithPermission = ({
-    type = "action",
-    mode = "hide",
-    hasPermission,
-    children,
-}: WithPermissionProps) => {
+const WithPermission = ({ type = 'action', mode = 'hide', hasPermission, children }: WithPermissionProps) => {
     const { errorMessageForPage, errorMessageForAction } = usePermission()
-    const permissionMessage = type === "page" ? errorMessageForPage : errorMessageForAction
-    const isChildNavLink = (children as any)?.type?.displayName === "NavLink"
+    const permissionMessage = type === 'page' ? errorMessageForPage : errorMessageForAction
+    const isChildNavLink = (children as any)?.type?.displayName === 'NavLink'
 
     const childProps = {
         ...(isChildNavLink
             ? {
-                ...(hasPermission ? {} : { prefetch: "none", "aria-disabled": true }),
-                onClick: (e: React.MouseEvent<HTMLElement>) => e.preventDefault(),
-            }
-            : { isDisabled: !hasPermission }),
+                  ...(hasPermission ? {} : { prefetch: 'none', 'aria-disabled': true }),
+                  onClick: (e: React.MouseEvent<HTMLElement>) => e.preventDefault()
+              }
+            : { isDisabled: !hasPermission })
     }
 
     return (
         <ClientOnly>
             {() => {
-                if (!hasPermission && mode === "hide") {
+                if (!hasPermission && mode === 'hide') {
                     return null
                 }
 
-                if (!hasPermission && mode === "disabled") {
+                if (!hasPermission && mode === 'disabled') {
                     return <Slot {...childProps}>{children}</Slot>
                 }
 
-                if (!hasPermission && mode === "tooltip") {
+                if (!hasPermission && mode === 'tooltip') {
                     return (
                         <TooltipTrigger>
                             <Slot {...childProps}>{children}</Slot>
@@ -101,6 +92,6 @@ const WithPermission = ({
     )
 }
 
-WithPermission.displayName = "WithPermission"
+WithPermission.displayName = 'WithPermission'
 
 export { WithPermission }

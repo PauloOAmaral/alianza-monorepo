@@ -6,5 +6,5 @@ export {
     getWorkflowNodeTextColor,
     getWorkflowStatusColor,
     getWorkflowStatusInfo,
-    getWorkflowTextColor,
-} from "./sla"
+    getWorkflowTextColor
+} from './sla'

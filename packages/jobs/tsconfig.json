@@ -1,7 +1,4 @@
 {
     "extends": "@alianza/tsconfig/dom.json",
-    "include": [
-        "src/**/*",
-        "worker-configuration.d.ts"
-    ]
+    "include": ["src/**/*", "worker-configuration.d.ts"]
 }

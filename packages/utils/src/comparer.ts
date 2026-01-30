@@ -1,1 +1,1 @@
-export { dequal } from "dequal"
+export { dequal } from 'dequal'

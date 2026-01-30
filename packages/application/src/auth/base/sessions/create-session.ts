@@ -1,18 +1,18 @@
-import { nanoid } from "@alianza/database/nanoid"
-import { userSessions } from "@alianza/database/schemas/common"
-import type { AuthDatabaseClient, AuthDatabaseTransaction } from "@alianza/database/types/common"
-import { addSeconds } from "date-fns"
-import { z } from "zod"
-import { ENV } from "~/utils/env"
-import { createAction } from "../../../action-builder"
-import { ApplicationError } from "../../../error"
+import { nanoid } from '@alianza/database/nanoid'
+import { userSessions } from '@alianza/database/schemas/common'
+import type { AuthDatabaseClient, AuthDatabaseTransaction } from '@alianza/database/types/common'
+import { addSeconds } from 'date-fns'
+import { z } from 'zod'
+import { ENV } from '~/utils/env'
+import { createAction } from '../../../action-builder'
+import { ApplicationError } from '../../../error'
 
 const createSessionSchema = z.object({
     userId: z.string().min(1),
     currentTenantId: z.string().min(1),
     expiresAt: z.date().optional().nullable(),
     userAgent: z.string().nullable(),
-    ipAddress: z.string().nullable(),
+    ipAddress: z.string().nullable()
 })
 
 export const createSession = createAction({ schema: createSessionSchema })
@@ -23,7 +23,7 @@ export const createSession = createAction({ schema: createSessionSchema })
         const db = dbClient || dbTransaction
 
         if (!db) {
-            throw new ApplicationError("databaseNotFound")
+            throw new ApplicationError('databaseNotFound')
         }
 
         const expiresAt = data.expiresAt || addSeconds(new Date(), Number(ENV.SESSION_EXPIRATION))
@@ -35,12 +35,12 @@ export const createSession = createAction({ schema: createSessionSchema })
             currentTenantId,
             expiresAt,
             userAgent,
-            ipAddress,
+            ipAddress
         })
 
         return {
-            id: sessionId,
+            id: sessionId
         }
     })
 
-export type CreateSessionResult = Awaited<ReturnType<typeof createSession>>["data"]
+export type CreateSessionResult = Awaited<ReturnType<typeof createSession>>['data']

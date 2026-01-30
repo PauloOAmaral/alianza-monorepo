@@ -1,4 +1,4 @@
-import type { pt } from "./localization"
+import type { pt } from './localization'
 
 type ErrorCategories = {
     base: keyof typeof pt.errors.base
@@ -15,7 +15,7 @@ export class ApplicationError<T extends ErrorCategory = ErrorCategory> extends E
 
     constructor(code: ErrorCode<T> | ErrorCode<T>[], message?: string) {
         super()
-        this.name = "ApplicationError"
+        this.name = 'ApplicationError'
         this.codes = Array.isArray(code) ? code : [code]
 
         if (message) {

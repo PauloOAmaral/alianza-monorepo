@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState } from 'react'
 
 /**
  * Debounces a value with a configurable delay.
@@ -25,6 +25,6 @@ export function useDebounce<T>(initialValue: T, config: { delay?: number } = {})
     return {
         value,
         setValue,
-        debouncedValue,
+        debouncedValue
     }
 }

@@ -1,18 +1,15 @@
-import type {
-    AuthDatabaseClient,
-    AuthDatabaseTransaction,
-} from "@alianza/database/types/common"
-import { isAfter } from "date-fns"
-import { z } from "zod"
-import { createAction } from "../../../action-builder"
-import { ApplicationError } from "../../../error"
+import type { AuthDatabaseClient, AuthDatabaseTransaction } from '@alianza/database/types/common'
+import { isAfter } from 'date-fns'
+import { z } from 'zod'
+import { createAction } from '../../../action-builder'
+import { ApplicationError } from '../../../error'
 
 const validatePasswordResetTokenSchema = z.object({
-    token: z.string().min(1),
+    token: z.string().min(1)
 })
 
 export const validatePasswordResetToken = createAction({
-    schema: validatePasswordResetTokenSchema,
+    schema: validatePasswordResetTokenSchema
 })
     .withData()
     .withDatabase<AuthDatabaseClient, AuthDatabaseTransaction>()
@@ -21,14 +18,14 @@ export const validatePasswordResetToken = createAction({
         const db = dbClient || dbTransaction
 
         if (!db) {
-            throw new ApplicationError("databaseNotFound")
+            throw new ApplicationError('databaseNotFound')
         }
 
         const passwordReset = await db._query.userPasswordReset.findFirst({
             columns: {
                 id: true,
                 expiresAt: true,
-                usedAt: true,
+                usedAt: true
             },
             with: {
                 user: {
@@ -36,29 +33,26 @@ export const validatePasswordResetToken = createAction({
                     with: {
                         userTenantSamlProviders: {
                             columns: {
-                                id: true,
-                            },
-                        },
-                    },
-                },
+                                id: true
+                            }
+                        }
+                    }
+                }
             },
-            where: (userPasswordReset, { and, eq, isNull }) =>
-                and(eq(userPasswordReset.token, token), isNull(userPasswordReset.usedAt)),
+            where: (userPasswordReset, { and, eq, isNull }) => and(eq(userPasswordReset.token, token), isNull(userPasswordReset.usedAt))
         })
 
         if (!passwordReset) {
-            throw new ApplicationError("authPasswordResetNotFoundOrExpired")
+            throw new ApplicationError('authPasswordResetNotFoundOrExpired')
         }
 
         if (isAfter(new Date(), passwordReset.expiresAt)) {
-            throw new ApplicationError("authPasswordResetNotFoundOrExpired")
+            throw new ApplicationError('authPasswordResetNotFoundOrExpired')
         }
 
         if (passwordReset.user.userTenantSamlProviders.length > 0) {
-            throw new ApplicationError("authDomainConfiguredForSaml")
+            throw new ApplicationError('authDomainConfiguredForSaml')
         }
     })
 
-export type ValidatePasswordResetTokenResult = Awaited<
-    ReturnType<typeof validatePasswordResetToken>
->["data"]
+export type ValidatePasswordResetTokenResult = Awaited<ReturnType<typeof validatePasswordResetToken>>['data']

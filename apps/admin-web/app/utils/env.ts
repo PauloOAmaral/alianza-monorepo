@@ -1,4 +1,4 @@
-import z from "zod";
+import z from 'zod'
 
 const envSchema = z.object({
     APP_EMAIL_FROM: z.string(),
@@ -21,7 +21,7 @@ const envSchema = z.object({
     DATABASE_URL: z.string(),
     MAIN_POOL_DATABASE_URL: z.string(),
     MAIN_DIRECT_DATABASE_URL: z.string(),
-    NODE_ENV: z.enum(["development", "test", "production"]).default("development"),
+    NODE_ENV: z.enum(['development', 'test', 'production']).default('development'),
     GOOGLE_PLACES_API_KEY: z.string(),
     GOOGLE_PLACES_PROJECT_ID: z.string(),
     I18NEXT_COOKIE_NAME: z.string(),
@@ -32,7 +32,7 @@ const envSchema = z.object({
     SESSION_REFRESH_THRESHOLD: z.string(),
     SESSION_EXPIRATION: z.string(),
     TOKEN_ENCRYPTION_KEY: z.string(),
-    VALUE_FROM_CLOUDFLARE: z.string(),
-});
+    VALUE_FROM_CLOUDFLARE: z.string()
+})
 
-export const ENV = envSchema.parse(process.env);
+export const ENV = envSchema.parse(process.env)

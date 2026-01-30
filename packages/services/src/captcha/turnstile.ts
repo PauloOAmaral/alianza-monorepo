@@ -1,16 +1,16 @@
-import { ENV } from "~/utils/env"
+import { ENV } from '~/utils/env'
 
 export async function validateTurnstile(response: string) {
     try {
         const validationResponse = await fetch(ENV.CLOUDFLARE_TURNSTILE_VERIFY_URL, {
-            method: "POST",
+            method: 'POST',
             headers: {
-                "Content-Type": "application/json",
+                'Content-Type': 'application/json'
             },
             body: JSON.stringify({
                 secret: ENV.CLOUDFLARE_TURNSTILE_SECRET_KEY,
-                response,
-            }),
+                response
+            })
         })
 
         return validationResponse.json() as Promise<{ success: boolean }>

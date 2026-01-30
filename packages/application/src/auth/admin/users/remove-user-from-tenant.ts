@@ -1,11 +1,11 @@
-import { createMainDbClient } from "@alianza/database/clients/main"
-import { z } from "zod"
-import { createAction } from "../../../action-builder"
-import { removeUserFromTenant as baseRemoveUserFromTenant } from "../../base"
+import { createMainDbClient } from '@alianza/database/clients/main'
+import { z } from 'zod'
+import { createAction } from '../../../action-builder'
+import { removeUserFromTenant as baseRemoveUserFromTenant } from '../../base'
 
 const removeUserFromTenantSchema = z.object({
     userId: z.string().min(1),
-    tenantId: z.string().min(1),
+    tenantId: z.string().min(1)
 })
 
 export const removeUserFromTenant = createAction({ schema: removeUserFromTenantSchema })
@@ -17,7 +17,7 @@ export const removeUserFromTenant = createAction({ schema: removeUserFromTenantS
         const result = await baseRemoveUserFromTenant({
             data,
             session,
-            dbClient: db,
+            dbClient: db
         })
 
         return result.data

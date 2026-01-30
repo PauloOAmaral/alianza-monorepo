@@ -1,4 +1,4 @@
-import { ENV } from "~/utils/env"
+import { ENV } from '~/utils/env'
 import type {
     Address,
     AddressComponent,
@@ -9,28 +9,26 @@ import type {
     GetPlaceRequest,
     PlacePrediction,
     PlaceResponse,
-    Suggestion,
-} from "./places.types"
-import { formatAddressLine } from "./places.utils"
+    Suggestion
+} from './places.types'
+import { formatAddressLine } from './places.utils'
 
-function isValidSuggestion(
-    suggestion: Suggestion,
-): suggestion is Suggestion & { placePrediction: PlacePrediction } {
+function isValidSuggestion(suggestion: Suggestion): suggestion is Suggestion & { placePrediction: PlacePrediction } {
     return Boolean(suggestion.placePrediction?.placeId && suggestion.placePrediction?.text?.text)
 }
 
 export async function autocomplete(data: AutocompletePlacesRequest): Promise<AutocompleteResult[]> {
     const { input, regionCode, includedRegionCodes, languageCode } = data
 
-    const url = "https://places.googleapis.com/v1/places:autocomplete"
+    const url = 'https://places.googleapis.com/v1/places:autocomplete'
 
     const headers = {
-        "Content-Type": "application/json",
-        "X-Goog-Api-Key": ENV.GOOGLE_PLACES_API_KEY!,
+        'Content-Type': 'application/json',
+        'X-Goog-Api-Key': ENV.GOOGLE_PLACES_API_KEY!
     }
 
     const body: any = {
-        input,
+        input
     }
 
     if (regionCode) {
@@ -46,9 +44,9 @@ export async function autocomplete(data: AutocompletePlacesRequest): Promise<Aut
     }
 
     const response = await fetch(url, {
-        method: "POST",
+        method: 'POST',
         headers,
-        body: JSON.stringify(body),
+        body: JSON.stringify(body)
     })
 
     if (!response.ok) {
@@ -58,9 +56,9 @@ export async function autocomplete(data: AutocompletePlacesRequest): Promise<Aut
     const result = (await response.json()) as AutocompleteResponse
 
     return (
-        result.suggestions?.filter(isValidSuggestion).map((suggestion) => ({
+        result.suggestions?.filter(isValidSuggestion).map(suggestion => ({
             id: suggestion.placePrediction.placeId,
-            place: suggestion.placePrediction.text.text,
+            place: suggestion.placePrediction.text.text
         })) || []
     )
 }
@@ -71,25 +69,25 @@ export async function getPlace(data: GetPlaceRequest): Promise<Address> {
     const params = new URLSearchParams()
 
     if (languageCode) {
-        params.append("languageCode", languageCode)
+        params.append('languageCode', languageCode)
     }
 
     if (regionCode) {
-        params.append("regionCode", regionCode)
+        params.append('regionCode', regionCode)
     }
 
-    const queryString = params.size > 0 ? `?${params.toString()}` : ""
+    const queryString = params.size > 0 ? `?${params.toString()}` : ''
 
     const url = `https://places.googleapis.com/v1/places/${name}${queryString}`
 
     const headers = {
-        "X-Goog-Api-Key": ENV.GOOGLE_PLACES_API_KEY!,
-        "X-Goog-FieldMask": "*",
+        'X-Goog-Api-Key': ENV.GOOGLE_PLACES_API_KEY!,
+        'X-Goog-FieldMask': '*'
     }
 
     const response = await fetch(url, {
-        method: "GET",
-        headers,
+        method: 'GET',
+        headers
     })
 
     if (!response.ok) {
@@ -99,11 +97,11 @@ export async function getPlace(data: GetPlaceRequest): Promise<Address> {
     const result = (await response.json()) as PlaceResponse
 
     if (!result) {
-        throw new Error("No place data returned from Google Places API")
+        throw new Error('No place data returned from Google Places API')
     }
 
     if (!result.addressComponents || !Array.isArray(result.addressComponents)) {
-        throw new Error("No address components found in Google Places API response")
+        throw new Error('No address components found in Google Places API response')
     }
 
     const address: Address = {
@@ -119,64 +117,64 @@ export async function getPlace(data: GetPlaceRequest): Promise<Address> {
         address_line_2: undefined,
         formatted_address: result.formattedAddress || undefined,
         latitude: result.location?.latitude?.toString() ?? undefined,
-        longitude: result.location?.longitude?.toString() ?? undefined,
+        longitude: result.location?.longitude?.toString() ?? undefined
     }
 
-    let streetNumber = ""
-    let route = ""
+    let streetNumber = ''
+    let route = ''
 
     const addressComponentMap: Record<string, AddressComponentMapping> = {
         country: {
-            types: ["country"],
+            types: ['country'],
             setter: (component: AddressComponent) => {
                 address.country = component.longText
                 address.country_code = component.shortText
-            },
+            }
         },
         state: {
-            types: ["administrative_area_level_1"],
+            types: ['administrative_area_level_1'],
             setter: (component: AddressComponent) => {
                 address.state = component.longText
                 address.state_code = component.shortText
-            },
+            }
         },
         postal_code: {
-            types: ["postal_code"],
+            types: ['postal_code'],
             setter: (component: AddressComponent) => {
                 address.postal_code = component.longText
-            },
+            }
         },
         city: {
-            types: ["administrative_area_level_2", "locality", "postal_town"],
+            types: ['administrative_area_level_2', 'locality', 'postal_town'],
             setter: (component: AddressComponent) => {
                 address.city = address.city || component.longText
-            },
+            }
         },
         suburb: {
-            types: ["sublocality", "sublocality_level_1", "neighborhood"],
+            types: ['sublocality', 'sublocality_level_1', 'neighborhood'],
             setter: (component: AddressComponent) => {
                 address.suburb = address.suburb || component.longText
-            },
+            }
         },
         route: {
-            types: ["route"],
+            types: ['route'],
             setter: (component: AddressComponent) => {
                 route = component.longText
-            },
+            }
         },
         street_number: {
-            types: ["street_number"],
+            types: ['street_number'],
             setter: (component: AddressComponent) => {
                 streetNumber = component.longText
-            },
-        },
+            }
+        }
     }
 
     for (const component of result.addressComponents) {
         const types = component.types || []
 
         for (const [_, mapping] of Object.entries(addressComponentMap)) {
-            if (mapping.types.some((type) => types.includes(type))) {
+            if (mapping.types.some(type => types.includes(type))) {
                 mapping.setter(component)
                 break
             }

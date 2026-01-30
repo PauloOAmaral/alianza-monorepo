@@ -1,10 +1,10 @@
-import { createMainDbClient } from "@alianza/database/clients/main"
-import { z } from "zod"
-import { createAction } from "../../../action-builder"
-import { getUserByInvitationToken as baseGetUserByInvitationToken } from "../../base"
+import { createMainDbClient } from '@alianza/database/clients/main'
+import { z } from 'zod'
+import { createAction } from '../../../action-builder'
+import { getUserByInvitationToken as baseGetUserByInvitationToken } from '../../base'
 
 const getUserByInvitationTokenSchema = z.object({
-    token: z.string().min(1),
+    token: z.string().min(1)
 })
 
 export const getUserByInvitationToken = createAction({ schema: getUserByInvitationTokenSchema })

@@ -1,12 +1,12 @@
-import { and, eq, gt, sql } from "@alianza/database/drizzle"
-import { userSessions } from "@alianza/database/schemas/common"
-import type { AuthDatabaseClient, AuthDatabaseTransaction } from "@alianza/database/types/common"
-import { addSeconds } from "date-fns"
-import { z } from "zod"
-import { createAction } from "~/action-builder"
-import { shouldRefreshSession } from "~/auth/utils"
-import { ApplicationError } from "~/error"
-import { ENV } from "~/utils/env"
+import { and, eq, gt, sql } from '@alianza/database/drizzle'
+import { userSessions } from '@alianza/database/schemas/common'
+import type { AuthDatabaseClient, AuthDatabaseTransaction } from '@alianza/database/types/common'
+import { addSeconds } from 'date-fns'
+import { z } from 'zod'
+import { createAction } from '~/action-builder'
+import { shouldRefreshSession } from '~/auth/utils'
+import { ApplicationError } from '~/error'
+import { ENV } from '~/utils/env'
 
 async function getUserSessionQuery(db: AuthDatabaseClient, sessionId: string) {
     return db._query.userSessions.findFirst({
@@ -18,25 +18,25 @@ async function getUserSessionQuery(db: AuthDatabaseClient, sessionId: string) {
             ipAddress: true,
             expiresAt: true,
             createdAt: true,
-            updatedAt: true,
+            updatedAt: true
         },
         with: {
             user: {
                 columns: {
                     id: true,
-                    email: true,
+                    email: true
                 },
                 with: {
                     userProfile: {
                         columns: {
                             firstName: true,
-                            lastName: true,
+                            lastName: true
                         },
                         extras(fields) {
                             return {
                                 fullName: sql<string>`
                                     CONCAT(${fields.firstName}, ' ', ${fields.lastName})
-                                `.as("fullName"),
+                                `.as('fullName')
                             }
                         },
                         with: {
@@ -50,44 +50,44 @@ async function getUserSessionQuery(db: AuthDatabaseClient, sessionId: string) {
                                               THEN CONCAT('${sql.raw(ENV.CDN_BASE_URL)}','/width=160,height=160,quality=80/', ${fields.path})
                                               ELSE NULL
                                             END
-                                        `.as("url"),
+                                        `.as('url')
                                     }
-                                },
-                            },
-                        },
+                                }
+                            }
+                        }
                     },
                     userTenantSamlProviders: {
                         columns: {
-                            id: true,
-                        },
+                            id: true
+                        }
                     },
                     userTenants: {
                         columns: {
                             id: true,
-                            tenantId: true,
-                        },
-                    },
-                },
+                            tenantId: true
+                        }
+                    }
+                }
             },
             currentTenant: {
                 columns: {
-                    id: true,
+                    id: true
                 },
                 with: {
                     tenantProfile: {
                         columns: {
                             name: true,
-                            legalName: true,
-                        },
-                    },
-                },
-            },
+                            legalName: true
+                        }
+                    }
+                }
+            }
         },
-        where: and(eq(userSessions.id, sessionId), gt(userSessions.expiresAt, new Date())),
+        where: and(eq(userSessions.id, sessionId), gt(userSessions.expiresAt, new Date()))
     })
 }
 const getSessionSchema = z.object({
-    sessionId: z.string().min(1),
+    sessionId: z.string().min(1)
 })
 
 export const getSession = createAction({ schema: getSessionSchema })
@@ -98,13 +98,13 @@ export const getSession = createAction({ schema: getSessionSchema })
         const db = dbClient || dbTransaction
 
         if (!db) {
-            throw new ApplicationError("databaseNotFound")
+            throw new ApplicationError('databaseNotFound')
         }
 
         let session = await getUserSessionQuery(db, sessionId)
 
         if (!session) {
-            throw new ApplicationError("commonNotFound")
+            throw new ApplicationError('commonNotFound')
         }
 
         if (shouldRefreshSession(session.expiresAt)) {
@@ -115,16 +115,14 @@ export const getSession = createAction({ schema: getSessionSchema })
             session = await getUserSessionQuery(db, sessionId)
 
             if (!session) {
-                throw new ApplicationError("commonNotFound")
+                throw new ApplicationError('commonNotFound')
             }
         }
 
-        const userTenantId = session.user.userTenants.find(
-            (ut) => ut.tenantId === session.currentTenantId,
-        )?.id
+        const userTenantId = session.user.userTenants.find(ut => ut.tenantId === session.currentTenantId)?.id
 
         if (!userTenantId) {
-            throw new ApplicationError("authUserHasNoTenant")
+            throw new ApplicationError('authUserHasNoTenant')
         }
 
         return {
@@ -142,14 +140,14 @@ export const getSession = createAction({ schema: getSessionSchema })
                 lastName: session.user.userProfile.lastName,
                 fullName: session.user.userProfile.fullName,
                 avatar: session.user.userProfile.avatar,
-                isSsoLogin: session.user.userTenantSamlProviders.length > 0,
+                isSsoLogin: session.user.userTenantSamlProviders.length > 0
             },
             currentTenant: {
                 id: session.currentTenant.id,
                 name: session.currentTenant.tenantProfile.name,
-                legalName: session.currentTenant.tenantProfile.legalName,
-            },
+                legalName: session.currentTenant.tenantProfile.legalName
+            }
         }
     })
 
-export type BaseUserSession = Awaited<ReturnType<typeof getSession>>["data"]
+export type BaseUserSession = Awaited<ReturnType<typeof getSession>>['data']

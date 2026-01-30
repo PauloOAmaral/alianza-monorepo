@@ -1,5 +1,5 @@
-import type { UserSession } from "@alianza/application/auth/carrefour"
-import { requireSession } from "~/middleware/session-middleware"
+import type { UserSession } from '@alianza/application/auth/carrefour'
+import { requireSession } from '~/middleware/session-middleware'
 
 type BaseRequest = {
     request: Request
@@ -20,7 +20,7 @@ class RequestBuilder<TContext extends BaseRequest> {
         this.context.request = request
 
         if (data !== undefined) {
-            ; (this.context as any).data = data
+            ;(this.context as any).data = data
         }
     }
 
@@ -28,7 +28,7 @@ class RequestBuilder<TContext extends BaseRequest> {
         return new Proxy(this, {
             get: (target, prop) => {
                 // métodos do builder
-                if (prop in target && typeof (target as any)[prop] === "function") {
+                if (prop in target && typeof (target as any)[prop] === 'function') {
                     return (target as any)[prop].bind(target)
                 }
 
@@ -43,10 +43,10 @@ class RequestBuilder<TContext extends BaseRequest> {
                     return {
                         enumerable: true,
                         configurable: true,
-                        value: (this.context as any)[prop],
+                        value: (this.context as any)[prop]
                     }
                 }
-            },
+            }
         }) as unknown as T
     }
 
@@ -57,26 +57,16 @@ class RequestBuilder<TContext extends BaseRequest> {
         const request = this.context.request!
         this.context.session = await requireSession(request)
 
-        return this.createProxy<
-            TContext & WithSession & RequestBuilder<TContext & WithSession>
-        >()
+        return this.createProxy<TContext & WithSession & RequestBuilder<TContext & WithSession>>()
     }
 }
 
+export function createRequest<T>(request: Request, data: T): BaseRequest & WithData<T> & RequestBuilder<BaseRequest & WithData<T>>
 
-export function createRequest<T>(
-    request: Request,
-    data: T,
-): BaseRequest &
-    WithData<T> &
-    RequestBuilder<BaseRequest & WithData<T>>
-
-export function createRequest(
-    request: Request,
-): BaseRequest & RequestBuilder<BaseRequest>
+export function createRequest(request: Request): BaseRequest & RequestBuilder<BaseRequest>
 
 export function createRequest<T>(request: Request, data?: T) {
     const builder = new RequestBuilder(request, data)
 
-    return builder["createProxy"]() as any
+    return builder['createProxy']() as any
 }

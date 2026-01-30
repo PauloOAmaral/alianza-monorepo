@@ -4,5 +4,5 @@ export type {
     FileMetadata,
     FileStorage,
     ListOptions,
-    ListResult,
-} from "@mjackson/file-storage"
+    ListResult
+} from '@mjackson/file-storage'

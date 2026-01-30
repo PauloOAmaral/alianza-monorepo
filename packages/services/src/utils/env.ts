@@ -1,4 +1,4 @@
-import z from "zod";
+import z from 'zod'
 
 const envSchema = z.object({
     CLOUDFLARE_ACCOUNT_ID: z.string(),
@@ -9,7 +9,7 @@ const envSchema = z.object({
     CLOUDFLARE_TURNSTILE_SECRET_KEY: z.string(),
     CLOUDFLARE_TURNSTILE_VERIFY_URL: z.string(),
     GOOGLE_PLACES_API_KEY: z.string(),
-    RESEND_API_KEY: z.string(),
-});
+    RESEND_API_KEY: z.string()
+})
 
-export const ENV = envSchema.parse(process.env);
+export const ENV = envSchema.parse(process.env)

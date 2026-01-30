@@ -1,4 +1,4 @@
-import type { RateLimitConfig, RateLimitType } from "./types"
+import type { RateLimitConfig, RateLimitType } from './types'
 
 /**
  * Rate limit configurations following OWASP 2025 security standards.
@@ -17,14 +17,14 @@ export const RATE_LIMIT_CONFIGS: Record<RateLimitType, RateLimitConfig[]> = {
     login: [
         { attempts: 5, windowMinutes: 15, lockoutMinutes: 15 },
         { attempts: 10, windowMinutes: 60, lockoutMinutes: 60 },
-        { attempts: 15, windowMinutes: 1440, lockoutMinutes: 1440 },
+        { attempts: 15, windowMinutes: 1440, lockoutMinutes: 1440 }
     ],
-    "password-reset": [
+    'password-reset': [
         { attempts: 3, windowMinutes: 15, lockoutMinutes: 15 },
-        { attempts: 5, windowMinutes: 60, lockoutMinutes: 60 },
+        { attempts: 5, windowMinutes: 60, lockoutMinutes: 60 }
     ],
-    "password-reset-ip": [
+    'password-reset-ip': [
         { attempts: 10, windowMinutes: 15, lockoutMinutes: 15 },
-        { attempts: 30, windowMinutes: 60, lockoutMinutes: 60 },
-    ],
+        { attempts: 30, windowMinutes: 60, lockoutMinutes: 60 }
+    ]
 }

@@ -1,12 +1,12 @@
-import { createMainDbClient } from "@alianza/database/clients/main"
-import { getUserInformationFromRequest } from "@alianza/utils/headers"
-import { z } from "zod"
-import { createAction } from "../../../action-builder"
-import { confirmSignup as baseConfirmSignup, createSession as baseCreateSession } from "../../base"
-import { getCachedSession } from "../_shared"
+import { createMainDbClient } from '@alianza/database/clients/main'
+import { getUserInformationFromRequest } from '@alianza/utils/headers'
+import { z } from 'zod'
+import { createAction } from '../../../action-builder'
+import { confirmSignup as baseConfirmSignup, createSession as baseCreateSession } from '../../base'
+import { getCachedSession } from '../_shared'
 
 const confirmSignupSchema = z.object({
-    token: z.string().min(1),
+    token: z.string().min(1)
 })
 
 export const confirmSignup = createAction({ schema: confirmSignupSchema })
@@ -19,7 +19,7 @@ export const confirmSignup = createAction({ schema: confirmSignupSchema })
 
         const result = await baseConfirmSignup({
             data: { token },
-            dbClient: db,
+            dbClient: db
         })
 
         const { userAgent, ipAddress } = getUserInformationFromRequest(request.headers)
@@ -29,13 +29,13 @@ export const confirmSignup = createAction({ schema: confirmSignupSchema })
                 userId: result.data.userId,
                 currentTenantId: result.data.currentTenantId,
                 userAgent,
-                ipAddress,
+                ipAddress
             },
-            dbClient: db,
+            dbClient: db
         })
 
         const session = await getCachedSession({
-            data: { sessionId: userSession.data.id },
+            data: { sessionId: userSession.data.id }
         })
 
         return session.data

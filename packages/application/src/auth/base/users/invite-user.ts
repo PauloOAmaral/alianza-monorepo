@@ -1,16 +1,13 @@
-import type {
-    AuthDatabaseClient,
-    AuthDatabaseTransaction,
-} from "@alianza/database/types/common"
-import { z } from "zod"
-import { createAction } from "../../../action-builder"
-import { ApplicationError } from "../../../error"
-import { addUserToTenant } from "./add-user-to-tenant"
+import type { AuthDatabaseClient, AuthDatabaseTransaction } from '@alianza/database/types/common'
+import { z } from 'zod'
+import { createAction } from '../../../action-builder'
+import { ApplicationError } from '../../../error'
+import { addUserToTenant } from './add-user-to-tenant'
 
 const inviteUserSchema = z.object({
     email: z.string().min(1),
     tenantId: z.string().min(1),
-    permissionGroupIds: z.array(z.string()),
+    permissionGroupIds: z.array(z.string())
 })
 
 export const inviteUser = createAction({ schema: inviteUserSchema })
@@ -23,16 +20,16 @@ export const inviteUser = createAction({ schema: inviteUserSchema })
             data: {
                 email,
                 tenantId,
-                permissionGroupIds,
+                permissionGroupIds
             },
             dbClient,
-            dbTransaction,
+            dbTransaction
         })
 
         const createdUser = result.data
 
         if (!createdUser.userTenant.invitationToken) {
-            throw new ApplicationError("unexpectedError")
+            throw new ApplicationError('unexpectedError')
         }
 
         return {
@@ -40,8 +37,8 @@ export const inviteUser = createAction({ schema: inviteUserSchema })
             tenantName: createdUser.userTenant.tenant.tenantProfile.name,
             email: createdUser.email,
             firstName: createdUser.userProfile.firstName,
-            lastName: createdUser.userProfile.lastName,
+            lastName: createdUser.userProfile.lastName
         }
     })
 
-export type InviteUserResult = Awaited<ReturnType<typeof inviteUser>>["data"]
+export type InviteUserResult = Awaited<ReturnType<typeof inviteUser>>['data']

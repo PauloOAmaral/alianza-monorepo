@@ -1,4 +1,4 @@
-import { format } from "date-fns"
+import { format } from 'date-fns'
 
 /**
  * Substitui os X no formato AAAAXXXXXX pelo ID fornecido.
@@ -12,14 +12,12 @@ import { format } from "date-fns"
  * replaceRegistrationCodePlaceholder("TESTXXXXXX", "1") // "TEST000001"
  * replaceRegistrationCodePlaceholder("INVALID", "123") // "INVALID"
  */
-export function replaceRegistrationCodePlaceholder(
-    instanceId: string | number,
-): string | undefined {
+export function replaceRegistrationCodePlaceholder(instanceId: string | number): string | undefined {
     const date = new Date()
 
-    const registrationCode = `${format(date, "yyyy")}XXXXXX`
+    const registrationCode = `${format(date, 'yyyy')}XXXXXX`
 
-    const instanceIdStr = instanceId.toString().padStart(6, "0")
+    const instanceIdStr = instanceId.toString().padStart(6, '0')
 
     return registrationCode.replace(/X{6}/i, instanceIdStr)
 }

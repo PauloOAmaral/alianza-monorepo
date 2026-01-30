@@ -1,30 +1,22 @@
-import { dequal } from "@alianza/utils/comparer"
-import {
-    createContext,
-    createCookieSessionStorage,
-    type MiddlewareFunction,
-    type RouterContextProvider,
-    type Session,
-} from "react-router"
-import { ENV } from "~/utils/env"
+import { dequal } from '@alianza/utils/comparer'
+import { createContext, createCookieSessionStorage, type MiddlewareFunction, type RouterContextProvider, type Session } from 'react-router'
+import { ENV } from '~/utils/env'
 
 const cookieStorage = createCookieSessionStorage({
     cookie: {
         name: ENV.COOKIE_NAME,
         httpOnly: true,
         maxAge: Number.parseInt(ENV.COOKIE_MAX_AGE, 10),
-        path: "/",
-        sameSite: "lax",
-        secrets: ENV.COOKIE_SECRET.split(","),
-        secure: ENV.NODE_ENV === "production",
-    },
+        path: '/',
+        sameSite: 'lax',
+        secrets: ENV.COOKIE_SECRET.split(','),
+        secure: ENV.NODE_ENV === 'production'
+    }
 })
 
 export const cookieContext = createContext<Session | null>(null)
 
-function getCookie(
-    context: Readonly<RouterContextProvider> | RouterContextProvider,
-): Session | null {
+function getCookie(context: Readonly<RouterContextProvider> | RouterContextProvider): Session | null {
     return context.get(cookieContext)
 }
 
@@ -37,7 +29,7 @@ function shouldCommitCookie(prev: any, current: any): boolean {
 }
 
 const cookieMiddleware: MiddlewareFunction<Response> = async ({ request, context }, next) => {
-    const cookie = await cookieStorage.getSession(request.headers.get("Cookie"))
+    const cookie = await cookieStorage.getSession(request.headers.get('Cookie'))
 
     context.set(cookieContext, cookie)
 
@@ -46,20 +38,15 @@ const cookieMiddleware: MiddlewareFunction<Response> = async ({ request, context
     const currentData = structuredClone(cookie.data)
 
     if (shouldDestroyCookie(initialData, currentData)) {
-        response.headers.append("Set-Cookie", await cookieStorage.destroySession(cookie))
+        response.headers.append('Set-Cookie', await cookieStorage.destroySession(cookie))
     } else if (shouldCommitCookie(initialData, currentData)) {
-        response.headers.append("Set-Cookie", await cookieStorage.commitSession(cookie))
+        response.headers.append('Set-Cookie', await cookieStorage.commitSession(cookie))
     }
 
     return response
 }
 
-function setCookieValue(
-    context: Readonly<RouterContextProvider> | RouterContextProvider,
-    key: string,
-    value: string,
-    isFlashSession?: boolean,
-): void {
+function setCookieValue(context: Readonly<RouterContextProvider> | RouterContextProvider, key: string, value: string, isFlashSession?: boolean): void {
     const cookie = getCookie(context)
 
     if (isFlashSession) {
@@ -69,19 +56,13 @@ function setCookieValue(
     }
 }
 
-function getCookieValue(
-    context: Readonly<RouterContextProvider> | RouterContextProvider,
-    key: string,
-): string | undefined {
+function getCookieValue(context: Readonly<RouterContextProvider> | RouterContextProvider, key: string): string | undefined {
     const cookie = getCookie(context)
 
     return cookie?.get(key)
 }
 
-function clearCookieValue(
-    context: Readonly<RouterContextProvider> | RouterContextProvider,
-    key: string,
-): void {
+function clearCookieValue(context: Readonly<RouterContextProvider> | RouterContextProvider, key: string): void {
     const cookie = getCookie(context)
 
     cookie?.unset(key)

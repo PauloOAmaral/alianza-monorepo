@@ -1,12 +1,12 @@
-import { createMainDbClient } from "@alianza/database/clients/main"
-import { getUserInformationFromRequest } from "@alianza/utils/headers"
-import { z } from "zod"
-import { createAction } from "../../../action-builder"
-import { createSession as baseCreateSession, login as baseLogin } from "../../base"
+import { createMainDbClient } from '@alianza/database/clients/main'
+import { getUserInformationFromRequest } from '@alianza/utils/headers'
+import { z } from 'zod'
+import { createAction } from '../../../action-builder'
+import { createSession as baseCreateSession, login as baseLogin } from '../../base'
 
 const loginSchema = z.object({
     email: z.email(),
-    password: z.string().min(1),
+    password: z.string().min(1)
 })
 
 export const login = createAction({ schema: loginSchema })
@@ -26,9 +26,9 @@ export const login = createAction({ schema: loginSchema })
                 userId: loginResult.data.userId,
                 currentTenantId: loginResult.data.currentTenantId,
                 userAgent,
-                ipAddress,
+                ipAddress
             },
-            dbClient: db,
+            dbClient: db
         })
 
         return session.data

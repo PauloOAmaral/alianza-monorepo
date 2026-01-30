@@ -1,15 +1,15 @@
 {
-  "permissions": {
-    "allow": [
-      "Bash(npx tsx scripts/simple-convert.ts)",
-      "Bash(npx tsx)",
-      "Bash(node scripts/convert.mjs:*)",
-      "Bash(node scripts/full-convert.mjs:*)",
-      "Bash(ls:*)",
-      "Bash(npx tsc:*)",
-      "Bash(npx drizzle-kit push:*)",
-      "Bash(grep:*)",
-      "Bash(node scripts/final-convert.mjs:*)"
-    ]
-  }
+    "permissions": {
+        "allow": [
+            "Bash(npx tsx scripts/simple-convert.ts)",
+            "Bash(npx tsx)",
+            "Bash(node scripts/convert.mjs:*)",
+            "Bash(node scripts/full-convert.mjs:*)",
+            "Bash(ls:*)",
+            "Bash(npx tsc:*)",
+            "Bash(npx drizzle-kit push:*)",
+            "Bash(grep:*)",
+            "Bash(node scripts/final-convert.mjs:*)"
+        ]
+    }
 }

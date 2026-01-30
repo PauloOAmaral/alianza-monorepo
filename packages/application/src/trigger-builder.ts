@@ -1,4 +1,4 @@
-import type { BaseUserSession } from "./auth/base"
+import type { BaseUserSession } from './auth/base'
 
 interface BaseTriggerRequest {
     // Base trigger request interface - keeping this interface for future extensibility
@@ -31,17 +31,13 @@ class TriggerBuilder<TContext = BaseTriggerRequest> {
     /**
      * Build the final trigger function
      */
-    build<TResult>(
-        triggerFn: TContext extends DataTriggerRequest<any>
-            ? (request: TContext) => Promise<TResult>
-            : (request: TContext) => Promise<TResult>,
-    ) {
+    build<TResult>(triggerFn: TContext extends DataTriggerRequest<any> ? (request: TContext) => Promise<TResult> : (request: TContext) => Promise<TResult>) {
         return async (request: TContext): Promise<TResult | undefined> => {
             try {
                 return await triggerFn(request)
             } catch (error) {
                 // Ignore errors - triggers should not fail main operations
-                console.warn("Application trigger error:", error)
+                console.warn('Application trigger error:', error)
 
                 return undefined
             }
