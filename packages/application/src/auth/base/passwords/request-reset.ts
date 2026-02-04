@@ -53,11 +53,6 @@ export const requestPasswordReset = createAction({ schema: requestPasswordResetS
                         firstName: true,
                         lastName: true
                     }
-                },
-                userTenantSamlProviders: {
-                    columns: {
-                        id: true
-                    }
                 }
             },
             where: (users, { eq }) => eq(users.email, email)
@@ -73,15 +68,8 @@ export const requestPasswordReset = createAction({ schema: requestPasswordResetS
             throw new ApplicationError('authUserNotFound')
         }
 
-        if (user.userTenantSamlProviders.length) {
-            await recordAttempt('password-reset', email)
-
-            if (normalizedIp) {
-                await recordAttempt('password-reset-ip', normalizedIp)
-            }
-
-            throw new ApplicationError('authDomainConfiguredForSaml')
-        }
+        // TODO: re-enable when userTenantSamlProviders table/relation exists
+        // if (user.userTenantSamlProviders.length) { ... throw new ApplicationError('authDomainConfiguredForSaml') }
 
         await recordAttempt('password-reset', email)
 

@@ -28,13 +28,11 @@ export const validatePasswordResetToken = createAction({
                 usedAt: true
             },
             with: {
-                user: {
+                userTenant: {
                     columns: {},
                     with: {
-                        userTenantSamlProviders: {
-                            columns: {
-                                id: true
-                            }
+                        user: {
+                            columns: {}
                         }
                     }
                 }
@@ -50,9 +48,8 @@ export const validatePasswordResetToken = createAction({
             throw new ApplicationError('authPasswordResetNotFoundOrExpired')
         }
 
-        if (passwordReset.user.userTenantSamlProviders.length > 0) {
-            throw new ApplicationError('authDomainConfiguredForSaml')
-        }
+        // TODO: re-enable when userTenantSamlProviders table/relation exists
+        // if (passwordReset.userTenant.user?.userTenantSamlProviders?.length) { throw new ApplicationError('authDomainConfiguredForSaml') }
     })
 
 export type ValidatePasswordResetTokenResult = Awaited<ReturnType<typeof validatePasswordResetToken>>['data']

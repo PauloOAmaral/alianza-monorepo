@@ -28,22 +28,12 @@ export const changePassword = createAction({ schema: changePasswordSchema })
                 id: true,
                 password: true
             },
-            with: {
-                userTenantSamlProviders: {
-                    columns: {
-                        id: true
-                    }
-                }
-            },
+            with: {},
             where: (users, { eq }) => eq(users.id, userId)
         })
 
         if (!user) {
             throw new ApplicationError('authUserNotFound')
-        }
-
-        if (user.userTenantSamlProviders.length) {
-            throw new ApplicationError('authDomainConfiguredForSaml')
         }
 
         if (!user.password) {

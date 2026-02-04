@@ -44,11 +44,6 @@ export const login = createAction({ schema: loginSchema })
                         return asc(userTenants.invitationConfirmedAt)
                     },
                     limit: 1
-                },
-                userTenantSamlProviders: {
-                    columns: {
-                        id: true
-                    }
                 }
             },
             where: (users, { eq }) => eq(users.email, email)
@@ -58,10 +53,6 @@ export const login = createAction({ schema: loginSchema })
             await recordAttempt('login', email)
 
             throw new ApplicationError('authUserNotFound')
-        }
-
-        if (user.userTenantSamlProviders.length) {
-            throw new ApplicationError('authDomainConfiguredForSaml')
         }
 
         if (!user.emailConfirmed) {

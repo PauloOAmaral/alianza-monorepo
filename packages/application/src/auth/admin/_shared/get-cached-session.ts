@@ -1,5 +1,4 @@
 import { createMainDbClient } from '@alianza/database/clients/main'
-import { userTenantPermissionGroups } from '@alianza/database/schemas/common'
 import type { AuthDatabaseClient } from '@alianza/database/types/common'
 import { z } from 'zod'
 import { ENV } from '~/utils/env'
@@ -14,30 +13,21 @@ async function getUserSessionQuery(db: AuthDatabaseClient, sessionId: string) {
             currentTenantId: true
         },
         with: {
-            user: {
+            userTenant: {
+                columns: {
+                    tenantId: true
+                },
                 with: {
-                    userTenantSamlProviders: {
-                        columns: { id: true }
-                    },
-                    userTenants: {
-                        columns: {
-                            tenantId: true
-                        },
+                    userTenantPermissionGroups: {
+                        columns: {},
                         with: {
-                            permissionGroups: {
-                                columns: {},
-                                with: {
-                                    permissionGroup: {
-                                        columns: {
-                                            id: true,
-                                            name: true
-                                        }
-                                    }
+                            permissionGroup: {
+                                columns: {
+                                    id: true,
+                                    name: true
                                 }
                             }
-                        },
-                        where: (userTenants, { eq, exists }) =>
-                            exists(db.select({ id: userTenantPermissionGroups.id }).from(userTenantPermissionGroups).where(eq(userTenantPermissionGroups.userTenantId, userTenants.id)))
+                        }
                     }
                 }
             },
@@ -77,15 +67,17 @@ export const getCachedSession = createAction({ schema: getCachedSessionSchema })
                     throw new ApplicationError('commonNotFound')
                 }
 
-                const currentUserTenant = projectSession.user.userTenants.find(ut => ut.tenantId === projectSession.currentTenantId)
+                const userTenant = 'userTenant' in projectSession ? projectSession.userTenant : null
+
+                const currentUserTenant = userTenant && userTenant.tenantId === projectSession.currentTenantId ? userTenant : null
 
                 if (!currentUserTenant) {
                     throw new ApplicationError('commonNotFound')
                 }
 
-                const permissionGroups = currentUserTenant.permissionGroups.map(permissionGroup => ({
-                    id: permissionGroup.permissionGroup.id,
-                    name: permissionGroup.permissionGroup.name
+                const permissionGroups = currentUserTenant.userTenantPermissionGroups.map(utpg => ({
+                    id: utpg.permissionGroup.id,
+                    name: utpg.permissionGroup.name
                 }))
 
                 return {

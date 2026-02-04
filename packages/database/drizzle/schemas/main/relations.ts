@@ -73,14 +73,6 @@ import { teacherWithAttributes } from './teacher-with-attributes'
 import { teacherWithTerms } from './teacher-with-terms'
 import { teachers } from './teachers'
 
-// --- Core: addresses (common) ---
-export const addressesRelations = relations(addresses, ({ many }) => ({
-    students: many(students),
-    teachers: many(teachers),
-    financialResponsibles: many(financialResponsibles),
-    dataContracts: many(dataContracts)
-}))
-
 // --- Core: countries ---
 export const countriesRelations = relations(countries, ({ many }) => ({
     students: many(students),
@@ -766,3 +758,5 @@ export const refreshTokensRelations = relations(refreshTokens, ({ one }) => ({
         references: [userTenants.id]
     })
 }))
+
+export * from '../common/relations'

@@ -4,16 +4,16 @@ import {
     permissionGroups,
     permissionGroupsPermissions,
     tenantProfiles,
+    tenantRoles,
     tenants,
     termsOfUse,
     termsOfUseAcceptances,
-    tenantRoles,
     userPasswordReset,
     userProfiles,
     userSessions,
+    users,
     userTenantPermissionGroups,
-    userTenants,
-    users
+    userTenants
 } from './auth'
 import { medias } from './medias'
 
