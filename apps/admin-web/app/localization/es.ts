@@ -1,10 +1,11 @@
-export const en = {
+export const es = {
     ariaLabels: {
-        profileMenu: 'Profile menu'
+        profileMenu: 'Menú de perfil'
     },
     languages: {
         pt: 'Portuguese',
-        en: 'English'
+        en: 'English',
+        es: 'Español'
     },
     dates: {
         short: '{{date, short}}',
@@ -56,27 +57,27 @@ export const en = {
     dialogs: {},
     tables: {
         headers: {
-            actions: 'Actions',
-            active: 'Active',
-            createdAt: 'Registration date',
+            actions: 'Acciones',
+            active: 'Activo',
+            createdAt: 'Fecha de registro',
             email: 'Email',
-            inactive: 'Inactive',
+            inactive: 'Inactivo',
             status: 'Status',
-            protocols: 'Protocols',
-            type: 'Type'
+            protocols: 'Protocolos',
+            type: 'Tipo'
         },
-        totalRecords: 'Total records',
+        totalRecords: 'Total de registros',
         buttons: {
-            edit: 'Edit',
-            delete: 'Remove',
-            active: 'Activate',
-            inactive: 'Deactivate',
-            continue: 'Continue'
+            edit: 'Editar',
+            delete: 'Eliminar',
+            active: 'Activar',
+            inactive: 'Desactivar',
+            continue: 'Continuar'
         }
     },
     pagination: {
-        previousPage: 'Previous page',
-        nextPage: 'Next page'
+        previousPage: 'Página anterior',
+        nextPage: 'Página siguiente'
     },
     links: {},
     buttons: {},
@@ -87,7 +88,7 @@ export const en = {
         returnHome: 'Volver a la página principal'
     },
     turnstile: {
-        invalidResponse: 'Invalid captcha response. Please try again.'
+        invalidResponse: 'Respuesta de captcha inválida. Por favor, inténtalo de nuevo.'
     },
     errors: {
         invalidCaptchaResponse: 'Respuesta de captcha inválida. Por favor, inténtalo de nuevo.'
@@ -95,13 +96,13 @@ export const en = {
     alerts: {},
     logout: {
         dialogTitle: 'Cerrando sesión',
-        dialogDescription: 'Su sesión está siendo cerrada. ¿Desea continuar?',
+        dialogDescription: 'Tu sesión está siendo cerrada. ¿Deseas continuar?',
         cancel: 'Cancelar',
         confirm: 'Cerrar sesión'
     },
     applicationErrors: {
-        authTooManyAttempts: 'Demasiados intentos de inicio de sesión. Por favor, inténtelo de nuevo más tarde.',
+        authTooManyAttempts: 'Demasiados intentos de inicio de sesión. Por favor, inténtalo de nuevo más tarde.',
         authUserNotFound: 'Usuario no encontrado.',
-        unexpectedError: 'Ocurrió un error inesperado. Por favor, inténtelo de nuevo.'
+        unexpectedError: 'Ocurrió un error inesperado. Por favor, inténtalo de nuevo.'
     }
 }

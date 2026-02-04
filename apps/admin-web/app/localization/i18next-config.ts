@@ -3,11 +3,11 @@ import { ptBR } from 'date-fns/locale'
 import i18next, { type InitOptions, type Resource } from 'i18next'
 import I18nextBrowserLanguageDetector from 'i18next-browser-languagedetector'
 import { initReactI18next } from 'react-i18next'
-import { pt } from '../localization/pt'
+import { es } from '../localization/es'
 
 const resources: Resource = {
-    pt: {
-        translation: pt
+    es: {
+        translation: es
     }
 }
 
@@ -128,7 +128,7 @@ export async function getI18nextClient() {
 declare module 'i18next' {
     interface CustomTypeOptions {
         resources: {
-            translation: typeof pt
+            translation: typeof ptBR
         }
     }
 }
