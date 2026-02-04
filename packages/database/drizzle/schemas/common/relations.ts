@@ -3,45 +3,24 @@ import {
     addresses,
     permissionGroups,
     permissionGroupsPermissions,
-    tenantProfiles,
-    tenantRoles,
-    tenants,
     termsOfUse,
     termsOfUseAcceptances,
+    userContextPermissionGroups,
+    userContextRoles,
+    userContexts,
     userPasswordReset,
     userProfiles,
     userSessions,
-    users,
-    userTenantPermissionGroups,
-    userTenants
+    users
 } from './auth'
 import { medias } from './medias'
 
 export const addressesRelations = relations(addresses, ({ many }) => ({
-    tenantProfiles: many(tenantProfiles),
     userProfiles: many(userProfiles)
 }))
 
 export const mediasRelations = relations(medias, ({ many }) => ({
-    tenantProfiles: many(tenantProfiles),
     userProfiles: many(userProfiles)
-}))
-
-export const tenantProfilesRelations = relations(tenantProfiles, ({ one, many }) => ({
-    avatar: one(medias, { fields: [tenantProfiles.avatarId], references: [medias.id] }),
-    address: one(addresses, { fields: [tenantProfiles.addressId], references: [addresses.id] }),
-    tenants: many(tenants)
-}))
-
-export const tenantsRelations = relations(tenants, ({ one, many }) => ({
-    tenantProfile: one(tenantProfiles, {
-        fields: [tenants.tenantProfileId],
-        references: [tenantProfiles.id]
-    }),
-    userTenants: many(userTenants),
-    userSessionsAsCurrent: many(userSessions),
-    permissionGroups: many(permissionGroups),
-    tenantRoles: many(tenantRoles)
 }))
 
 export const userProfilesRelations = relations(userProfiles, ({ one, many }) => ({
@@ -52,40 +31,39 @@ export const userProfilesRelations = relations(userProfiles, ({ one, many }) => 
 
 export const usersRelations = relations(users, ({ one, many }) => ({
     userProfile: one(userProfiles, { fields: [users.userProfileId], references: [userProfiles.id] }),
-    userTenants: many(userTenants)
+    userContexts: many(userContexts)
 }))
 
-export const userTenantsRelations = relations(userTenants, ({ one, many }) => ({
-    user: one(users, { fields: [userTenants.userId], references: [users.id] }),
-    tenant: one(tenants, { fields: [userTenants.tenantId], references: [tenants.id] }),
+export const userContextsRelations = relations(userContexts, ({ one, many }) => ({
+    user: one(users, { fields: [userContexts.userId], references: [users.id] }),
     userSessions: many(userSessions),
     userPasswordResets: many(userPasswordReset),
-    userTenantPermissionGroups: many(userTenantPermissionGroups),
+    userContextPermissionGroups: many(userContextPermissionGroups),
+    userContextRoles: many(userContextRoles),
     termsOfUseAcceptances: many(termsOfUseAcceptances)
 }))
 
 export const userSessionsRelations = relations(userSessions, ({ one }) => ({
-    userTenant: one(userTenants, {
-        fields: [userSessions.userTenantId],
-        references: [userTenants.id]
+    userContext: one(userContexts, {
+        fields: [userSessions.userContextId],
+        references: [userContexts.id]
     }),
-    currentTenant: one(tenants, {
-        fields: [userSessions.currentTenantId],
-        references: [tenants.id]
+    currentContext: one(userContexts, {
+        fields: [userSessions.currentContextId],
+        references: [userContexts.id]
     })
 }))
 
 export const userPasswordResetRelations = relations(userPasswordReset, ({ one }) => ({
-    userTenant: one(userTenants, {
-        fields: [userPasswordReset.userTenantId],
-        references: [userTenants.id]
+    userContext: one(userContexts, {
+        fields: [userPasswordReset.userContextId],
+        references: [userContexts.id]
     })
 }))
 
-export const permissionGroupsRelations = relations(permissionGroups, ({ one, many }) => ({
-    tenant: one(tenants, { fields: [permissionGroups.tenantId], references: [tenants.id] }),
+export const permissionGroupsRelations = relations(permissionGroups, ({ many }) => ({
     permissions: many(permissionGroupsPermissions),
-    userTenantPermissionGroups: many(userTenantPermissionGroups)
+    userContextPermissionGroups: many(userContextPermissionGroups)
 }))
 
 export const permissionGroupsPermissionsRelations = relations(permissionGroupsPermissions, ({ one }) => ({
@@ -95,13 +73,13 @@ export const permissionGroupsPermissionsRelations = relations(permissionGroupsPe
     })
 }))
 
-export const userTenantPermissionGroupsRelations = relations(userTenantPermissionGroups, ({ one }) => ({
-    userTenant: one(userTenants, {
-        fields: [userTenantPermissionGroups.userTenantId],
-        references: [userTenants.id]
+export const userContextPermissionGroupsRelations = relations(userContextPermissionGroups, ({ one }) => ({
+    userContext: one(userContexts, {
+        fields: [userContextPermissionGroups.userContextId],
+        references: [userContexts.id]
     }),
     permissionGroup: one(permissionGroups, {
-        fields: [userTenantPermissionGroups.permissionGroupId],
+        fields: [userContextPermissionGroups.permissionGroupId],
         references: [permissionGroups.id]
     })
 }))
@@ -111,9 +89,9 @@ export const termsOfUseRelations = relations(termsOfUse, ({ many }) => ({
 }))
 
 export const termsOfUseAcceptancesRelations = relations(termsOfUseAcceptances, ({ one }) => ({
-    userTenant: one(userTenants, {
-        fields: [termsOfUseAcceptances.userTenantId],
-        references: [userTenants.id]
+    userContext: one(userContexts, {
+        fields: [termsOfUseAcceptances.userContextId],
+        references: [userContexts.id]
     }),
     termsOfUse: one(termsOfUse, {
         fields: [termsOfUseAcceptances.termsOfUseId],
@@ -121,6 +99,9 @@ export const termsOfUseAcceptancesRelations = relations(termsOfUseAcceptances, (
     })
 }))
 
-export const tenantRolesRelations = relations(tenantRoles, ({ one }) => ({
-    tenant: one(tenants, { fields: [tenantRoles.tenantId], references: [tenants.id] })
+export const userContextRolesRelations = relations(userContextRoles, ({ one }) => ({
+    userContext: one(userContexts, {
+        fields: [userContextRoles.userContextId],
+        references: [userContexts.id]
+    })
 }))

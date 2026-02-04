@@ -1,6 +1,6 @@
 import { and, eq } from '@alianza/database/drizzle'
 import { nanoid } from '@alianza/database/nanoid'
-import { userTenants } from '@alianza/database/schemas/common'
+import { userContexts } from '@alianza/database/schemas/common'
 import type { AuthDatabaseClient, AuthDatabaseTransaction } from '@alianza/database/types/common'
 import { addDays } from 'date-fns'
 import { z } from 'zod'
@@ -9,40 +9,40 @@ import { ApplicationError } from '../../../error'
 
 const resendUserInviteSchema = z.object({
     userId: z.string().min(1),
-    tenantId: z.string().min(1)
+    userContextId: z.string().min(1)
 })
 
 export const resendUserInvite = createAction({ schema: resendUserInviteSchema })
     .withData()
     .withDatabase<AuthDatabaseClient, AuthDatabaseTransaction>()
     .build(async ({ data, dbClient, dbTransaction }) => {
-        const { userId, tenantId } = data
+        const { userId, userContextId } = data
         const db = dbClient || dbTransaction
 
         if (!db) {
             throw new ApplicationError('databaseNotFound')
         }
 
-        const userTenant = await db._query.userTenants.findFirst({
+        const userContext = await db._query.userContexts.findFirst({
             columns: {
                 id: true
             },
-            where: (userTenants, { and, eq }) => and(eq(userTenants.tenantId, tenantId), eq(userTenants.userId, userId))
+            where: (userContexts, { and, eq }) => and(eq(userContexts.id, userContextId), eq(userContexts.userId, userId))
         })
 
-        if (!userTenant) {
+        if (!userContext) {
             throw new ApplicationError('authUserNotFound')
         }
 
         await db
-            .update(userTenants)
+            .update(userContexts)
             .set({
                 invitationToken: nanoid(32),
                 invitationExpiresAt: addDays(new Date(), 7)
             })
-            .where(and(eq(userTenants.tenantId, tenantId), eq(userTenants.userId, userId)))
+            .where(and(eq(userContexts.id, userContextId), eq(userContexts.userId, userId)))
 
-        const updatedUserTenant = await db._query.userTenants.findFirst({
+        const updatedUserContext = await db._query.userContexts.findFirst({
             columns: {
                 id: true,
                 invitationExpiresAt: true,
@@ -62,31 +62,20 @@ export const resendUserInvite = createAction({ schema: resendUserInviteSchema })
                             }
                         }
                     }
-                },
-                tenant: {
-                    columns: {},
-                    with: {
-                        tenantProfile: {
-                            columns: {
-                                name: true
-                            }
-                        }
-                    }
                 }
             },
-            where: (userTenants, { and, eq }) => and(eq(userTenants.tenantId, tenantId), eq(userTenants.userId, userId))
+            where: (userContexts, { and, eq }) => and(eq(userContexts.id, userContextId), eq(userContexts.userId, userId))
         })
 
-        if (!updatedUserTenant || !updatedUserTenant.invitationToken) {
+        if (!updatedUserContext || !updatedUserContext.invitationToken) {
             throw new ApplicationError('authUserNotFound')
         }
 
         return {
-            invitationToken: updatedUserTenant.invitationToken,
-            tenantName: updatedUserTenant.tenant.tenantProfile.name,
-            userEmail: updatedUserTenant.user.email,
-            userFirstName: updatedUserTenant.user.userProfile.firstName,
-            userLastName: updatedUserTenant.user.userProfile.lastName
+            invitationToken: updatedUserContext.invitationToken,
+            userEmail: updatedUserContext.user.email,
+            userFirstName: updatedUserContext.user.userProfile.firstName,
+            userLastName: updatedUserContext.user.userProfile.lastName
         }
     })
 

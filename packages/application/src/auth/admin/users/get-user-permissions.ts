@@ -1,21 +1,21 @@
 import { createMainDbClient } from '@alianza/database/clients/main'
 import { z } from 'zod'
 import { createAction } from '../../../action-builder'
-import { getPermissionGroupsByUserAndTenantId as baseGetPermissionGroupsByUserAndTenantId } from '../../base'
+import { getPermissionGroupsByUserAndContextId as baseGetPermissionGroupsByUserAndContextId } from '../../base'
 
-const getPermissionGroupsByUserAndTenantIdSchema = z.object({
+const getPermissionGroupsByUserAndContextIdSchema = z.object({
     userId: z.string().min(1),
-    tenantId: z.string().min(1)
+    userContextId: z.string().min(1)
 })
 
-export const getPermissionGroupsByUserAndTenantId = createAction({
-    schema: getPermissionGroupsByUserAndTenantIdSchema
+export const getPermissionGroupsByUserAndContextId = createAction({
+    schema: getPermissionGroupsByUserAndContextIdSchema
 })
     .withData()
     .build(async ({ data }) => {
         const db = createMainDbClient()
 
-        const result = await baseGetPermissionGroupsByUserAndTenantId({
+        const result = await baseGetPermissionGroupsByUserAndContextId({
             data,
             dbClient: db
         })
@@ -23,4 +23,4 @@ export const getPermissionGroupsByUserAndTenantId = createAction({
         return result.data
     })
 
-export type GetPermissionGroupsByUserAndTenantId = Awaited<ReturnType<typeof getPermissionGroupsByUserAndTenantId>>
+export type GetPermissionGroupsByUserAndContextId = Awaited<ReturnType<typeof getPermissionGroupsByUserAndContextId>>

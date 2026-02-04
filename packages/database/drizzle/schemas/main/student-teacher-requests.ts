@@ -32,8 +32,6 @@ export const studentTeacherRequests = pgTable(
         studentContractId: varchar('student_contract_id', { length: 16 }).notNull(),
         status: studentTeacherRequestStatus('status').notNull(),
         type: studentTeacherRequestType('type').notNull(),
-        isManual: boolean('is_manual').notNull(),
-        firstInvoicePaid: boolean('first_invoice_paid').notNull(),
         allocationQuantity: integer('allocation_quantity').default(0).notNull(),
         createdAt,
         updatedAt,

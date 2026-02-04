@@ -10,15 +10,15 @@ import { getCachedOrFetch } from '../../utils'
 async function getUserSessionQuery(db: AuthDatabaseClient, sessionId: string) {
     return db._query.userSessions.findFirst({
         columns: {
-            currentTenantId: true
+            currentContextId: true
         },
         with: {
-            userTenant: {
+            currentContext: {
                 columns: {
-                    tenantId: true
+                    id: true
                 },
                 with: {
-                    userTenantPermissionGroups: {
+                    userContextPermissionGroups: {
                         columns: {},
                         with: {
                             permissionGroup: {
@@ -29,11 +29,6 @@ async function getUserSessionQuery(db: AuthDatabaseClient, sessionId: string) {
                             }
                         }
                     }
-                }
-            },
-            currentTenant: {
-                columns: {
-                    id: true
                 }
             }
         },
@@ -67,17 +62,15 @@ export const getCachedSession = createAction({ schema: getCachedSessionSchema })
                     throw new ApplicationError('commonNotFound')
                 }
 
-                const userTenant = 'userTenant' in projectSession ? projectSession.userTenant : null
+                const currentContext = projectSession.currentContext
 
-                const currentUserTenant = userTenant && userTenant.tenantId === projectSession.currentTenantId ? userTenant : null
-
-                if (!currentUserTenant) {
+                if (!currentContext) {
                     throw new ApplicationError('commonNotFound')
                 }
 
-                const permissionGroups = currentUserTenant.userTenantPermissionGroups.map(utpg => ({
-                    id: utpg.permissionGroup.id,
-                    name: utpg.permissionGroup.name
+                const permissionGroups = currentContext.userContextPermissionGroups.map(ucpg => ({
+                    id: ucpg.permissionGroup.id,
+                    name: ucpg.permissionGroup.name
                 }))
 
                 return {
@@ -95,10 +88,8 @@ export const getCachedSession = createAction({ schema: getCachedSessionSchema })
                         fullName: baseSession.data.user.fullName,
                         avatar: baseSession.data.user.avatar
                     },
-                    currentTenant: {
-                        id: baseSession.data.currentTenant.id,
-                        name: baseSession.data.currentTenant.name,
-                        legalName: baseSession.data.currentTenant.legalName
+                    currentContext: {
+                        id: baseSession.data.currentContext.id
                     },
                     permissionGroups
                 }

@@ -1,9 +1,11 @@
-import type { AuthDatabaseClient, AuthDatabaseTransaction, DocumentType } from '@alianza/database/types/common'
+import { nanoid } from '@alianza/database/nanoid'
+import { userContextPermissionGroups, userContexts, userProfiles, users } from '@alianza/database/schemas/common'
+import type { AuthDatabaseClient, AuthDatabaseTransaction } from '@alianza/database/types/common'
 import { z } from 'zod'
 import { createAction } from '../../../action-builder'
 import { ApplicationError } from '../../../error'
-import { getDomainFromEmail } from '../../utils'
-import { addUserToTenantCore, createTenantCore } from '../_shared'
+import { getOrCreateDefaultPermissionGroup } from '../_shared'
+import { hashPassword } from '../../utils'
 
 const createUserAndTenantSchema = z.object({
     user: z.object({
@@ -11,14 +13,6 @@ const createUserAndTenantSchema = z.object({
         password: z.string().optional(),
         firstName: z.string().min(1),
         lastName: z.string().min(1)
-    }),
-    tenant: z.object({
-        name: z.string().min(1),
-        documentNumber: z.string().optional(),
-        documentType: z.custom<DocumentType>().optional(),
-        contactFirstName: z.string().optional(),
-        contactLastName: z.string().optional(),
-        contactEmail: z.string().optional()
     })
 })
 
@@ -26,26 +20,16 @@ export const createUserAndTenant = createAction({ schema: createUserAndTenantSch
     .withData()
     .withDatabase<AuthDatabaseClient, AuthDatabaseTransaction>()
     .build(async ({ data, dbClient, dbTransaction }) => {
-        const { user, tenant } = data
+        const { user } = data
+        const db = dbClient || dbTransaction
 
-        const emailDomain = getDomainFromEmail(user.email)
+        if (!db) {
+            throw new ApplicationError('databaseNotFound')
+        }
 
-        const createUserAndTenantWithTransaction = async (transaction: AuthDatabaseTransaction) => {
-            const domainUsingSaml = await transaction._query.tenantSamlProviders.findFirst({
-                columns: {
-                    id: true
-                },
-                where: (tenantSamlProviders, { eq }) => eq(tenantSamlProviders.domain, emailDomain)
-            })
-
-            if (domainUsingSaml) {
-                throw new ApplicationError('authDomainConfiguredForSaml')
-            }
-
+        const createUserAndContextTransaction = async (transaction: AuthDatabaseTransaction) => {
             const existingUser = await transaction._query.users.findFirst({
-                columns: {
-                    id: true
-                },
+                columns: { id: true },
                 where: (users, { eq }) => eq(users.email, user.email)
             })
 
@@ -53,39 +37,58 @@ export const createUserAndTenant = createAction({ schema: createUserAndTenantSch
                 throw new ApplicationError('authUserAlreadyExists')
             }
 
-            const createdTenantResponse = await createTenantCore({
-                data: tenant,
-                dbTransaction: transaction
+            const { permissionGroup } = (
+                await getOrCreateDefaultPermissionGroup({ data: {}, dbTransaction: transaction })
+            ).data
+
+            const userProfileId = nanoid(16)
+            await transaction.insert(userProfiles).values({
+                id: userProfileId,
+                firstName: user.firstName,
+                lastName: user.lastName
             })
 
-            const createdTenant = createdTenantResponse.data
-
-            const createdUserResponse = await addUserToTenantCore({
-                data: {
-                    email: user.email,
-                    tenantId: createdTenant.id,
-                    permissionGroupIds: [createdTenant.permissionGroup.id]
-                },
-                dbTransaction: transaction
+            const userId = nanoid(16)
+            await transaction.insert(users).values({
+                id: userId,
+                email: user.email,
+                userProfileId,
+                password: user.password ? hashPassword(user.password) : null,
+                emailConfirmed: true,
+                emailConfirmedAt: new Date()
             })
 
-            const createdUser = createdUserResponse.data
+            const userContextId = nanoid(16)
+            await transaction.insert(userContexts).values({
+                id: userContextId,
+                userId,
+                invitationToken: null,
+                invitationExpiresAt: null,
+                invitationConfirmedAt: new Date()
+            })
+
+            await transaction.insert(userContextPermissionGroups).values({
+                id: nanoid(16),
+                userContextId,
+                permissionGroupId: permissionGroup.id
+            })
 
             return {
-                tenant: createdTenant,
-                user: createdUser
+                permissionGroup,
+                user: {
+                    id: userId,
+                    email: user.email,
+                    userProfile: { id: userProfileId, firstName: user.firstName, lastName: user.lastName },
+                    userContext: { id: userContextId }
+                }
             }
         }
 
         if (dbClient) {
-            return await dbClient.transaction(createUserAndTenantWithTransaction)
+            return await dbClient.transaction(createUserAndContextTransaction)
         }
 
-        if (!dbTransaction) {
-            throw new ApplicationError('databaseNotFound')
-        }
-
-        return await createUserAndTenantWithTransaction(dbTransaction)
+        return await createUserAndContextTransaction(dbTransaction!)
     })
 
 export type CreateUserAndTenantResult = Awaited<ReturnType<typeof createUserAndTenant>>['data']

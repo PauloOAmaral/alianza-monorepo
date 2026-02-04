@@ -1,4 +1,11 @@
-import { permissionGroups, permissionGroupsPermissions, tenantProfiles, tenants, userProfiles, users, userTenantPermissionGroups, userTenants } from '../../../drizzle/schemas/common'
+import {
+    permissionGroups,
+    permissionGroupsPermissions,
+    userContextPermissionGroups,
+    userContexts,
+    userProfiles,
+    users
+} from '../../../drizzle/schemas/common'
 import { createMainDbClient } from '../../clients/main'
 import { nanoid } from '../../nanoid'
 
@@ -9,24 +16,6 @@ async function seed() {
         const db = createMainDbClient({ usePool: false })
 
         await db.transaction(async tx => {
-            const tenantProfileId = '31nj4imh2sib8ezu'
-            await tx.insert(tenantProfiles).values({
-                id: tenantProfileId,
-                name: 'Alianza',
-                legalName: 'Alianza',
-                website: 'https://alianza.com'
-            })
-
-            console.log(`Tenant profile created: ${tenantProfileId}`)
-
-            const tenantId = '19nj4imh2sib8ezu'
-            await tx.insert(tenants).values({
-                id: tenantId,
-                tenantProfileId
-            })
-
-            console.log(`Tenant created: ${tenantId}`)
-
             const userProfileId = '29nj4imh2sib8ezu'
             await tx.insert(userProfiles).values({
                 id: userProfileId,
@@ -48,23 +37,21 @@ async function seed() {
 
             console.log(`User created: ${userId}`)
 
-            const userTenantId = '59nj4imh2sib8ezu'
-            await tx.insert(userTenants).values({
-                id: userTenantId,
+            const userContextId = '59nj4imh2sib8ezu'
+            await tx.insert(userContexts).values({
+                id: userContextId,
                 userId,
-                tenantId,
                 invitationToken: null,
                 invitationExpiresAt: null,
                 invitationConfirmedAt: new Date()
             })
 
-            console.log(`User tenant created: ${userTenantId}`)
+            console.log(`User context created: ${userContextId}`)
 
             const permissionGroupId = '19nj4imh2sib8ezu'
             await tx.insert(permissionGroups).values({
                 id: permissionGroupId,
-                name: 'Admin',
-                tenantId
+                name: 'Admin'
             })
 
             console.log(`Permission group created: ${permissionGroupId}`)
@@ -77,13 +64,13 @@ async function seed() {
 
             console.log('Permission group permission created')
 
-            await tx.insert(userTenantPermissionGroups).values({
+            await tx.insert(userContextPermissionGroups).values({
                 id: nanoid(16),
-                userTenantId,
+                userContextId,
                 permissionGroupId
             })
 
-            console.log('User permission group created')
+            console.log('User context permission group created')
 
             console.log('✅ Admin database seeded successfully\n')
         })

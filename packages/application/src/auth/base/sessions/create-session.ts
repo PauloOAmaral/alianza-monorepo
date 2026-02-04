@@ -1,6 +1,6 @@
 import { and, eq } from '@alianza/database/drizzle'
 import { nanoid } from '@alianza/database/nanoid'
-import { userSessions, userTenants } from '@alianza/database/schemas/common'
+import { userContexts, userSessions } from '@alianza/database/schemas/common'
 import type { AuthDatabaseClient, AuthDatabaseTransaction } from '@alianza/database/types/common'
 import { addSeconds } from 'date-fns'
 import { z } from 'zod'
@@ -10,7 +10,7 @@ import { ApplicationError } from '../../../error'
 
 const createSessionSchema = z.object({
     userId: z.string().min(1),
-    currentTenantId: z.string().min(1),
+    currentContextId: z.string().min(1),
     expiresAt: z.date().optional().nullable(),
     userAgent: z.string().nullable(),
     ipAddress: z.string().nullable()
@@ -20,21 +20,21 @@ export const createSession = createAction({ schema: createSessionSchema })
     .withData()
     .withDatabase<AuthDatabaseClient, AuthDatabaseTransaction>()
     .build(async ({ data, dbClient, dbTransaction }) => {
-        const { userId, currentTenantId, userAgent, ipAddress } = data
+        const { userId, currentContextId, userAgent, ipAddress } = data
         const db = dbClient || dbTransaction
 
         if (!db) {
             throw new ApplicationError('databaseNotFound')
         }
 
-        const [userTenant] = await db
-            .select({ id: userTenants.id })
-            .from(userTenants)
-            .where(and(eq(userTenants.userId, userId), eq(userTenants.tenantId, currentTenantId)))
+        const [userContext] = await db
+            .select({ id: userContexts.id })
+            .from(userContexts)
+            .where(and(eq(userContexts.userId, userId), eq(userContexts.id, currentContextId)))
             .limit(1)
 
-        if (!userTenant) {
-            throw new ApplicationError('authUserHasNoTenant')
+        if (!userContext) {
+            throw new ApplicationError('authUserHasNoContext')
         }
 
         const expiresAt = data.expiresAt || addSeconds(new Date(), Number(ENV.SESSION_EXPIRATION))
@@ -42,8 +42,8 @@ export const createSession = createAction({ schema: createSessionSchema })
 
         await db.insert(userSessions).values({
             id: sessionId,
-            userTenantId: userTenant.id,
-            currentTenantId,
+            userContextId: userContext.id,
+            currentContextId,
             expiresAt,
             userAgent,
             ipAddress

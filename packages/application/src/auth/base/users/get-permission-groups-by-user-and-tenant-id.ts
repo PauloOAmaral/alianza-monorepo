@@ -1,29 +1,30 @@
 import type { AuthDatabaseClient, AuthDatabaseTransaction } from '@alianza/database/types/common'
 import { z } from 'zod'
 import { createAction } from '../../../action-builder'
+import { ApplicationError } from '../../../error'
 
-const getPermissionGroupsByUserAndTenantIdSchema = z.object({
+const getPermissionGroupsByUserAndContextIdSchema = z.object({
     userId: z.string().min(1),
-    tenantId: z.string().min(1)
+    userContextId: z.string().min(1)
 })
 
-export const getPermissionGroupsByUserAndTenantId = createAction({
-    schema: getPermissionGroupsByUserAndTenantIdSchema
+export const getPermissionGroupsByUserAndContextId = createAction({
+    schema: getPermissionGroupsByUserAndContextIdSchema
 })
     .withData()
     .withDatabase<AuthDatabaseClient, AuthDatabaseTransaction>()
     .build(async ({ data, dbClient, dbTransaction }) => {
-        const { userId, tenantId } = data
+        const { userId, userContextId } = data
         const db = dbClient || dbTransaction
 
         if (!db) {
             throw new ApplicationError('databaseNotFound')
         }
 
-        const result = await db._query.userTenants.findFirst({
+        const result = await db._query.userContexts.findFirst({
             columns: {},
             with: {
-                permissionGroups: {
+                userContextPermissionGroups: {
                     columns: {},
                     with: {
                         permissionGroup: {
@@ -35,15 +36,15 @@ export const getPermissionGroupsByUserAndTenantId = createAction({
                     }
                 }
             },
-            where: (userTenants, { and, eq }) => and(eq(userTenants.userId, userId), eq(userTenants.tenantId, tenantId))
+            where: (userContexts, { and, eq }) => and(eq(userContexts.userId, userId), eq(userContexts.id, userContextId))
         })
 
         return (
-            result?.permissionGroups?.map(permissionGroup => ({
-                id: permissionGroup.permissionGroup.id,
-                name: permissionGroup.permissionGroup.name
+            result?.userContextPermissionGroups?.map(ucpg => ({
+                id: ucpg.permissionGroup.id,
+                name: ucpg.permissionGroup.name
             })) || []
         )
     })
 
-export type GetPermissionGroupsByUserAndTenantIdResult = Awaited<ReturnType<typeof getPermissionGroupsByUserAndTenantId>>['data']
+export type GetPermissionGroupsByUserAndContextIdResult = Awaited<ReturnType<typeof getPermissionGroupsByUserAndContextId>>['data']

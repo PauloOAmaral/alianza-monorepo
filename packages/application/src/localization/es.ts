@@ -33,7 +33,7 @@ export const es = {
             authErrorGettingSamlAuthorizeUrl: 'No se pudo iniciar la autenticación SSO. Por favor, inténtelo de nuevo.',
             authDomainNotConfiguredForSaml: 'Este dominio no tiene SSO configurado. Por favor, inicie sesión con su correo y contraseña.',
             authUserTenantInvitationExpired: 'La invitación a esta empresa ha expirado. Por favor, solicite una nueva invitación al administrador.',
-            authUserHasNoTenant: 'Su cuenta no está vinculada a ninguna empresa. Por favor, solicite una invitación al administrador.',
+            authUserHasNoContext: 'Su cuenta no está vinculada a ningún contexto. Por favor, solicite una invitación al administrador.',
             authErrorParsingSamlMetadata: 'Hubo un error al procesar la información del SSO. Por favor, inténtelo de nuevo o contacte con soporte.',
             authDocumentAlreadyInUse: 'Esta combinación de número y tipo de documento ya está en uso.',
             authCannotEditOwnPermissionGroup: 'No puede editar ni eliminar su propio grupo de permisos.',

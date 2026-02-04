@@ -1,6 +1,6 @@
 import { foreignKey, index, integer, pgTable, timestamp, varchar } from 'drizzle-orm/pg-core'
 import { createdAt, deletedAt, id, updatedAt } from '../../utils/fields'
-import { userTenants } from '../common'
+import { userContexts } from '../common'
 import { studentClasses } from './student-classes'
 
 export const studentClassMeetEvents = pgTable(
@@ -8,7 +8,7 @@ export const studentClassMeetEvents = pgTable(
     {
         id,
         studentClassId: varchar('student_class_id', { length: 16 }).notNull(),
-        userTenantId: varchar('user_tenant_id', { length: 16 }).notNull(),
+        userContextId: varchar('user_context_id', { length: 16 }).notNull(),
         userType: integer('user_type').notNull(),
         eventDate: timestamp('event_date', {
             precision: 6,
@@ -29,9 +29,9 @@ export const studentClassMeetEvents = pgTable(
             name: 'student_class_meet_events_fkey'
         }),
         foreignKey({
-            columns: [table.userTenantId],
-            foreignColumns: [userTenants.id],
-            name: 'student_class_meet_events_user_tenant_id_fkey'
+            columns: [table.userContextId],
+            foreignColumns: [userContexts.id],
+            name: 'student_class_meet_events_user_context_id_fkey'
         })
     ]
 )

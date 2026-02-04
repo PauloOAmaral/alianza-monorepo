@@ -27,7 +27,7 @@ export const confirmSignup = createAction({ schema: confirmSignupSchema })
         const userSession = await baseCreateSession({
             data: {
                 userId: result.data.userId,
-                currentTenantId: result.data.currentTenantId,
+                currentContextId: result.data.currentContextId,
                 userAgent,
                 ipAddress
             },

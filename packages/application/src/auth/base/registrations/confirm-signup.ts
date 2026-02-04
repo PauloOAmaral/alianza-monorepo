@@ -1,5 +1,5 @@
 import { eq } from '@alianza/database/drizzle'
-import { users, userTenants } from '@alianza/database/schemas/common'
+import { userContexts, users } from '@alianza/database/schemas/common'
 import type { AuthDatabaseClient, AuthDatabaseTransaction } from '@alianza/database/types/common'
 import { isAfter } from 'date-fns'
 import { z } from 'zod'
@@ -17,32 +17,31 @@ export const confirmSignup = createAction({ schema: confirmSignupSchema })
         const { token } = data
         const db = dbClient || dbTransaction!
 
-        const userTenant = await db._query.userTenants.findFirst({
+        const userContext = await db._query.userContexts.findFirst({
             columns: {
                 id: true,
                 userId: true,
-                tenantId: true,
                 invitationExpiresAt: true,
                 invitationToken: true
             },
-            where: (userTenants, { and, eq, isNull, exists }) =>
+            where: (userContexts, { and, eq, isNull, exists }) =>
                 and(
-                    eq(userTenants.invitationToken, token),
-                    isNull(userTenants.invitationConfirmedAt),
+                    eq(userContexts.invitationToken, token),
+                    isNull(userContexts.invitationConfirmedAt),
                     exists(
                         db
                             .select()
                             .from(users)
-                            .where(and(eq(users.id, userTenants.userId), eq(users.emailConfirmed, false)))
+                            .where(and(eq(users.id, userContexts.userId), eq(users.emailConfirmed, false)))
                     )
                 )
         })
 
-        if (!userTenant) {
+        if (!userContext) {
             throw new ApplicationError('authUserNotFound')
         }
 
-        if (isAfter(new Date(), userTenant.invitationExpiresAt!)) {
+        if (isAfter(new Date(), userContext.invitationExpiresAt!)) {
             throw new ApplicationError('authSignupConfirmationExpired')
         }
 
@@ -52,22 +51,22 @@ export const confirmSignup = createAction({ schema: confirmSignupSchema })
                 emailConfirmed: true,
                 emailConfirmedAt: new Date()
             })
-            .where(eq(users.id, userTenant.userId))
+            .where(eq(users.id, userContext.userId))
 
-        const firstUserTenant = await db._query.userTenants.findFirst({
+        const firstUserContext = await db._query.userContexts.findFirst({
             columns: {
-                tenantId: true
+                id: true
             },
-            where: eq(userTenants.userId, userTenant.userId)
+            where: eq(userContexts.userId, userContext.userId)
         })
 
-        if (!firstUserTenant) {
-            throw new ApplicationError('authUserHasNoTenant')
+        if (!firstUserContext) {
+            throw new ApplicationError('authUserHasNoContext')
         }
 
         return {
-            userId: userTenant.userId,
-            currentTenantId: firstUserTenant.tenantId
+            userId: userContext.userId,
+            currentContextId: firstUserContext.id
         }
     })
 

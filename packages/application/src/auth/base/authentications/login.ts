@@ -34,14 +34,14 @@ export const login = createAction({ schema: loginSchema })
                 emailConfirmed: true
             },
             with: {
-                userTenants: {
+                userContexts: {
                     columns: {
-                        tenantId: true,
+                        id: true,
                         invitationConfirmedAt: true
                     },
-                    where: (userTenants, { isNotNull }) => isNotNull(userTenants.invitationConfirmedAt),
-                    orderBy(userTenants, { asc }) {
-                        return asc(userTenants.invitationConfirmedAt)
+                    where: (userContexts, { isNotNull }) => isNotNull(userContexts.invitationConfirmedAt),
+                    orderBy(userContexts, { asc }) {
+                        return asc(userContexts.invitationConfirmedAt)
                     },
                     limit: 1
                 }
@@ -65,17 +65,17 @@ export const login = createAction({ schema: loginSchema })
             throw new ApplicationError('authInvalidPassword')
         }
 
-        const firstUserTenant = user.userTenants[0]
+        const firstUserContext = user.userContexts[0]
 
-        if (!firstUserTenant) {
-            throw new ApplicationError('authUserHasNoTenant')
+        if (!firstUserContext) {
+            throw new ApplicationError('authUserHasNoContext')
         }
 
         await resetRateLimit('login', email)
 
         return {
             userId: user.id,
-            currentTenantId: firstUserTenant.tenantId
+            currentContextId: firstUserContext.id
         }
     })
 

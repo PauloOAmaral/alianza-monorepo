@@ -3,7 +3,6 @@ import type { AuthDatabaseClient, AuthDatabaseTransaction } from '@alianza/datab
 import { z } from 'zod'
 import { createAction } from '../../../action-builder'
 import { ApplicationError } from '../../../error'
-import { isSSO } from '../../utils'
 
 const getUserByInvitationTokenSchema = z.object({
     token: z.string().min(1)
@@ -22,7 +21,7 @@ export const getUserByInvitationToken = createAction({
             throw new ApplicationError('databaseNotFound')
         }
 
-        const result = await db._query.userTenants.findFirst({
+        const result = await db._query.userContexts.findFirst({
             columns: {},
             extras(fields) {
                 return {
@@ -36,16 +35,6 @@ export const getUserByInvitationToken = createAction({
                         id: true,
                         email: true,
                         emailConfirmed: true
-                    }
-                },
-                tenant: {
-                    columns: {},
-                    with: {
-                        tenantSamlProviders: {
-                            columns: {
-                                domain: true
-                            }
-                        }
                     }
                 }
             },
@@ -64,7 +53,7 @@ export const getUserByInvitationToken = createAction({
             isEmailConfirmed: result.user.emailConfirmed,
             isInvitationAccepted: result.isInvitationAccepted,
             isInvitationExpired: result.isInvitationExpired,
-            isSSO: isSSO(result.user.email, result.tenant.tenantSamlProviders)
+            isSSO: false
         }
     })
 

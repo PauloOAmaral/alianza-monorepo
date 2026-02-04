@@ -2,22 +2,22 @@ import { createMainDbClient } from '@alianza/database/clients/main'
 import { getSessionsKv } from '@alianza/services/kv'
 import { z } from 'zod'
 import { createAction } from '../../../action-builder'
-import { updateSessionTenant as baseUpdateSessionTenant } from '../../base'
+import { updateSessionContext as baseUpdateSessionContext } from '../../base'
 
-const updateSessionTenantSchema = z.object({
+const updateSessionContextSchema = z.object({
     sessionId: z.string().min(1),
-    tenantId: z.string().min(1)
+    contextId: z.string().min(1)
 })
 
-export const updateSessionTenant = createAction({ schema: updateSessionTenantSchema })
+export const updateSessionContext = createAction({ schema: updateSessionContextSchema })
     .withData()
     .build(async ({ data }) => {
-        const { sessionId, tenantId } = data
+        const { sessionId, contextId } = data
 
         const db = createMainDbClient()
 
-        const result = await baseUpdateSessionTenant({
-            data: { sessionId, tenantId },
+        const result = await baseUpdateSessionContext({
+            data: { sessionId, contextId },
             dbClient: db
         })
 

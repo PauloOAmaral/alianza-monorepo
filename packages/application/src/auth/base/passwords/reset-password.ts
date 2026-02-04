@@ -1,5 +1,5 @@
 import { eq } from '@alianza/database/drizzle'
-import { userPasswordReset, users, userTenants } from '@alianza/database/schemas/common'
+import { userContexts, userPasswordReset, users } from '@alianza/database/schemas/common'
 import type { AuthDatabaseClient, AuthDatabaseTransaction } from '@alianza/database/types/common'
 import { isAfter } from 'date-fns'
 import { z } from 'zod'
@@ -28,7 +28,7 @@ export const resetPassword = createAction({ schema: resetPasswordSchema })
         const passwordReset = await db._query.userPasswordReset.findFirst({
             columns: {
                 id: true,
-                userTenantId: true,
+                userContextId: true,
                 expiresAt: true,
                 usedAt: true
             },
@@ -43,20 +43,17 @@ export const resetPassword = createAction({ schema: resetPasswordSchema })
             throw new ApplicationError('authPasswordResetNotFoundOrExpired')
         }
 
-        const userTenant = await db._query.userTenants.findFirst({
+        const userContext = await db._query.userContexts.findFirst({
             columns: { userId: true },
             with: {},
-            where: (ut, { eq }) => eq(ut.id, passwordReset.userTenantId)
+            where: (uc, { eq }) => eq(uc.id, passwordReset.userContextId)
         })
 
-        if (!userTenant) {
+        if (!userContext) {
             throw new ApplicationError('authPasswordResetNotFoundOrExpired')
         }
 
-        // TODO: re-enable when userTenantSamlProviders table/relation exists
-        // if (userTenant.user?.userTenantSamlProviders?.length) { throw new ApplicationError('authDomainConfiguredForSaml') }
-
-        const userId = userTenant.userId
+        const userId = userContext.userId
 
         const resetPasswordWithTransaction = async (tx: AuthDatabaseTransaction) => {
             await tx

@@ -1,43 +1,24 @@
 import { and, eq } from '@alianza/database/drizzle'
 import { nanoid } from '@alianza/database/nanoid'
-import { tenants, userProfiles, users, userTenantPermissionGroups, userTenants } from '@alianza/database/schemas/common'
+import { userContextPermissionGroups, userContexts, userProfiles, users } from '@alianza/database/schemas/common'
 import type { AuthDatabaseClient, AuthDatabaseTransaction } from '@alianza/database/types/common'
 import { addDays } from 'date-fns'
 import { z } from 'zod'
 import { createAction } from '../../../action-builder'
 import { ApplicationError } from '../../../error'
 
-const addUserToTenantCoreSchema = z.object({
+const addUserContextCoreSchema = z.object({
     email: z.string().min(1),
-    tenantId: z.string().min(1),
     permissionGroupIds: z.array(z.string())
 })
 
-export const addUserToTenantCore = createAction({ schema: addUserToTenantCoreSchema })
+export const addUserContextCore = createAction({ schema: addUserContextCoreSchema })
     .withData()
     .withDatabase<AuthDatabaseClient, AuthDatabaseTransaction>()
     .build(async ({ data, dbClient, dbTransaction }) => {
-        const { email, tenantId, permissionGroupIds } = data
+        const { email, permissionGroupIds } = data
 
-        const addUserToTenantCoreTransaction = async (transaction: AuthDatabaseTransaction) => {
-            const existingTenant = await transaction._query.tenants.findFirst({
-                columns: {
-                    id: true
-                },
-                with: {
-                    tenantProfile: {
-                        columns: {
-                            name: true
-                        }
-                    }
-                },
-                where: eq(tenants.id, tenantId)
-            })
-
-            if (!existingTenant) {
-                throw new ApplicationError('authTenantNotFound')
-            }
-
+        const addUserContextCoreTransaction = async (transaction: AuthDatabaseTransaction) => {
             const existingUser = await transaction._query.users.findFirst({
                 columns: {
                     id: true,
@@ -83,29 +64,28 @@ export const addUserToTenantCore = createAction({ schema: addUserToTenantCoreSch
                     throw new ApplicationError('unexpectedError')
                 }
 
-                const userTenantId = nanoid(16)
-                const [createdUserTenant] = await transaction
-                    .insert(userTenants)
+                const userContextId = nanoid(16)
+                const [createdUserContext] = await transaction
+                    .insert(userContexts)
                     .values({
-                        id: userTenantId,
+                        id: userContextId,
                         userId: createdUser.id,
-                        tenantId,
                         invitationToken: nanoid(32),
                         invitationExpiresAt: addDays(new Date(), 7)
                     })
                     .returning({
-                        id: userTenants.id,
-                        invitationToken: userTenants.invitationToken
+                        id: userContexts.id,
+                        invitationToken: userContexts.invitationToken
                     })
 
-                if (!createdUserTenant) {
+                if (!createdUserContext) {
                     throw new ApplicationError('unexpectedError')
                 }
 
-                await transaction.insert(userTenantPermissionGroups).values(
+                await transaction.insert(userContextPermissionGroups).values(
                     permissionGroupIds.map(permissionGroupId => ({
                         id: nanoid(16),
-                        userTenantId: createdUserTenant.id,
+                        userContextId: createdUserContext.id,
                         permissionGroupId
                     }))
                 )
@@ -114,47 +94,32 @@ export const addUserToTenantCore = createAction({ schema: addUserToTenantCoreSch
                     id: createdUser.id,
                     email: createdUser.email,
                     userProfile: createdUserProfile,
-                    userTenant: {
-                        ...createdUserTenant,
-                        tenant: existingTenant
-                    }
+                    userContext: createdUserContext
                 }
             }
 
-            const existingUserTenant = await transaction._query.userTenants.findFirst({
-                columns: {
-                    id: true
-                },
-                where: and(eq(userTenants.tenantId, tenantId), eq(userTenants.userId, existingUser.id))
-            })
-
-            if (existingUserTenant) {
-                throw new ApplicationError('authUserAlreadyExistsWithinTenant')
-            }
-
-            const userTenantId = nanoid(16)
-            const [createdUserTenant] = await transaction
-                .insert(userTenants)
+            const userContextId = nanoid(16)
+            const [createdUserContext] = await transaction
+                .insert(userContexts)
                 .values({
-                    id: userTenantId,
+                    id: userContextId,
                     userId: existingUser.id,
-                    tenantId,
                     invitationToken: nanoid(32),
                     invitationExpiresAt: addDays(new Date(), 7)
                 })
                 .returning({
-                    id: userTenants.id,
-                    invitationToken: userTenants.invitationToken
+                    id: userContexts.id,
+                    invitationToken: userContexts.invitationToken
                 })
 
-            if (!createdUserTenant) {
+            if (!createdUserContext) {
                 throw new ApplicationError('unexpectedError')
             }
 
-            await transaction.insert(userTenantPermissionGroups).values(
+            await transaction.insert(userContextPermissionGroups).values(
                 permissionGroupIds.map(permissionGroupId => ({
                     id: nanoid(16),
-                    userTenantId: createdUserTenant.id,
+                    userContextId: createdUserContext.id,
                     permissionGroupId
                 }))
             )
@@ -163,18 +128,15 @@ export const addUserToTenantCore = createAction({ schema: addUserToTenantCoreSch
                 id: existingUser.id,
                 email: existingUser.email,
                 userProfile: existingUser.userProfile,
-                userTenant: {
-                    ...createdUserTenant,
-                    tenant: existingTenant
-                }
+                userContext: createdUserContext
             }
         }
 
         if (dbClient) {
-            return await dbClient.transaction(addUserToTenantCoreTransaction)
+            return await dbClient.transaction(addUserContextCoreTransaction)
         }
 
-        return await addUserToTenantCoreTransaction(dbTransaction!)
+        return await addUserContextCoreTransaction(dbTransaction!)
     })
 
-export type AddUserToTenantResult = Awaited<ReturnType<typeof addUserToTenantCore>>['data']
+export type AddUserContextResult = Awaited<ReturnType<typeof addUserContextCore>>['data']

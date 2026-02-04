@@ -1,8 +1,8 @@
 import { boolean, foreignKey, index, integer, pgEnum, pgTable, text, timestamp, uniqueIndex, varchar } from 'drizzle-orm/pg-core'
 import { createdAt, deletedAt, id, updatedAt } from '../../utils/fields'
 import { disciplines } from './disciplines'
-import { invoiceItens } from './invoice-itens'
 import { leads } from './leads'
+import { studentContracts } from './student-contracts'
 import { students } from './students'
 import { teachers } from './teachers'
 
@@ -27,8 +27,8 @@ export const studentClasses = pgTable(
     'student_classes',
     {
         id,
-        invoiceItemId: varchar('invoice_item_id', { length: 16 }),
         leadId: varchar('lead_id', { length: 16 }),
+        studentContractId: varchar('student_contract_id', { length: 16 }),
         studentId: varchar('student_id', { length: 16 }),
         disciplineId: varchar('discipline_id', { length: 16 }).notNull(),
         teacherId: varchar('teacher_id', { length: 16 }),
@@ -40,12 +40,8 @@ export const studentClasses = pgTable(
         duration: integer('duration').notNull(),
         classLink: varchar('class_link', { length: 500 }),
         status: classStatus('status').notNull(),
-        rescheduled: boolean('rescheduled').notNull(),
-        twoHoursSchedulle: boolean('two_hours_schedulle').notNull(),
-        thirtyMinSchedulle: boolean('thirty_min_schedulle').notNull(),
         type: classType('type').default('effective').notNull(),
         observation: text('observation'),
-        classEgressLink: varchar('class_egress_link', { length: 500 }),
         conferenceId: varchar('conference_id', { length: 30 }),
         eventId: varchar('event_id', { length: 30 }),
         roomId: varchar('room_id', { length: 30 }),
@@ -56,10 +52,9 @@ export const studentClasses = pgTable(
     table => [
         index('student_classes__id_idx').on(table.id),
         index('idx_studentclass_id_classlink_removed').on(table.id, table.classLink, table.deletedAt),
-        index('allocate_students_idx').on(table.teacherId, table.classDate, table.status, table.rescheduled, table.deletedAt),
         index('classes__student__status__date__time_idx').on(table.studentId, table.status, table.classDate),
         index('student_classes__discipline_id_idx').on(table.disciplineId),
-        index('student_classes__invoice_item_id_idx').on(table.invoiceItemId),
+        index('student_classes__student_contract_id_idx').on(table.studentContractId),
         uniqueIndex('student_classes__lead_id_key').on(table.leadId),
         index('student_classes_deleted_at_idx').on(table.deletedAt),
         index('student_classes__student_id_idx').on(table.studentId),
@@ -72,14 +67,14 @@ export const studentClasses = pgTable(
             name: 'student_classes__discipline_id_fkey'
         }),
         foreignKey({
-            columns: [table.invoiceItemId],
-            foreignColumns: [invoiceItens.id],
-            name: 'student_classes__invoice_item_id_fkey'
-        }),
-        foreignKey({
             columns: [table.leadId],
             foreignColumns: [leads.id],
             name: 'student_classes__lead_id_fkey'
+        }),
+        foreignKey({
+            columns: [table.studentContractId],
+            foreignColumns: [studentContracts.id],
+            name: 'student_classes__student_contract_id_fkey'
         }),
         foreignKey({
             columns: [table.studentId],

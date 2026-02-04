@@ -1,5 +1,5 @@
 import { relations } from 'drizzle-orm/_relations'
-import { addresses, userTenants } from '../common'
+import { addresses, userContexts } from '../common'
 import { bankAccounts } from './bank-accounts'
 import { banks } from './banks'
 import { collectors } from './collectors'
@@ -60,6 +60,8 @@ import { students } from './students'
 import { teacherAttributeWithExperimentalFeedbacks } from './teacher-attribute-with-experimental-feedbacks'
 import { teacherAttributes } from './teacher-attributes'
 import { teacherAvailabilities } from './teacher-availabilities'
+import { teacherCertifications } from './teacher-certifications'
+import { teacherCourses } from './teacher-courses'
 import { teacherContractModels } from './teacher-contract-models'
 import { teacherContracts } from './teacher-contracts'
 import { teacherHistoryEvents } from './teacher-history-events'
@@ -75,19 +77,14 @@ import { teachers } from './teachers'
 
 // --- Core: countries ---
 export const countriesRelations = relations(countries, ({ many }) => ({
-    students: many(students),
-    teachers: many(teachers),
     banks: many(banks),
-    financialResponsibles: many(financialResponsibles),
     dataContracts: many(dataContracts),
     nationalHolidays: many(nationalHolidays)
 }))
 
 // --- Core: students ---
 export const studentsRelations = relations(students, ({ one, many }) => ({
-    address: one(addresses, { fields: [students.addressId], references: [addresses.id] }),
     collector: one(collectors, { fields: [students.collectorId], references: [collectors.id] }),
-    nationality: one(countries, { fields: [students.nationalityId], references: [countries.id] }),
     financialResponsible: one(financialResponsibles, {
         fields: [students.financialResponsibleId],
         references: [financialResponsibles.id]
@@ -108,9 +105,7 @@ export const studentsRelations = relations(students, ({ one, many }) => ({
 
 // --- Core: teachers ---
 export const teachersRelations = relations(teachers, ({ one, many }) => ({
-    address: one(addresses, { fields: [teachers.addressId], references: [addresses.id] }),
     bankAccount: one(bankAccounts, { fields: [teachers.bankAccountId], references: [bankAccounts.id] }),
-    nationality: one(countries, { fields: [teachers.nationalityId], references: [countries.id] }),
     squad: one(squads, { fields: [teachers.squadId], references: [squads.id] }),
     studentClasses: many(studentClasses),
     teacherContracts: many(teacherContracts),
@@ -125,7 +120,9 @@ export const teachersRelations = relations(teachers, ({ one, many }) => ({
     studentTeacherObservations: many(studentTeacherObservations, { relationName: 'teacherObservations' }),
     studentClassTeacherFeedbacks: many(studentClassTeacherFeedbacks),
     teacherTransferHistories: many(teacherTransferHistories),
-    materials: many(materials)
+    materials: many(materials),
+    teacherCertifications: many(teacherCertifications),
+    teacherCourses: many(teacherCourses)
 }))
 
 // --- Core: squads ---
@@ -142,11 +139,6 @@ export const collectorsRelations = relations(collectors, ({ many }) => ({
 
 // --- Core: financial responsibles ---
 export const financialResponsiblesRelations = relations(financialResponsibles, ({ one, many }) => ({
-    address: one(addresses, { fields: [financialResponsibles.addressId], references: [addresses.id] }),
-    nationality: one(countries, {
-        fields: [financialResponsibles.nationalityId],
-        references: [countries.id]
-    }),
     students: many(students)
 }))
 
@@ -205,13 +197,12 @@ export const invoicesRelations = relations(invoices, ({ one, many }) => ({
     payments: many(payments)
 }))
 
-export const invoiceItensRelations = relations(invoiceItens, ({ one, many }) => ({
+export const invoiceItensRelations = relations(invoiceItens, ({ one }) => ({
     invoice: one(invoices, { fields: [invoiceItens.invoiceId], references: [invoices.id] }),
     studentContract: one(studentContracts, {
         fields: [invoiceItens.studentContractId],
         references: [studentContracts.id]
-    }),
-    studentClasses: many(studentClasses)
+    })
 }))
 
 export const invoiceNotesRelations = relations(invoiceNotes, ({ one }) => ({
@@ -346,11 +337,11 @@ export const studentClassesRelations = relations(studentClasses, ({ one, many })
         fields: [studentClasses.disciplineId],
         references: [disciplines.id]
     }),
-    invoiceItem: one(invoiceItens, {
-        fields: [studentClasses.invoiceItemId],
-        references: [invoiceItens.id]
-    }),
     lead: one(leads, { fields: [studentClasses.leadId], references: [leads.id] }),
+    studentContract: one(studentContracts, {
+        fields: [studentClasses.studentContractId],
+        references: [studentContracts.id]
+    }),
     student: one(students, { fields: [studentClasses.studentId], references: [students.id] }),
     teacher: one(teachers, { fields: [studentClasses.teacherId], references: [teachers.id] }),
     studentClassMeetEvents: many(studentClassMeetEvents),
@@ -364,9 +355,9 @@ export const studentClassMeetEventsRelations = relations(studentClassMeetEvents,
         fields: [studentClassMeetEvents.studentClassId],
         references: [studentClasses.id]
     }),
-    userTenant: one(userTenants, {
-        fields: [studentClassMeetEvents.userTenantId],
-        references: [userTenants.id]
+    userContext: one(userContexts, {
+        fields: [studentClassMeetEvents.userContextId],
+        references: [userContexts.id]
     })
 }))
 
@@ -501,6 +492,20 @@ export const teacherAvailabilitiesRelations = relations(teacherAvailabilities, (
 export const teacherInternalNotesRelations = relations(teacherInternalNotes, ({ one }) => ({
     teacher: one(teachers, {
         fields: [teacherInternalNotes.teacherId],
+        references: [teachers.id]
+    })
+}))
+
+export const teacherCertificationsRelations = relations(teacherCertifications, ({ one }) => ({
+    teacher: one(teachers, {
+        fields: [teacherCertifications.teacherId],
+        references: [teachers.id]
+    })
+}))
+
+export const teacherCoursesRelations = relations(teacherCourses, ({ one }) => ({
+    teacher: one(teachers, {
+        fields: [teacherCourses.teacherId],
         references: [teachers.id]
     })
 }))
@@ -728,9 +733,9 @@ export const issueActivitiesRelations = relations(issueActivities, ({ one }) => 
         fields: [issueActivities.issueId],
         references: [issues.id]
     }),
-    userTenant: one(userTenants, {
-        fields: [issueActivities.userTenantId],
-        references: [userTenants.id]
+    userContext: one(userContexts, {
+        fields: [issueActivities.userContextId],
+        references: [userContexts.id]
     })
 }))
 
@@ -753,9 +758,9 @@ export const issueCommentsRelations = relations(issueComments, ({ one }) => ({
 }))
 
 export const refreshTokensRelations = relations(refreshTokens, ({ one }) => ({
-    userTenant: one(userTenants, {
-        fields: [refreshTokens.userTenantId],
-        references: [userTenants.id]
+    userContext: one(userContexts, {
+        fields: [refreshTokens.userContextId],
+        references: [userContexts.id]
     })
 }))
 

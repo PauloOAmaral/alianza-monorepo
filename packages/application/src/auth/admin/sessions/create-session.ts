@@ -7,20 +7,20 @@ import { getCachedSession } from '../_shared'
 
 const createSessionSchema = z.object({
     userId: z.string().min(1),
-    currentTenantId: z.string().min(1)
+    currentContextId: z.string().min(1)
 })
 
 export const createSession = createAction({ schema: createSessionSchema })
     .withData()
     .withRequest()
     .build(async ({ request, data }) => {
-        const { userId, currentTenantId } = data
+        const { userId, currentContextId } = data
         const { userAgent, ipAddress } = getUserInformationFromRequest(request.headers)
 
         const db = createMainDbClient()
 
         const userSession = await baseCreateSession({
-            data: { userId, currentTenantId, userAgent, ipAddress },
+            data: { userId, currentContextId, userAgent, ipAddress },
             dbClient: db
         })
 

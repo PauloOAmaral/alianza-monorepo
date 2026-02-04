@@ -5,23 +5,23 @@ import { z } from 'zod'
 import { createAction } from '../../../action-builder'
 import { ApplicationError } from '../../../error'
 
-const updateSessionTenantSchema = z.object({
+const updateSessionContextSchema = z.object({
     sessionId: z.string().min(1),
-    tenantId: z.string().min(1)
+    contextId: z.string().min(1)
 })
 
-export const updateSessionTenant = createAction({ schema: updateSessionTenantSchema })
+export const updateSessionContext = createAction({ schema: updateSessionContextSchema })
     .withData()
     .withDatabase<AuthDatabaseClient, AuthDatabaseTransaction>()
     .build(async ({ data, dbClient, dbTransaction }) => {
-        const { sessionId, tenantId } = data
+        const { sessionId, contextId } = data
         const db = dbClient || dbTransaction
 
         if (!db) {
             throw new ApplicationError('databaseNotFound')
         }
 
-        await db.update(userSessions).set({ currentTenantId: tenantId }).where(eq(userSessions.id, sessionId))
+        await db.update(userSessions).set({ currentContextId: contextId }).where(eq(userSessions.id, sessionId))
     })
 
-export type UpdateSessionTenantResult = Awaited<ReturnType<typeof updateSessionTenant>>['data']
+export type UpdateSessionContextResult = Awaited<ReturnType<typeof updateSessionContext>>['data']

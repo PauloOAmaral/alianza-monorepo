@@ -1,5 +1,5 @@
 import { sql } from 'drizzle-orm'
-import { boolean, decimal, foreignKey, pgEnum, pgTable, text, timestamp, uniqueIndex, varchar } from 'drizzle-orm/pg-core'
+import { boolean, char, decimal, foreignKey, pgEnum, pgTable, text, timestamp, uniqueIndex, varchar } from 'drizzle-orm/pg-core'
 import { createdAt, deletedAt, id, isActive, updatedAt } from '../../utils/fields'
 import { medias } from './medias'
 
@@ -7,8 +7,7 @@ export const documentType = pgEnum('document_type', ['cpf', 'cnpj', 'tax_id'])
 export const languageType = pgEnum('language_type', ['en', 'pt', 'es'])
 export const userType = pgEnum('user_type', ['student', 'teacher', 'financial_responsible', 'alianza'])
 
-export const studentStatus = pgEnum('student_status', ['active', 'inactive', 'blocked'])
-export const tenantRoleType = pgEnum('tenant_role_type', ['system_admin', 'alianza_admin'])
+export const userContextRoleType = pgEnum('user_context_role_type', ['system_admin', 'alianza_admin'])
 
 /**
  * Permissions
@@ -80,57 +79,6 @@ export const addresses = pgTable('addresses', {
     updatedAt
 })
 
-export const tenants = pgTable(
-    'tenants',
-    {
-        id,
-        tenantProfileId: varchar('tenant_profile_id', { length: 16 }).notNull(),
-        createdAt,
-        updatedAt,
-        deletedAt
-    },
-    table => [
-        foreignKey({
-            columns: [table.tenantProfileId],
-            foreignColumns: [tenantProfiles.id],
-            name: 'tenants_tenant_profile_id_fkey'
-        }).onDelete('restrict')
-    ]
-)
-
-export const tenantProfiles = pgTable(
-    'tenant_profiles',
-    {
-        id,
-        name: varchar('name', { length: 100 }).notNull(),
-        legalName: varchar('legal_name', { length: 100 }),
-        website: varchar('website', { length: 255 }),
-        avatarId: varchar('avatar_id', { length: 16 }),
-        addressId: varchar('address_id', { length: 16 }),
-        documentNumber: varchar('document_number', { length: 50 }),
-        documentType: documentType('document_type'),
-        contactFirstName: varchar('contact_first_name', { length: 100 }),
-        contactLastName: varchar('contact_last_name', { length: 100 }),
-        contactEmail: varchar('contact_email', { length: 255 }),
-        phone: varchar('phone', { length: 50 }),
-        createdAt,
-        updatedAt
-    },
-    table => [
-        uniqueIndex('tenant_profiles_document_number_type_key').on(table.documentNumber, table.documentType),
-        foreignKey({
-            columns: [table.avatarId],
-            foreignColumns: [medias.id],
-            name: 'tenant_profiles_avatar_id_fkey'
-        }).onDelete('set null'),
-        foreignKey({
-            columns: [table.addressId],
-            foreignColumns: [addresses.id],
-            name: 'tenant_profiles_address_id_fkey'
-        }).onDelete('set null')
-    ]
-)
-
 export const users = pgTable(
     'users',
     {
@@ -156,11 +104,10 @@ export const users = pgTable(
     ]
 )
 
-export const userTenants = pgTable(
-    'user_tenants',
+export const userContexts = pgTable(
+    'user_contexts',
     {
         id,
-        tenantId: varchar('tenant_id', { length: 16 }).notNull(),
         userId: varchar('user_id', { length: 16 }).notNull(),
         invitationToken: varchar('invitation_token', { length: 32 }),
         invitationExpiresAt: timestamp('invitation_expires_at', {
@@ -173,17 +120,11 @@ export const userTenants = pgTable(
         updatedAt
     },
     table => [
-        uniqueIndex('user_tenants_invitation_token_key').on(table.invitationToken),
-        uniqueIndex('user_tenants_user_id_tenant_id_key').on(table.userId, table.tenantId),
-        foreignKey({
-            columns: [table.tenantId],
-            foreignColumns: [tenants.id],
-            name: 'user_tenants_tenant_id_fkey'
-        }).onDelete('cascade'),
+        uniqueIndex('user_contexts_invitation_token_key').on(table.invitationToken),
         foreignKey({
             columns: [table.userId],
             foreignColumns: [users.id],
-            name: 'user_tenants_user_id_fkey'
+            name: 'user_contexts_user_id_fkey'
         }).onDelete('cascade')
     ]
 )
@@ -192,7 +133,7 @@ export const userPasswordReset = pgTable(
     'user_password_reset',
     {
         id,
-        userTenantId: varchar('user_tenant_id', { length: 16 }).notNull(),
+        userContextId: varchar('user_context_id', { length: 16 }).notNull(),
         token: varchar('token', { length: 32 }),
         expiresAt: timestamp('expires_at', {
             mode: 'date'
@@ -210,9 +151,9 @@ export const userPasswordReset = pgTable(
     table => [
         uniqueIndex('password_reset_token_key').on(table.token),
         foreignKey({
-            columns: [table.userTenantId],
-            foreignColumns: [userTenants.id],
-            name: 'password_reset_user_tenant_id_fkey'
+            columns: [table.userContextId],
+            foreignColumns: [userContexts.id],
+            name: 'password_reset_user_context_id_fkey'
         }).onDelete('cascade')
     ]
 )
@@ -227,6 +168,18 @@ export const userProfiles = pgTable(
         addressId: varchar('address_id', { length: 16 }),
         documentNumber: varchar('document_number', { length: 50 }),
         documentType: documentType('document_type'),
+        gender: gender('gender'),
+        nationalityId: varchar('nationality_id', { length: 16 }),
+        birthday: timestamp('birthday', {
+            precision: 6,
+            withTimezone: true,
+            mode: 'date'
+        }),
+        primaryPhoneCountryCode: char('primary_phone_country_code', { length: 4 }),
+        primaryPhoneNumber: char('primary_phone_number', { length: 20 }),
+        secondaryPhoneCountryCode: char('secondary_phone_country_code', { length: 4 }),
+        secondaryPhoneNumber: char('secondary_phone_number', { length: 20 }),
+        timezone: varchar('timezone', { length: 50 }),
         createdAt,
         updatedAt
     },
@@ -249,7 +202,7 @@ export const userSessions = pgTable(
     'user_sessions',
     {
         id,
-        userTenantId: varchar('user_tenant_id', { length: 16 }).notNull(),
+        userContextId: varchar('user_context_id', { length: 16 }).notNull(),
         userAgent: varchar('user_agent', { length: 255 }),
         ipAddress: varchar('ip_address', { length: 45 }),
         expiresAt: timestamp('expires_at', {
@@ -257,18 +210,18 @@ export const userSessions = pgTable(
         }).notNull(),
         createdAt,
         updatedAt,
-        currentTenantId: varchar('current_tenant_id', { length: 16 }).notNull()
+        currentContextId: varchar('current_context_id', { length: 16 }).notNull()
     },
     table => [
         foreignKey({
-            columns: [table.userTenantId],
-            foreignColumns: [userTenants.id],
-            name: 'user_sessions_user_tenant_id_fkey'
+            columns: [table.userContextId],
+            foreignColumns: [userContexts.id],
+            name: 'user_sessions_user_context_id_fkey'
         }).onDelete('cascade'),
         foreignKey({
-            columns: [table.currentTenantId],
-            foreignColumns: [tenants.id],
-            name: 'user_sessions_current_tenant_id_fkey'
+            columns: [table.currentContextId],
+            foreignColumns: [userContexts.id],
+            name: 'user_sessions_current_context_id_fkey'
         }).onDelete('cascade')
     ]
 )
@@ -278,18 +231,10 @@ export const permissionGroups = pgTable(
     {
         id,
         name: varchar('name', { length: 100 }).notNull(),
-        tenantId: varchar('tenant_id', { length: 16 }).notNull(),
         createdAt,
         updatedAt
     },
-    table => [
-        uniqueIndex('permission_groups_tenant_id_name_key').on(table.tenantId, table.name),
-        foreignKey({
-            columns: [table.tenantId],
-            foreignColumns: [tenants.id],
-            name: 'permission_groups_tenant_id_fkey'
-        }).onDelete('cascade')
-    ]
+    table => [uniqueIndex('permission_groups_name_key').on(table.name)]
 )
 
 export const permissionGroupsPermissions = pgTable(
@@ -308,25 +253,25 @@ export const permissionGroupsPermissions = pgTable(
     ]
 )
 
-export const userTenantPermissionGroups = pgTable(
-    'user_tenant_permission_groups',
+export const userContextPermissionGroups = pgTable(
+    'user_context_permission_groups',
     {
         id,
-        userTenantId: varchar('user_tenant_id', { length: 16 }).notNull(),
+        userContextId: varchar('user_context_id', { length: 16 }).notNull(),
         permissionGroupId: varchar('permission_group_id', { length: 16 }).notNull(),
         createdAt
     },
     table => [
-        uniqueIndex('utpg_user_tenant_permission_group_uk').on(table.userTenantId, table.permissionGroupId),
+        uniqueIndex('ucpg_user_context_permission_group_uk').on(table.userContextId, table.permissionGroupId),
         foreignKey({
-            columns: [table.userTenantId],
-            foreignColumns: [userTenants.id],
-            name: 'user_tenant_permission_groups_user_tenant_id_fkey'
+            columns: [table.userContextId],
+            foreignColumns: [userContexts.id],
+            name: 'user_context_permission_groups_user_context_id_fkey'
         }).onDelete('cascade'),
         foreignKey({
             columns: [table.permissionGroupId],
             foreignColumns: [permissionGroups.id],
-            name: 'user_tenant_permission_groups_permission_group_id_fkey'
+            name: 'user_context_permission_groups_permission_group_id_fkey'
         }).onDelete('cascade')
     ]
 )
@@ -348,7 +293,7 @@ export const termsOfUseAcceptances = pgTable(
     'terms_of_use_acceptances',
     {
         id,
-        userTenantId: varchar('user_tenant_id', { length: 16 }).notNull(),
+        userContextId: varchar('user_context_id', { length: 16 }).notNull(),
         termsOfUseId: varchar('terms_of_use_id', { length: 16 }).notNull(),
         userAgent: varchar('user_agent', { length: 255 }),
         ipAddress: varchar('ip_address', { length: 45 }),
@@ -356,9 +301,9 @@ export const termsOfUseAcceptances = pgTable(
     },
     table => [
         foreignKey({
-            columns: [table.userTenantId],
-            foreignColumns: [userTenants.id],
-            name: 'terms_of_use_acceptances_user_tenant_id_fkey'
+            columns: [table.userContextId],
+            foreignColumns: [userContexts.id],
+            name: 'terms_of_use_acceptances_user_context_id_fkey'
         }).onDelete('cascade'),
         foreignKey({
             columns: [table.termsOfUseId],
@@ -368,23 +313,27 @@ export const termsOfUseAcceptances = pgTable(
     ]
 )
 
-export const tenantRoles = pgTable(
-    'tenant_roles',
+export const userContextRoles = pgTable(
+    'user_context_roles',
     {
         id,
-        role: tenantRoleType('role').notNull(),
-        tenantId: varchar('tenant_id', { length: 16 }).notNull(),
+        role: userContextRoleType('role').notNull(),
+        userContextId: varchar('user_context_id', { length: 16 }).notNull(),
         createdAt,
         updatedAt,
         isActive,
         deletedAt
     },
     table => [
-        uniqueIndex('tenant_roles_role_tenant_id_key').using('btree', table.role.asc().nullsLast(), table.tenantId.asc().nullsLast()),
+        uniqueIndex('user_context_roles_role_user_context_id_key').using(
+            'btree',
+            table.role.asc().nullsLast(),
+            table.userContextId.asc().nullsLast()
+        ),
         foreignKey({
-            columns: [table.tenantId],
-            foreignColumns: [tenants.id],
-            name: 'tenant_roles_tenant_id_fkey'
+            columns: [table.userContextId],
+            foreignColumns: [userContexts.id],
+            name: 'user_context_roles_user_context_id_fkey'
         }).onDelete('cascade')
     ]
 )

@@ -12,8 +12,8 @@ async function getUserSessionQuery(db: AuthDatabaseClient, sessionId: string) {
     return db._query.userSessions.findFirst({
         columns: {
             id: true,
-            userTenantId: true,
-            currentTenantId: true,
+            userContextId: true,
+            currentContextId: true,
             userAgent: true,
             ipAddress: true,
             expiresAt: true,
@@ -21,10 +21,9 @@ async function getUserSessionQuery(db: AuthDatabaseClient, sessionId: string) {
             updatedAt: true
         },
         with: {
-            userTenant: {
+            userContext: {
                 columns: {
-                    id: true,
-                    tenantId: true
+                    id: true
                 },
                 with: {
                     user: {
@@ -66,17 +65,9 @@ async function getUserSessionQuery(db: AuthDatabaseClient, sessionId: string) {
                     }
                 }
             },
-            currentTenant: {
+            currentContext: {
                 columns: {
                     id: true
-                },
-                with: {
-                    tenantProfile: {
-                        columns: {
-                            name: true,
-                            legalName: true
-                        }
-                    }
                 }
             }
         },
@@ -118,25 +109,23 @@ export const getSession = createAction({ schema: getSessionSchema })
 
         return {
             id: session.id,
-            userTenantId: session.userTenantId,
+            userContextId: session.userContextId,
             userAgent: session.userAgent,
             ipAddress: session.ipAddress,
             expiresAt: session.expiresAt,
             createdAt: session.createdAt,
             updatedAt: session.updatedAt,
             user: {
-                id: session.userTenant.user.id,
-                email: session.userTenant.user.email,
-                firstName: session.userTenant.user.userProfile.firstName,
-                lastName: session.userTenant.user.userProfile.lastName,
-                fullName: session.userTenant.user.userProfile.fullName,
-                avatar: session.userTenant.user.userProfile.avatar,
+                id: session.userContext.user.id,
+                email: session.userContext.user.email,
+                firstName: session.userContext.user.userProfile.firstName,
+                lastName: session.userContext.user.userProfile.lastName,
+                fullName: session.userContext.user.userProfile.fullName,
+                avatar: session.userContext.user.userProfile.avatar,
                 isSsoLogin: false
             },
-            currentTenant: {
-                id: session.currentTenant.id,
-                name: session.currentTenant.tenantProfile.name,
-                legalName: session.currentTenant.tenantProfile.legalName
+            currentContext: {
+                id: session.currentContext.id
             }
         }
     })

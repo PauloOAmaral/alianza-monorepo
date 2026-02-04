@@ -24,7 +24,7 @@ export const login = createAction({ schema: loginSchema })
         const session = await baseCreateSession({
             data: {
                 userId: loginResult.data.userId,
-                currentTenantId: loginResult.data.currentTenantId,
+                currentContextId: loginResult.data.currentContextId,
                 userAgent,
                 ipAddress
             },

@@ -1,6 +1,5 @@
 import { foreignKey, index, pgTable, text, varchar } from 'drizzle-orm/pg-core'
 import { createdAt, deletedAt, id, updatedAt } from '../../utils/fields'
-import { tenants } from '../common'
 import { students } from './students'
 
 export const studentInternalNotes = pgTable(
