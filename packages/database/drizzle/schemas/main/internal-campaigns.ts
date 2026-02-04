@@ -25,16 +25,16 @@ export const internalCampaigns = pgTable(
     'internal_campaigns',
     {
         id,
-        name: varchar('name', { length: 200 }).notNull(),
         url: text('url'),
+        name: varchar('name', { length: 200 }).notNull(),
         campaignContent: varchar('campaign_content', { length: 255 }),
         campaignId: varchar('campaign_id', { length: 255 }),
         campaignMedium: varchar('campaign_medium', { length: 255 }),
         campaignName: varchar('campaign_name', { length: 255 }),
         campaignTerm: varchar('campaign_term', { length: 255 }),
         campaignSource: campaignSource('campaign_source'),
-        isActive,
         sellerId: varchar('seller_id', { length: 16 }).notNull(),
+        isActive,
         createdAt,
         updatedAt,
         deletedAt

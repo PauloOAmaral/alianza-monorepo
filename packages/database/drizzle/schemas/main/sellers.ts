@@ -1,6 +1,5 @@
-﻿import { decimal, foreignKey, index, integer, pgTable, text, uniqueIndex, varchar } from 'drizzle-orm/pg-core'
-import { createdAt, deletedAt, id, updatedAt } from '../../utils/fields'
-import { tenants } from '../common'
+﻿import { decimal, integer, pgTable, text, varchar } from 'drizzle-orm/pg-core'
+import { createdAt, deletedAt, id, isActive, updatedAt } from '../../utils/fields'
 
 export const sellers = pgTable('sellers', {
     id,
@@ -11,7 +10,7 @@ export const sellers = pgTable('sellers', {
     dailyExperimentalClass: integer('daily_experimental_class'),
     pixelId: text('pixel_id'),
     pixelSecret: text('pixel_secret'),
-    status: integer('status').notNull(),
+    isActive,
     createdAt,
     updatedAt,
     deletedAt

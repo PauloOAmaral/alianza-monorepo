@@ -60,7 +60,7 @@ export const leads = pgTable(
         reason: integer('reason'),
         isActiveFrom: boolean('is_active_from').notNull(),
         disqualifiedType: disqualifiedType('disqualified_type'),
-        age: integer('age'),
+        age: age('age'),
         clickId: varchar('click_id', { length: 255 }),
         eventSourceUrl: text('event_source_url'),
         fbc: varchar('fbc', { length: 255 }),
