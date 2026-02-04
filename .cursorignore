@@ -1,0 +1,51 @@
+# Dependencies
+node_modules
+.pnp
+.pnp.js
+
+# Lock files (grandes, pouco valor para contexto)
+bun.lock
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# Local env files (sensíveis)
+.env
+.env.*
+!.env.example
+
+# Build outputs
+.next
+out
+build
+dist
+.turbo
+.vercel
+
+# Testing
+coverage
+*.lcov
+
+# Logs e debug
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Cache
+.cache
+.parcel-cache
+.eslintcache
+.tsbuildinfo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Init scripts com dados sensíveis
+docker/init-scripts/*.sql
+
+# Misc
+*.pem
+*.min.js
+*.min.css
