@@ -8,7 +8,6 @@ import {
 } from '../../../drizzle/schemas/common'
 import { countries, disciplines } from '../../../drizzle/schemas/main'
 import { createMainDbClient } from '../../clients/main'
-import { nanoid } from '../../nanoid'
 
 const LATIN_AMERICAN_COUNTRIES = [
     { name: 'Argentina', nationality: 'Argentina', countryAlpha2Code: 'AR', phoneCountryCode: '54' },
@@ -45,60 +44,74 @@ async function seed() {
 
         await db.transaction(async tx => {
             const userProfileId = '29nj4imh2sib8ezu'
-            await tx.insert(userProfiles).values({
-                id: userProfileId,
-                firstName: 'Admin',
-                lastName: 'Alianza'
-            })
-
-            console.log(`User profile created: ${userProfileId}`)
+            await tx
+                .insert(userProfiles)
+                .values({
+                    id: userProfileId,
+                    firstName: 'Admin',
+                    lastName: 'Alianza'
+                })
+                .onConflictDoNothing({ target: userProfiles.id })
+            console.log(`User profile: ${userProfileId}`)
 
             const userId = '49nj4imh2sib8ezu'
-            await tx.insert(users).values({
-                id: userId,
-                email: 'admin@alianza.com',
-                emailConfirmed: true,
-                emailConfirmedAt: new Date(),
-                userProfileId,
-                password: '$2a$10$XG0BDfibbszD5eXG1n6MCuPIBF35tbEupX.DETOWXnE1a5yzIt0GO'
-            })
-
-            console.log(`User created: ${userId}`)
+            await tx
+                .insert(users)
+                .values({
+                    id: userId,
+                    email: 'admin@alianza.com',
+                    emailConfirmed: true,
+                    emailConfirmedAt: new Date(),
+                    userProfileId,
+                    password: '$2a$10$XG0BDfibbszD5eXG1n6MCuPIBF35tbEupX.DETOWXnE1a5yzIt0GO'
+                })
+                .onConflictDoNothing({ target: users.id })
+            console.log(`User: ${userId}`)
 
             const userContextId = '59nj4imh2sib8ezu'
-            await tx.insert(userContexts).values({
-                id: userContextId,
-                userId,
-                invitationToken: null,
-                invitationExpiresAt: null,
-                invitationConfirmedAt: new Date()
-            })
-
-            console.log(`User context created: ${userContextId}`)
+            await tx
+                .insert(userContexts)
+                .values({
+                    id: userContextId,
+                    userId,
+                    invitationToken: null,
+                    invitationExpiresAt: null,
+                    invitationConfirmedAt: new Date()
+                })
+                .onConflictDoNothing({ target: userContexts.id })
+            console.log(`User context: ${userContextId}`)
 
             const permissionGroupId = '19nj4imh2sib8ezu'
-            await tx.insert(permissionGroups).values({
-                id: permissionGroupId,
-                name: 'Admin'
-            })
+            await tx
+                .insert(permissionGroups)
+                .values({
+                    id: permissionGroupId,
+                    name: 'Admin'
+                })
+                .onConflictDoNothing({ target: permissionGroups.id })
+            console.log(`Permission group: ${permissionGroupId}`)
 
-            console.log(`Permission group created: ${permissionGroupId}`)
+            const permissionGroupPermissionId = '69nj4imh2sib8ezu'
+            await tx
+                .insert(permissionGroupsPermissions)
+                .values({
+                    id: permissionGroupPermissionId,
+                    permissionGroupId,
+                    permission: 'full'
+                })
+                .onConflictDoNothing({ target: permissionGroupsPermissions.id })
+            console.log('Permission group permission seeded')
 
-            await tx.insert(permissionGroupsPermissions).values({
-                id: nanoid(16),
-                permissionGroupId,
-                permission: 'full'
-            })
-
-            console.log('Permission group permission created')
-
-            await tx.insert(userContextPermissionGroups).values({
-                id: nanoid(16),
-                userContextId,
-                permissionGroupId
-            })
-
-            console.log('User context permission group created')
+            const userContextPermissionGroupId = '79nj4imh2sib8ezu'
+            await tx
+                .insert(userContextPermissionGroups)
+                .values({
+                    id: userContextPermissionGroupId,
+                    userContextId,
+                    permissionGroupId
+                })
+                .onConflictDoNothing({ target: userContextPermissionGroups.id })
+            console.log('User context permission group seeded')
 
             await tx
                 .insert(disciplines)
