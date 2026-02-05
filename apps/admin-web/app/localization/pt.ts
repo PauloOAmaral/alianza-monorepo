@@ -20,7 +20,8 @@ export const pt = {
         login: 'Entrar',
         home: 'Início',
         dashboard: 'Dashboard',
-        linksPage: 'Links'
+        linksPage: 'Links',
+        leads: 'Leads'
     },
     sidebar: {},
     permissions: {},
@@ -44,6 +45,22 @@ export const pt = {
         }
     },
     tablePages: {},
+    leads: {
+        page: {
+            title: 'Leads',
+            summary: 'Mostrando {{start}}-{{end}} de {{count}}',
+            pageOf: 'PÃ¡gina {{page}} de {{total}}'
+        },
+        table: {
+            id: 'ID',
+            name: 'Nome',
+            phone: 'Telefone',
+            email: 'Email',
+            status: 'Status',
+            actions: 'AÃ§Ãµes',
+            empty: 'Nenhum lead encontrado.'
+        }
+    },
     formPages: {
         login: {
             title: 'Entre na sua conta',

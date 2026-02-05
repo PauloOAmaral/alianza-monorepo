@@ -21,7 +21,8 @@ export const es = {
         login: 'Login',
         home: 'Home',
         dashboard: 'Dashboard',
-        linksPage: 'Links'
+        linksPage: 'Links',
+        leads: 'Leads'
     },
     sidebar: {},
     permissions: {},
@@ -45,6 +46,22 @@ export const es = {
         }
     },
     tablePages: {},
+    leads: {
+        page: {
+            title: 'Leads',
+            summary: 'Mostrando {{start}}-{{end}} de {{count}}',
+            pageOf: 'PÃ¡gina {{page}} de {{total}}'
+        },
+        table: {
+            id: 'ID',
+            name: 'Nombre',
+            phone: 'TelÃ©fono',
+            email: 'Email',
+            status: 'Estado',
+            actions: 'Acciones',
+            empty: 'No se encontraron leads.'
+        }
+    },
     formPages: {
         login: {
             title: 'Inicia sesión en tu cuenta',
