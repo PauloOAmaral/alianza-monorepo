@@ -1,4 +1,6 @@
 import { createMainDbClient } from "@alianza/database/clients/main"
+import { isNull, sql } from "@alianza/database/drizzle"
+import { leads as leadsTable } from "@alianza/database/schemas/admin"
 import z from "zod"
 import { createAction } from "~/action-builder"
 
@@ -26,7 +28,12 @@ export const getLeadsGridQuery = createAction({ schema: getLeadsGridSchema })
             offset: (page - 1) * limit,
         })
 
-        const count = await db.$count(leads, { where: (leads, { isNull }) => isNull(leads.deletedAt) })
+        const countRows = await db
+            .select({ count: sql<number>`count(*)` })
+            .from(leadsTable)
+            .where(isNull(leadsTable.deletedAt))
+
+        const count = countRows[0]?.count ?? 0
 
         return {
             data: leads,
