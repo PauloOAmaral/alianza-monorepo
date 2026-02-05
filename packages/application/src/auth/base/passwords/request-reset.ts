@@ -68,8 +68,8 @@ export const requestPasswordReset = createAction({ schema: requestPasswordResetS
             throw new ApplicationError('authUserNotFound')
         }
 
-        // TODO: re-enable when userTenantSamlProviders table/relation exists
-        // if (user.userTenantSamlProviders.length) { ... throw new ApplicationError('authDomainConfiguredForSaml') }
+        // TODO: re-enable when userContextsamlProviders table/relation exists
+        // if (user.userContextsamlProviders.length) { ... throw new ApplicationError('authDomainConfiguredForSaml') }
 
         await recordAttempt('password-reset', email)
 

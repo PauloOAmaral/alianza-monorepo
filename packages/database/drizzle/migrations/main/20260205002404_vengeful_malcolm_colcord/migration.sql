@@ -4,9 +4,9 @@ CREATE TYPE "language_type" AS ENUM('en', 'pt', 'es');--> statement-breakpoint
 CREATE TYPE "level" AS ENUM('basic_i', 'basic_ii', 'pre_intermediate', 'intermediate', 'upper_intermediate', 'advanced');--> statement-breakpoint
 CREATE TYPE "payment_type" AS ENUM('payment_link', 'bank_transfer', 'paypal', 'mercado_livre', 'zelle', 'venmo');--> statement-breakpoint
 CREATE TYPE "permission_type" AS ENUM('full', 'users_view', 'users_edit', 'users_create', 'users_delete', 'permissions_view', 'permissions_edit', 'permissions_create', 'permissions_delete', 'lead_view', 'lead_edit', 'lead_create', 'lead_import', 'lead_delete');--> statement-breakpoint
-CREATE TYPE "student_status" AS ENUM('active', 'inactive', 'blocked');--> statement-breakpoint
-CREATE TYPE "tenant_role_type" AS ENUM('system_admin', 'alianza_admin');--> statement-breakpoint
+CREATE TYPE "user_context_role_type" AS ENUM('system_admin', 'alianza_admin');--> statement-breakpoint
 CREATE TYPE "user_type" AS ENUM('student', 'teacher', 'financial_responsible', 'alianza');--> statement-breakpoint
+CREATE TYPE "american_timezone" AS ENUM('America/Adak', 'America/Anchorage', 'America/Atikokan', 'America/Blanc-Sablon', 'America/Boise', 'America/Cambridge_Bay', 'America/Chicago', 'America/Creston', 'America/Dawson', 'America/Dawson_Creek', 'America/Denver', 'America/Detroit', 'America/Edmonton', 'America/Fort_Nelson', 'America/Glace_Bay', 'America/Goose_Bay', 'America/Halifax', 'America/Indiana/Indianapolis', 'America/Indiana/Knox', 'America/Indiana/Marengo', 'America/Indiana/Petersburg', 'America/Indiana/Tell_City', 'America/Indiana/Vevay', 'America/Indiana/Vincennes', 'America/Indiana/Winamac', 'America/Inuvik', 'America/Iqaluit', 'America/Juneau', 'America/Kentucky/Louisville', 'America/Kentucky/Monticello', 'America/Los_Angeles', 'America/Menominee', 'America/Metlakatla', 'America/Moncton', 'America/Nome', 'America/North_Dakota/Beulah', 'America/North_Dakota/Center', 'America/North_Dakota/New_Salem', 'America/New_York', 'America/Phoenix', 'America/Rainy_River', 'America/Rankin_Inlet', 'America/Regina', 'America/Resolute', 'America/Sitka', 'America/Swift_Current', 'America/St_Johns', 'America/Thunder_Bay', 'America/Toronto', 'America/Vancouver', 'America/Whitehorse', 'America/Winnipeg', 'America/Yakutat', 'America/Yellowknife', 'America/Bahia_Banderas', 'America/Cancun', 'America/Chihuahua', 'America/Ciudad_Juarez', 'America/Hermosillo', 'America/Matamoros', 'America/Mazatlan', 'America/Merida', 'America/Mexico_City', 'America/Monterrey', 'America/Ojinaga', 'America/Tijuana', 'America/Belize', 'America/Costa_Rica', 'America/El_Salvador', 'America/Guatemala', 'America/Managua', 'America/Panama', 'America/Tegucigalpa', 'America/Anguilla', 'America/Antigua', 'America/Aruba', 'America/Barbados', 'America/Cayman', 'America/Curacao', 'America/Dominica', 'America/Grand_Turk', 'America/Guadeloupe', 'America/Havana', 'America/Jamaica', 'America/Kralendijk', 'America/Lower_Princes', 'America/Marigot', 'America/Martinique', 'America/Montserrat', 'America/Nassau', 'America/Port-au-Prince', 'America/Port_of_Spain', 'America/Puerto_Rico', 'America/Santo_Domingo', 'America/St_Barthelemy', 'America/St_Kitts', 'America/St_Lucia', 'America/St_Thomas', 'America/St_Vincent', 'America/Tortola', 'America/Araguaina', 'America/Argentina/Buenos_Aires', 'America/Argentina/Catamarca', 'America/Argentina/Cordoba', 'America/Argentina/Jujuy', 'America/Argentina/La_Rioja', 'America/Argentina/Mendoza', 'America/Argentina/Rio_Gallegos', 'America/Argentina/Salta', 'America/Argentina/San_Juan', 'America/Argentina/San_Luis', 'America/Argentina/Tucuman', 'America/Argentina/Ushuaia', 'America/Asuncion', 'America/Bahia', 'America/Belem', 'America/Boa_Vista', 'America/Bogota', 'America/Campo_Grande', 'America/Caracas', 'America/Cayenne', 'America/Cuiaba', 'America/Eirunepe', 'America/Fortaleza', 'America/Guyana', 'America/La_Paz', 'America/Lima', 'America/Maceio', 'America/Manaus', 'America/Montevideo', 'America/Noronha', 'America/Paramaribo', 'America/Porto_Velho', 'America/Punta_Arenas', 'America/Recife', 'America/Rio_Branco', 'America/Santarem', 'America/Santiago', 'America/Sao_Paulo', 'America/Danmarkshavn', 'America/Nuuk', 'America/Scoresbysund', 'America/Thule', 'America/Miquelon');--> statement-breakpoint
 CREATE TYPE "campaign_source" AS ENUM('facebook', 'messenger', 'instagram', 'direct', 'google', 'tiktok', 'youtube', 'blog', 'email', 'indication', 'company', 'affiliate', 'influencer', 'student_indication', 'fb_forms', 'ex_student', 'campaign');--> statement-breakpoint
 CREATE TYPE "invoice_item_type" AS ENUM('first_payment', 'month_due', 'renew_contract', 'free_month', 'other', 'indication', 'taxes', 'discount', 'refund', 'promotion', 'promotion_credit', 'pause_credit', 'register_payment');--> statement-breakpoint
 CREATE TYPE "invoice_status" AS ENUM('charge', 'waiting_payment', 'late_payment', 'paid', 'canceled', 'unpaid', 'refunded', 'partial_paid', 'late_paid');--> statement-breakpoint
@@ -26,6 +26,7 @@ CREATE TYPE "report_type" AS ENUM('students', 'invoices_by_collector', 'invoices
 CREATE TYPE "pause_cancel_status" AS ENUM('awaiting', 'in_stop', 'returned', 'student_canceled', 'canceled');--> statement-breakpoint
 CREATE TYPE "pause_cancel_type" AS ENUM('to_stop', 'to_cancel');--> statement-breakpoint
 CREATE TYPE "stop_reason" AS ENUM('work', 'personal_reasons', 'travel', 'other_studies', 'holidays', 'lack_of_time');--> statement-breakpoint
+CREATE TYPE "student_class_event_types" AS ENUM('student_class_event_type_1', 'student_class_event_type_2', 'student_class_event_type_3');--> statement-breakpoint
 CREATE TYPE "requeriment_level" AS ENUM('low', 'medium', 'high');--> statement-breakpoint
 CREATE TYPE "study_reason" AS ENUM('work', 'travel', 'apprenticeship', 'other');--> statement-breakpoint
 CREATE TYPE "class_status" AS ENUM('scheduled', 'completed', 'missed_student', 'canceled', 'refunded', 'missed_teacher', 'awaiting_student_approval', 'student_reject', 'completed_holiday');--> statement-breakpoint
@@ -36,6 +37,7 @@ CREATE TYPE "contract_status" AS ENUM('blocked', 'active', 'canceled');--> state
 CREATE TYPE "student_event_type" AS ENUM('student_registered', 'transfer_request', 'add_collector', 'reactivate_student', 'collector_removed', 'collector_removed_inative', 'change_new_class_in_app', 'student_waiting_instructor', 'instructor_accept_request', 'instructor_refuse_request', 'instructor_transfer_solicitation', 'invoice_paid', 'student_blocked', 'student_completed_class', 'instructor_inactivation', 'student_missed_class', 'financial_message', 'student_cancel_request', 'student_pause_request', 'student_paused', 'student_reactivated', 'student_canceled', 'lead_disqualified', 'lead_transfer_seller', 'lead_contract_signed', 'experimental_class_rescheduled', 'contract_create', 'seller_cancel_request', 'class_reschedule', 'class_completed_manual', 'class_missed_manual', 'class_canceled_manual', 'class_refunded_manual', 'class_missed_instructor_manual', 'class_awaiting_student_approve_manual', 'class_created_manual', 'class_edited_manual', 'instructor_not_approve_in_time', 'return_auto_transfer', 'move_to_manual_transfer', 'manual_transfer', 'manual_instructor_allocation', 'first_auto_allocation', 'lead_contract_open_to_signed', 'lead_contract_update_data', 'auto_return_stop', 'put_in_pre_hibernation', 'auto_cancel_stop_hibernation', 'put_in_hibernation', 'manual_distribution_after_stop', 'restart_distribution_after_expired', 'cancel_contract', 'discipline_contract_change', 'reallocation', 'change_email', 'contract_start_date_change', 'manual_sign_contract', 'manual_sign_contract_company', 'canceled_stop_cancel_job', 'back_to_manual_teacher_not_found', 'new_auto_allocation', 'move_to_expired_auto_allocation', 'change_contract_option', 'auto_stop', 'student_teacher_request_cancel', 'student_reject_class', 'change_end_of_term', 'user_message');--> statement-breakpoint
 CREATE TYPE "student_teacher_request_status" AS ENUM('awaiting', 'requested', 'accepted', 'refused', 'expired');--> statement-breakpoint
 CREATE TYPE "student_teacher_request_type" AS ENUM('new_student', 'transfer', 'new_contract', 'reallocation', 'pause_return', 'cancel_return', 'pause_return_automatic', 'hibernation_return');--> statement-breakpoint
+CREATE TYPE "student_status" AS ENUM('active', 'inactive', 'blocked');--> statement-breakpoint
 CREATE TYPE "teacher_type" AS ENUM('all', 'experimental', 'effective');--> statement-breakpoint
 CREATE TYPE "teacher_event_type" AS ENUM('teacher_created', 'new_contract', 'class_reschedule', 'open_contract', 'update_contract_data', 'sign_contract', 'student_reject_class');--> statement-breakpoint
 CREATE TYPE "urgency" AS ENUM('low', 'medium', 'high');--> statement-breakpoint
@@ -60,7 +62,6 @@ CREATE TABLE "addresses" (
 CREATE TABLE "permission_groups" (
 	"id" varchar(16) PRIMARY KEY,
 	"name" varchar(100) NOT NULL,
-	"tenant_id" varchar(16) NOT NULL,
 	"created_at" timestamp(6) with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
 	"updated_at" timestamp(6) with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
 );
@@ -69,41 +70,6 @@ CREATE TABLE "permission_groups_permissions" (
 	"id" varchar(16) PRIMARY KEY,
 	"permission_group_id" varchar(16) NOT NULL,
 	"permission" "permission_type" NOT NULL
-);
---> statement-breakpoint
-CREATE TABLE "tenant_profiles" (
-	"id" varchar(16) PRIMARY KEY,
-	"name" varchar(100) NOT NULL,
-	"legal_name" varchar(100),
-	"website" varchar(255),
-	"avatar_id" varchar(16),
-	"address_id" varchar(16),
-	"document_number" varchar(50),
-	"document_type" "document_type",
-	"contact_first_name" varchar(100),
-	"contact_last_name" varchar(100),
-	"contact_email" varchar(255),
-	"phone" varchar(50),
-	"created_at" timestamp(6) with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
-	"updated_at" timestamp(6) with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
-);
---> statement-breakpoint
-CREATE TABLE "tenant_roles" (
-	"id" varchar(16) PRIMARY KEY,
-	"role" "tenant_role_type" NOT NULL,
-	"tenant_id" varchar(16) NOT NULL,
-	"created_at" timestamp(6) with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
-	"updated_at" timestamp(6) with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
-	"is_active" boolean DEFAULT true NOT NULL,
-	"deleted_at" timestamp(6) with time zone
-);
---> statement-breakpoint
-CREATE TABLE "tenants" (
-	"id" varchar(16) PRIMARY KEY,
-	"tenant_profile_id" varchar(16) NOT NULL,
-	"created_at" timestamp(6) with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
-	"updated_at" timestamp(6) with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
-	"deleted_at" timestamp(6) with time zone
 );
 --> statement-breakpoint
 CREATE TABLE "terms_of_use" (
@@ -117,16 +83,43 @@ CREATE TABLE "terms_of_use" (
 --> statement-breakpoint
 CREATE TABLE "terms_of_use_acceptances" (
 	"id" varchar(16) PRIMARY KEY,
-	"user_id" varchar(16) NOT NULL,
+	"user_context_id" varchar(16) NOT NULL,
 	"terms_of_use_id" varchar(16) NOT NULL,
 	"user_agent" varchar(255),
 	"ip_address" varchar(45),
 	"created_at" timestamp(6) with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
 );
 --> statement-breakpoint
-CREATE TABLE "user_password_reset" (
+CREATE TABLE "user_context_permission_groups" (
+	"id" varchar(16) PRIMARY KEY,
+	"user_context_id" varchar(16) NOT NULL,
+	"permission_group_id" varchar(16) NOT NULL,
+	"created_at" timestamp(6) with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+--> statement-breakpoint
+CREATE TABLE "user_context_roles" (
+	"id" varchar(16) PRIMARY KEY,
+	"role" "user_context_role_type" NOT NULL,
+	"user_context_id" varchar(16) NOT NULL,
+	"created_at" timestamp(6) with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+	"updated_at" timestamp(6) with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+	"is_active" boolean DEFAULT true NOT NULL,
+	"deleted_at" timestamp(6) with time zone
+);
+--> statement-breakpoint
+CREATE TABLE "user_contexts" (
 	"id" varchar(16) PRIMARY KEY,
 	"user_id" varchar(16) NOT NULL,
+	"invitation_token" varchar(32),
+	"invitation_expires_at" timestamp,
+	"invitation_confirmed_at" timestamp,
+	"created_at" timestamp(6) with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+	"updated_at" timestamp(6) with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+--> statement-breakpoint
+CREATE TABLE "user_password_reset" (
+	"id" varchar(16) PRIMARY KEY,
+	"user_context_id" varchar(16) NOT NULL,
 	"token" varchar(32),
 	"expires_at" timestamp DEFAULT CURRENT_TIMESTAMP + INTERVAL '24 hours' NOT NULL,
 	"used_at" timestamp,
@@ -144,37 +137,27 @@ CREATE TABLE "user_profiles" (
 	"address_id" varchar(16),
 	"document_number" varchar(50),
 	"document_type" "document_type",
+	"gender" "gender",
+	"nationality_id" varchar(16),
+	"birthday" timestamp(6) with time zone,
+	"primary_phone_country_code" char(4),
+	"primary_phone_number" char(20),
+	"secondary_phone_country_code" char(4),
+	"secondary_phone_number" char(20),
+	"timezone" varchar(50),
 	"created_at" timestamp(6) with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
 	"updated_at" timestamp(6) with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
 );
 --> statement-breakpoint
 CREATE TABLE "user_sessions" (
 	"id" varchar(16) PRIMARY KEY,
-	"user_id" varchar(16) NOT NULL,
+	"user_context_id" varchar(16) NOT NULL,
 	"user_agent" varchar(255),
 	"ip_address" varchar(45),
 	"expires_at" timestamp NOT NULL,
 	"created_at" timestamp(6) with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
 	"updated_at" timestamp(6) with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
-	"current_tenant_id" varchar(16) NOT NULL
-);
---> statement-breakpoint
-CREATE TABLE "user_tenant_permission_groups" (
-	"id" varchar(16) PRIMARY KEY,
-	"user_tenant_id" varchar(16) NOT NULL,
-	"permission_group_id" varchar(16) NOT NULL,
-	"created_at" timestamp(6) with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
-);
---> statement-breakpoint
-CREATE TABLE "user_tenants" (
-	"id" varchar(16) PRIMARY KEY,
-	"tenant_id" varchar(16) NOT NULL,
-	"user_id" varchar(16) NOT NULL,
-	"invitation_token" varchar(32),
-	"invitation_expires_at" timestamp,
-	"invitation_confirmed_at" timestamp,
-	"created_at" timestamp(6) with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
-	"updated_at" timestamp(6) with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+	"current_context_id" varchar(16) NOT NULL
 );
 --> statement-breakpoint
 CREATE TABLE "users" (
@@ -336,28 +319,11 @@ CREATE TABLE "disciplines" (
 CREATE TABLE "financial_responsibles" (
 	"id" varchar(16) PRIMARY KEY,
 	"is_active" boolean DEFAULT true NOT NULL,
-	"address_id" varchar(16) NOT NULL,
 	"name" varchar(300) NOT NULL,
-	"email" varchar(200) NOT NULL,
 	"school_registry" char(14) NOT NULL,
-	"profile_picture" varchar(350),
-	"birthday" timestamp NOT NULL,
 	"verification_token" char(10),
 	"verified_at" timestamp,
-	"primary_phone_country_code" char(4) NOT NULL,
-	"primary_phone_number" char(20) NOT NULL,
-	"secondary_phone_country_code" char(4),
-	"secondary_phone_number" char(20),
-	"vat_number" char(40) NOT NULL,
-	"document_type" integer NOT NULL,
-	"gender" "gender" NOT NULL,
-	"password" varchar(200) NOT NULL,
-	"password_reset_token" char(10),
-	"password_reset_token_expiration" timestamp,
-	"mobile_device_token" varchar(300),
-	"first_access" boolean NOT NULL,
-	"send_notifications_block" boolean NOT NULL,
-	"nationality_id" varchar(16) NOT NULL,
+	"send_notifications_block" boolean DEFAULT false NOT NULL,
 	"customer_ext_id" varchar(200),
 	"created_at" timestamp(6) with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
 	"updated_at" timestamp(6) with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
@@ -366,16 +332,16 @@ CREATE TABLE "financial_responsibles" (
 --> statement-breakpoint
 CREATE TABLE "internal_campaigns" (
 	"id" varchar(16) PRIMARY KEY,
-	"name" varchar(200) NOT NULL,
 	"url" text,
+	"name" varchar(200) NOT NULL,
 	"campaign_content" varchar(255),
 	"campaign_id" varchar(255),
 	"campaign_medium" varchar(255),
 	"campaign_name" varchar(255),
 	"campaign_term" varchar(255),
 	"campaign_source" "campaign_source",
-	"is_active" boolean DEFAULT true NOT NULL,
 	"seller_id" varchar(16) NOT NULL,
+	"is_active" boolean DEFAULT true NOT NULL,
 	"created_at" timestamp(6) with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
 	"updated_at" timestamp(6) with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
 	"deleted_at" timestamp(6) with time zone
@@ -424,7 +390,7 @@ CREATE TABLE "invoices" (
 CREATE TABLE "issue_activities" (
 	"id" varchar(16) PRIMARY KEY,
 	"description" varchar(500) NOT NULL,
-	"user_id" varchar(16) NOT NULL,
+	"user_context_id" varchar(16) NOT NULL,
 	"issue_id" varchar(16) NOT NULL,
 	"issue_activity_type" "issue_activity_type" NOT NULL,
 	"is_active" boolean DEFAULT true NOT NULL,
@@ -447,7 +413,7 @@ CREATE TABLE "issue_attachments" (
 CREATE TABLE "issue_comments" (
 	"id" varchar(16) PRIMARY KEY,
 	"issue_id" varchar(16) NOT NULL,
-	"user_id" varchar(16) NOT NULL,
+	"user_context_id" varchar(16) NOT NULL,
 	"message" text NOT NULL,
 	"version_implemented" varchar(50),
 	"is_active" boolean DEFAULT true NOT NULL,
@@ -554,7 +520,7 @@ CREATE TABLE "leads" (
 	"reason" integer,
 	"is_active_from" boolean NOT NULL,
 	"disqualified_type" "disqualified_type",
-	"age" integer,
+	"age" "age",
 	"click_id" varchar(255),
 	"event_source_url" text,
 	"fbc" varchar(255),
@@ -645,7 +611,7 @@ CREATE TABLE "payments" (
 --> statement-breakpoint
 CREATE TABLE "refresh_tokens" (
 	"id" varchar(16) PRIMARY KEY,
-	"user_id" varchar(16) NOT NULL,
+	"user_context_id" varchar(16) NOT NULL,
 	"user_name" varchar(200) NOT NULL,
 	"user_type" integer NOT NULL,
 	"token_hash" char(64) NOT NULL,
@@ -672,14 +638,14 @@ CREATE TABLE "reports" (
 --> statement-breakpoint
 CREATE TABLE "sellers" (
 	"id" varchar(16) PRIMARY KEY,
-	"tenant_id" varchar(16) NOT NULL,
+	"user_context_id" varchar(16) NOT NULL,
 	"referral_code" varchar(10) NOT NULL,
 	"lead_prefix" varchar(2) NOT NULL,
 	"daily_to_sell" numeric(18,2),
 	"daily_experimental_class" integer,
 	"pixel_id" text,
 	"pixel_secret" text,
-	"status" integer NOT NULL,
+	"is_active" boolean DEFAULT true NOT NULL,
 	"created_at" timestamp(6) with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
 	"updated_at" timestamp(6) with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
 	"deleted_at" timestamp(6) with time zone
@@ -723,9 +689,9 @@ CREATE TABLE "student_cancel_pause_job" (
 CREATE TABLE "student_class_events" (
 	"id" varchar(16) PRIMARY KEY,
 	"external_student_class_id" varchar(36) NOT NULL,
-	"user_type" integer NOT NULL,
-	"event" integer NOT NULL,
-	"user_id" varchar(16) NOT NULL,
+	"user_type" "user_type" NOT NULL,
+	"event" "student_class_event_types" NOT NULL,
+	"user_context_id" varchar(16) NOT NULL,
 	"created_at" timestamp(6) with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
 	"updated_at" timestamp(6) with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
 	"deleted_at" timestamp(6) with time zone
@@ -750,7 +716,7 @@ CREATE TABLE "student_class_experimental_feedbacks" (
 CREATE TABLE "student_class_meet_events" (
 	"id" varchar(16) PRIMARY KEY,
 	"student_class_id" varchar(16) NOT NULL,
-	"user_id" varchar(16) NOT NULL,
+	"user_context_id" varchar(16) NOT NULL,
 	"user_type" integer NOT NULL,
 	"event_date" timestamp(6) with time zone NOT NULL,
 	"type" integer NOT NULL,
@@ -789,8 +755,8 @@ CREATE TABLE "student_class_teacher_feedbacks" (
 --> statement-breakpoint
 CREATE TABLE "student_classes" (
 	"id" varchar(16) PRIMARY KEY,
-	"invoice_item_id" varchar(16),
 	"lead_id" varchar(16),
+	"student_contract_id" varchar(16),
 	"student_id" varchar(16),
 	"discipline_id" varchar(16) NOT NULL,
 	"teacher_id" varchar(16),
@@ -798,12 +764,8 @@ CREATE TABLE "student_classes" (
 	"duration" integer NOT NULL,
 	"class_link" varchar(500),
 	"status" "class_status" NOT NULL,
-	"rescheduled" boolean NOT NULL,
-	"two_hours_schedulle" boolean NOT NULL,
-	"thirty_min_schedulle" boolean NOT NULL,
 	"type" "class_type" DEFAULT 'effective'::"class_type" NOT NULL,
 	"observation" text,
-	"class_egress_link" varchar(500),
 	"conference_id" varchar(30),
 	"event_id" varchar(30),
 	"room_id" varchar(30),
@@ -924,17 +886,6 @@ CREATE TABLE "student_professions" (
 	"deleted_at" timestamp(6) with time zone
 );
 --> statement-breakpoint
-CREATE TABLE "student_ranking" (
-	"id" varchar(16) PRIMARY KEY,
-	"student_id" varchar(16) NOT NULL,
-	"total_points" integer NOT NULL,
-	"rank" integer,
-	"last_calculated_at" timestamp NOT NULL,
-	"created_at" timestamp(6) with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
-	"updated_at" timestamp(6) with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
-	"deleted_at" timestamp(6) with time zone
-);
---> statement-breakpoint
 CREATE TABLE "student_request_events" (
 	"id" varchar(16) PRIMARY KEY,
 	"student_request_id" varchar(16) NOT NULL,
@@ -1005,8 +956,6 @@ CREATE TABLE "student_teacher_requests" (
 	"student_contract_id" varchar(16) NOT NULL,
 	"status" "student_teacher_request_status" NOT NULL,
 	"type" "student_teacher_request_type" NOT NULL,
-	"is_manual" boolean NOT NULL,
-	"first_invoice_paid" boolean NOT NULL,
 	"allocation_quantity" integer DEFAULT 0 NOT NULL,
 	"created_at" timestamp(6) with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
 	"updated_at" timestamp(6) with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
@@ -1055,34 +1004,12 @@ CREATE TABLE "student_with_terms" (
 --> statement-breakpoint
 CREATE TABLE "students" (
 	"id" varchar(16) PRIMARY KEY,
-	"address_id" varchar(16) NOT NULL,
-	"status" integer NOT NULL,
+	"name" varchar(100) NOT NULL,
+	"status" "student_status" NOT NULL,
 	"collector_id" varchar(16),
 	"financial_responsible_id" varchar(16),
-	"new_classes_in_app" boolean DEFAULT false NOT NULL,
 	"company_id" varchar(16),
-	"name" varchar(300) NOT NULL,
-	"email" varchar(200) NOT NULL,
 	"school_registry" char(14) NOT NULL,
-	"profile_picture" varchar(300),
-	"birthday" timestamp(6) with time zone NOT NULL,
-	"verification_token" char(10),
-	"verified_at" timestamp,
-	"primary_phone_country_code" char(4) NOT NULL,
-	"primary_phone_number" char(20) NOT NULL,
-	"secondary_phone_country_code" char(4),
-	"secondary_phone_number" char(20),
-	"v_a_t_number" char(40) NOT NULL,
-	"document_type" integer NOT NULL,
-	"gender" "gender" NOT NULL,
-	"password" varchar(200) NOT NULL,
-	"password_reset_token" char(10),
-	"password_reset_token_expiration" timestamp,
-	"mobile_device_token" varchar(300),
-	"first_access" boolean NOT NULL,
-	"send_notifications_block" boolean DEFAULT false NOT NULL,
-	"nationality_id" varchar(16) NOT NULL,
-	"customer_ext_id" varchar(200),
 	"created_at" timestamp(6) with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
 	"updated_at" timestamp(6) with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
 	"deleted_at" timestamp(6) with time zone
@@ -1119,11 +1046,35 @@ CREATE TABLE "teacher_availabilities" (
 	"deleted_at" timestamp(6) with time zone
 );
 --> statement-breakpoint
+CREATE TABLE "teacher_certifications" (
+	"id" varchar(16) PRIMARY KEY,
+	"teacher_id" varchar(16) NOT NULL,
+	"name" varchar(200) NOT NULL,
+	"issuing_organization" varchar(200),
+	"issued_at" timestamp with time zone,
+	"credential_id" varchar(100),
+	"created_at" timestamp(6) with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+	"updated_at" timestamp(6) with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+	"deleted_at" timestamp(6) with time zone
+);
+--> statement-breakpoint
 CREATE TABLE "teacher_contract_models" (
 	"id" varchar(16) PRIMARY KEY,
 	"name" varchar(100) NOT NULL,
 	"content" text NOT NULL,
 	"is_active" boolean DEFAULT true NOT NULL,
+	"created_at" timestamp(6) with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+	"updated_at" timestamp(6) with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+	"deleted_at" timestamp(6) with time zone
+);
+--> statement-breakpoint
+CREATE TABLE "teacher_courses" (
+	"id" varchar(16) PRIMARY KEY,
+	"teacher_id" varchar(16) NOT NULL,
+	"name" varchar(200) NOT NULL,
+	"institution" varchar(200),
+	"completed_at" timestamp with time zone,
+	"duration" varchar(50),
 	"created_at" timestamp(6) with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
 	"updated_at" timestamp(6) with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
 	"deleted_at" timestamp(6) with time zone
@@ -1250,47 +1201,24 @@ CREATE TABLE "teacher_with_terms" (
 --> statement-breakpoint
 CREATE TABLE "teachers" (
 	"id" varchar(16) PRIMARY KEY,
+	"name" varchar(100) NOT NULL,
 	"squad_id" varchar(16) NOT NULL,
-	"address_id" varchar(16) NOT NULL,
 	"class_link" varchar(300),
-	"is_old_instructor" boolean NOT NULL,
 	"status" "teacher_status" NOT NULL,
 	"bank_account_id" varchar(16),
-	"name" varchar(300) NOT NULL,
-	"email" varchar(200) NOT NULL,
 	"school_registry" char(14) NOT NULL,
-	"profile_picture" varchar(300),
-	"birthday" timestamp(6) with time zone NOT NULL,
-	"verification_token" char(10),
-	"verified_at" timestamp,
-	"primary_phone_country_code" char(4) NOT NULL,
-	"primary_phone_number" char(20) NOT NULL,
-	"secondary_phone_country_code" char(4),
-	"secondary_phone_number" char(20),
-	"vat_number" char(40) NOT NULL,
-	"document_type" "document_type" NOT NULL,
-	"gender" "gender" NOT NULL,
-	"password" varchar(200) NOT NULL,
-	"password_reset_token" char(10),
-	"password_reset_token_expiration" timestamp,
-	"mobile_device_token" varchar(300),
-	"first_access" boolean NOT NULL,
-	"send_notifications_block" boolean DEFAULT false NOT NULL,
-	"nationality_id" varchar(16) NOT NULL,
 	"created_at" timestamp(6) with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
 	"updated_at" timestamp(6) with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
 	"deleted_at" timestamp(6) with time zone
 );
 --> statement-breakpoint
-CREATE UNIQUE INDEX "permission_groups_tenant_id_name_key" ON "permission_groups" ("tenant_id","name");--> statement-breakpoint
-CREATE UNIQUE INDEX "tenant_profiles_document_number_type_key" ON "tenant_profiles" ("document_number","document_type");--> statement-breakpoint
-CREATE UNIQUE INDEX "tenant_roles_role_tenant_id_key" ON "tenant_roles" ("role","tenant_id");--> statement-breakpoint
+CREATE UNIQUE INDEX "permission_groups_name_key" ON "permission_groups" ("name");--> statement-breakpoint
 CREATE UNIQUE INDEX "terms_of_use_version_language_key" ON "terms_of_use" ("version","language");--> statement-breakpoint
+CREATE UNIQUE INDEX "ucpg_user_context_permission_group_uk" ON "user_context_permission_groups" ("user_context_id","permission_group_id");--> statement-breakpoint
+CREATE UNIQUE INDEX "user_context_roles_role_user_context_id_key" ON "user_context_roles" ("role","user_context_id");--> statement-breakpoint
+CREATE UNIQUE INDEX "user_contexts_invitation_token_key" ON "user_contexts" ("invitation_token");--> statement-breakpoint
 CREATE UNIQUE INDEX "password_reset_token_key" ON "user_password_reset" ("token");--> statement-breakpoint
 CREATE UNIQUE INDEX "user_profiles_document_number_type_key" ON "user_profiles" ("document_number","document_type");--> statement-breakpoint
-CREATE UNIQUE INDEX "utpg_user_tenant_permission_group_uk" ON "user_tenant_permission_groups" ("user_tenant_id","permission_group_id");--> statement-breakpoint
-CREATE UNIQUE INDEX "user_tenants_invitation_token_key" ON "user_tenants" ("invitation_token");--> statement-breakpoint
-CREATE UNIQUE INDEX "user_tenants_user_id_tenant_id_key" ON "user_tenants" ("user_id","tenant_id");--> statement-breakpoint
 CREATE UNIQUE INDEX "users_email_key" ON "users" ("email");--> statement-breakpoint
 CREATE INDEX "articles__title_idx" ON "articles" ("title");--> statement-breakpoint
 CREATE INDEX "banks__country_id_idx" ON "banks" ("country_id");--> statement-breakpoint
@@ -1305,8 +1233,6 @@ CREATE INDEX "data_contracts__address_id_idx" ON "data_contracts" ("address_id")
 CREATE INDEX "data_contracts__financial_responsible_id_idx" ON "data_contracts" ("financial_responsible_id");--> statement-breakpoint
 CREATE INDEX "data_contracts__nationality_id_idx" ON "data_contracts" ("nationality_id");--> statement-breakpoint
 CREATE UNIQUE INDEX "disciplines__name_key" ON "disciplines" ("name");--> statement-breakpoint
-CREATE INDEX "financial_responsibles__address_id_idx" ON "financial_responsibles" ("address_id");--> statement-breakpoint
-CREATE INDEX "financial_responsibles__nationality_id_idx" ON "financial_responsibles" ("nationality_id");--> statement-breakpoint
 CREATE INDEX "internal_campaigns__seller_id_idx" ON "internal_campaigns" ("seller_id");--> statement-breakpoint
 CREATE INDEX "idx_invoiceitem_invoiceid_removedat" ON "invoice_itens" ("invoice_id","deleted_at");--> statement-breakpoint
 CREATE INDEX "idx_invoiceitens_invoice_removed" ON "invoice_itens" ("invoice_id","deleted_at");--> statement-breakpoint
@@ -1319,10 +1245,10 @@ CREATE INDEX "invoices__collector_id_idx" ON "invoices" ("collector_id");--> sta
 CREATE INDEX "invoices__currency_id_idx" ON "invoices" ("currency_id");--> statement-breakpoint
 CREATE INDEX "invoices__student_id_idx" ON "invoices" ("student_id");--> statement-breakpoint
 CREATE INDEX "issue_activities__issue_id_idx" ON "issue_activities" ("issue_id");--> statement-breakpoint
-CREATE INDEX "issue_activities__user_id_idx" ON "issue_activities" ("user_id");--> statement-breakpoint
+CREATE INDEX "issue_activities__user_context_id_idx" ON "issue_activities" ("user_context_id");--> statement-breakpoint
 CREATE INDEX "issue_attachments__issue_id_idx" ON "issue_attachments" ("issue_id");--> statement-breakpoint
 CREATE INDEX "issue_comments__issue_id_idx" ON "issue_comments" ("issue_id");--> statement-breakpoint
-CREATE INDEX "issue_comments__user_id_idx" ON "issue_comments" ("user_id");--> statement-breakpoint
+CREATE INDEX "issue_comments__user_context_id_idx" ON "issue_comments" ("user_context_id");--> statement-breakpoint
 CREATE INDEX "issues__assignee_id_idx" ON "issues" ("assignee_id");--> statement-breakpoint
 CREATE INDEX "issues__created_by_id_idx" ON "issues" ("created_by_id");--> statement-breakpoint
 CREATE INDEX "lead_import_files__company_id_idx" ON "lead_import_files" ("company_id");--> statement-breakpoint
@@ -1356,7 +1282,7 @@ CREATE INDEX "idx_payments_invoice_status_removed" ON "payments" ("invoice_id","
 CREATE INDEX "payments__invoice_id_idx" ON "payments" ("invoice_id");--> statement-breakpoint
 CREATE INDEX "payments_deleted_at_idx" ON "payments" ("deleted_at");--> statement-breakpoint
 CREATE UNIQUE INDEX "refresh_tokens__token_hash_key" ON "refresh_tokens" ("token_hash");--> statement-breakpoint
-CREATE INDEX "refresh_tokens__user_type__user_id__revoked_at__expires_at_idx" ON "refresh_tokens" ("user_type","user_id","revoked_at","expires_at");--> statement-breakpoint
+CREATE INDEX "refresh_tokens__user_type__user_context_id__revoked_at__expires_at_idx" ON "refresh_tokens" ("user_type","user_context_id","revoked_at","expires_at");--> statement-breakpoint
 CREATE INDEX "refresh_tokens__user_type__user_name_idx" ON "refresh_tokens" ("user_type","user_name");--> statement-breakpoint
 CREATE INDEX "reports_deleted_at_idx" ON "reports" ("deleted_at");--> statement-breakpoint
 CREATE INDEX "squad_managers_deleted_at_idx" ON "squad_managers" ("deleted_at");--> statement-breakpoint
@@ -1378,11 +1304,11 @@ CREATE UNIQUE INDEX "student_class_student_feedbacks__student_class_id_key" ON "
 CREATE INDEX "student_class_teacher_feedbacks_deleted_at_idx" ON "student_class_teacher_feedbacks" ("deleted_at");--> statement-breakpoint
 CREATE UNIQUE INDEX "student_class_teacher_feedbacks__student_class_id_key" ON "student_class_teacher_feedbacks" ("student_class_id");--> statement-breakpoint
 CREATE INDEX "student_class_teacher_feedbacks__teacher_entity_id_idx" ON "student_class_teacher_feedbacks" ("teacher_entity_id");--> statement-breakpoint
+CREATE INDEX "student_classes__id_idx" ON "student_classes" ("id");--> statement-breakpoint
 CREATE INDEX "idx_studentclass_id_classlink_removed" ON "student_classes" ("id","class_link","deleted_at");--> statement-breakpoint
-CREATE INDEX "allocate_students_idx" ON "student_classes" ("teacher_id","class_date","status","rescheduled","deleted_at");--> statement-breakpoint
 CREATE INDEX "classes__student__status__date__time_idx" ON "student_classes" ("student_id","status","class_date");--> statement-breakpoint
 CREATE INDEX "student_classes__discipline_id_idx" ON "student_classes" ("discipline_id");--> statement-breakpoint
-CREATE INDEX "student_classes__invoice_item_id_idx" ON "student_classes" ("invoice_item_id");--> statement-breakpoint
+CREATE INDEX "student_classes__student_contract_id_idx" ON "student_classes" ("student_contract_id");--> statement-breakpoint
 CREATE UNIQUE INDEX "student_classes__lead_id_key" ON "student_classes" ("lead_id");--> statement-breakpoint
 CREATE INDEX "student_classes_deleted_at_idx" ON "student_classes" ("deleted_at");--> statement-breakpoint
 CREATE INDEX "student_classes__student_id_idx" ON "student_classes" ("student_id");--> statement-breakpoint
@@ -1409,10 +1335,6 @@ CREATE INDEX "student_history_events__student_id_idx" ON "student_history_events
 CREATE INDEX "student_internal_notes_deleted_at_idx" ON "student_internal_notes" ("deleted_at");--> statement-breakpoint
 CREATE INDEX "student_internal_notes__student_id_idx" ON "student_internal_notes" ("student_id");--> statement-breakpoint
 CREATE INDEX "student_professions_deleted_at_idx" ON "student_professions" ("deleted_at");--> statement-breakpoint
-CREATE INDEX "student_ranking__rank_idx" ON "student_ranking" ("rank");--> statement-breakpoint
-CREATE INDEX "student_ranking_deleted_at_idx" ON "student_ranking" ("deleted_at");--> statement-breakpoint
-CREATE UNIQUE INDEX "student_ranking__student_id_key" ON "student_ranking" ("student_id");--> statement-breakpoint
-CREATE INDEX "student_ranking__total_points_idx" ON "student_ranking" ("total_points");--> statement-breakpoint
 CREATE INDEX "student_request_events_deleted_at_idx" ON "student_request_events" ("deleted_at");--> statement-breakpoint
 CREATE INDEX "student_request_events__student_request_id_idx" ON "student_request_events" ("student_request_id");--> statement-breakpoint
 CREATE INDEX "student_request_types_deleted_at_idx" ON "student_request_types" ("deleted_at");--> statement-breakpoint
@@ -1438,11 +1360,9 @@ CREATE INDEX "student_with_materials__student_id_idx" ON "student_with_materials
 CREATE INDEX "student_with_terms_deleted_at_idx" ON "student_with_terms" ("deleted_at");--> statement-breakpoint
 CREATE INDEX "student_with_terms__student_id_idx" ON "student_with_terms" ("student_id");--> statement-breakpoint
 CREATE INDEX "student_with_terms__student_term_id_idx" ON "student_with_terms" ("student_term_id");--> statement-breakpoint
-CREATE INDEX "students__address_id_idx" ON "students" ("address_id");--> statement-breakpoint
 CREATE INDEX "students__collector_id_idx" ON "students" ("collector_id");--> statement-breakpoint
 CREATE INDEX "students__company_id_idx" ON "students" ("company_id");--> statement-breakpoint
 CREATE INDEX "students__financial_responsible_id_idx" ON "students" ("financial_responsible_id");--> statement-breakpoint
-CREATE INDEX "students__nationality_id_idx" ON "students" ("nationality_id");--> statement-breakpoint
 CREATE INDEX "students_deleted_at_idx" ON "students" ("deleted_at");--> statement-breakpoint
 CREATE INDEX "tawef_deleted_at_idx" ON "teacher_attribute_with_experimental_feedbacks" ("deleted_at");--> statement-breakpoint
 CREATE INDEX "tawef_scef_id_idx" ON "teacher_attribute_with_experimental_feedbacks" ("student_class_experimental_feedback_id");--> statement-breakpoint
@@ -1450,7 +1370,11 @@ CREATE UNIQUE INDEX "tawef_ta_scef_uk" ON "teacher_attribute_with_experimental_f
 CREATE INDEX "teacher_attributes_deleted_at_idx" ON "teacher_attributes" ("deleted_at");--> statement-breakpoint
 CREATE INDEX "teacher_availabilities_deleted_at_idx" ON "teacher_availabilities" ("deleted_at");--> statement-breakpoint
 CREATE INDEX "teacher_availabilities__teacher_id_idx" ON "teacher_availabilities" ("teacher_id");--> statement-breakpoint
+CREATE INDEX "teacher_certifications_deleted_at_idx" ON "teacher_certifications" ("deleted_at");--> statement-breakpoint
+CREATE INDEX "teacher_certifications__teacher_id_idx" ON "teacher_certifications" ("teacher_id");--> statement-breakpoint
 CREATE INDEX "teacher_contract_models_deleted_at_idx" ON "teacher_contract_models" ("deleted_at");--> statement-breakpoint
+CREATE INDEX "teacher_courses_deleted_at_idx" ON "teacher_courses" ("deleted_at");--> statement-breakpoint
+CREATE INDEX "teacher_courses__teacher_id_idx" ON "teacher_courses" ("teacher_id");--> statement-breakpoint
 CREATE INDEX "teacher_contracts__data_contract_id_idx" ON "teacher_contracts" ("data_contract_id");--> statement-breakpoint
 CREATE INDEX "teacher_contracts__discipline_id_idx" ON "teacher_contracts" ("discipline_id");--> statement-breakpoint
 CREATE INDEX "teacher_contracts_deleted_at_idx" ON "teacher_contracts" ("deleted_at");--> statement-breakpoint
@@ -1477,28 +1401,21 @@ CREATE INDEX "teacher_with_attributes__teacher_id_idx" ON "teacher_with_attribut
 CREATE INDEX "teacher_with_terms_deleted_at_idx" ON "teacher_with_terms" ("deleted_at");--> statement-breakpoint
 CREATE INDEX "teacher_with_terms__teacher_id_idx" ON "teacher_with_terms" ("teacher_id");--> statement-breakpoint
 CREATE INDEX "teacher_with_terms__teacher_term_id_idx" ON "teacher_with_terms" ("teacher_term_id");--> statement-breakpoint
-CREATE INDEX "teachers__address_id_idx" ON "teachers" ("address_id");--> statement-breakpoint
 CREATE INDEX "teachers__bank_account_id_idx" ON "teachers" ("bank_account_id");--> statement-breakpoint
-CREATE INDEX "teachers__nationality_id_idx" ON "teachers" ("nationality_id");--> statement-breakpoint
 CREATE INDEX "teachers_deleted_at_idx" ON "teachers" ("deleted_at");--> statement-breakpoint
 CREATE INDEX "teachers__squad_id_idx" ON "teachers" ("squad_id");--> statement-breakpoint
-ALTER TABLE "permission_groups" ADD CONSTRAINT "permission_groups_tenant_id_fkey" FOREIGN KEY ("tenant_id") REFERENCES "tenants"("id") ON DELETE CASCADE;--> statement-breakpoint
 ALTER TABLE "permission_groups_permissions" ADD CONSTRAINT "permission_groups_permissions_permission_group_id_fkey" FOREIGN KEY ("permission_group_id") REFERENCES "permission_groups"("id") ON DELETE CASCADE;--> statement-breakpoint
-ALTER TABLE "tenant_profiles" ADD CONSTRAINT "tenant_profiles_avatar_id_fkey" FOREIGN KEY ("avatar_id") REFERENCES "medias"("id") ON DELETE SET NULL;--> statement-breakpoint
-ALTER TABLE "tenant_profiles" ADD CONSTRAINT "tenant_profiles_address_id_fkey" FOREIGN KEY ("address_id") REFERENCES "addresses"("id") ON DELETE SET NULL;--> statement-breakpoint
-ALTER TABLE "tenant_roles" ADD CONSTRAINT "tenant_roles_tenant_id_fkey" FOREIGN KEY ("tenant_id") REFERENCES "tenants"("id") ON DELETE CASCADE;--> statement-breakpoint
-ALTER TABLE "tenants" ADD CONSTRAINT "tenants_tenant_profile_id_fkey" FOREIGN KEY ("tenant_profile_id") REFERENCES "tenant_profiles"("id") ON DELETE RESTRICT;--> statement-breakpoint
-ALTER TABLE "terms_of_use_acceptances" ADD CONSTRAINT "terms_of_use_acceptances_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "users"("id") ON DELETE CASCADE;--> statement-breakpoint
+ALTER TABLE "terms_of_use_acceptances" ADD CONSTRAINT "terms_of_use_acceptances_user_context_id_fkey" FOREIGN KEY ("user_context_id") REFERENCES "user_contexts"("id") ON DELETE CASCADE;--> statement-breakpoint
 ALTER TABLE "terms_of_use_acceptances" ADD CONSTRAINT "terms_of_use_acceptances_terms_of_use_id_fkey" FOREIGN KEY ("terms_of_use_id") REFERENCES "terms_of_use"("id") ON DELETE CASCADE;--> statement-breakpoint
-ALTER TABLE "user_password_reset" ADD CONSTRAINT "password_reset_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "users"("id") ON DELETE CASCADE;--> statement-breakpoint
+ALTER TABLE "user_context_permission_groups" ADD CONSTRAINT "user_context_permission_groups_user_context_id_fkey" FOREIGN KEY ("user_context_id") REFERENCES "user_contexts"("id") ON DELETE CASCADE;--> statement-breakpoint
+ALTER TABLE "user_context_permission_groups" ADD CONSTRAINT "user_context_permission_groups_permission_group_id_fkey" FOREIGN KEY ("permission_group_id") REFERENCES "permission_groups"("id") ON DELETE CASCADE;--> statement-breakpoint
+ALTER TABLE "user_context_roles" ADD CONSTRAINT "user_context_roles_user_context_id_fkey" FOREIGN KEY ("user_context_id") REFERENCES "user_contexts"("id") ON DELETE CASCADE;--> statement-breakpoint
+ALTER TABLE "user_contexts" ADD CONSTRAINT "user_contexts_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "users"("id") ON DELETE CASCADE;--> statement-breakpoint
+ALTER TABLE "user_password_reset" ADD CONSTRAINT "password_reset_user_context_id_fkey" FOREIGN KEY ("user_context_id") REFERENCES "user_contexts"("id") ON DELETE CASCADE;--> statement-breakpoint
 ALTER TABLE "user_profiles" ADD CONSTRAINT "user_profiles_avatar_id_fkey" FOREIGN KEY ("avatar_id") REFERENCES "medias"("id") ON DELETE SET NULL;--> statement-breakpoint
 ALTER TABLE "user_profiles" ADD CONSTRAINT "user_profiles_address_id_fkey" FOREIGN KEY ("address_id") REFERENCES "addresses"("id") ON DELETE SET NULL;--> statement-breakpoint
-ALTER TABLE "user_sessions" ADD CONSTRAINT "user_sessions_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "users"("id") ON DELETE CASCADE;--> statement-breakpoint
-ALTER TABLE "user_sessions" ADD CONSTRAINT "user_sessions_current_tenant_id_fkey" FOREIGN KEY ("current_tenant_id") REFERENCES "tenants"("id") ON DELETE CASCADE;--> statement-breakpoint
-ALTER TABLE "user_tenant_permission_groups" ADD CONSTRAINT "user_tenant_permission_groups_user_tenant_id_fkey" FOREIGN KEY ("user_tenant_id") REFERENCES "user_tenants"("id") ON DELETE CASCADE;--> statement-breakpoint
-ALTER TABLE "user_tenant_permission_groups" ADD CONSTRAINT "user_tenant_permission_groups_permission_group_id_fkey" FOREIGN KEY ("permission_group_id") REFERENCES "permission_groups"("id") ON DELETE CASCADE;--> statement-breakpoint
-ALTER TABLE "user_tenants" ADD CONSTRAINT "user_tenants_tenant_id_fkey" FOREIGN KEY ("tenant_id") REFERENCES "tenants"("id") ON DELETE CASCADE;--> statement-breakpoint
-ALTER TABLE "user_tenants" ADD CONSTRAINT "user_tenants_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "users"("id") ON DELETE CASCADE;--> statement-breakpoint
+ALTER TABLE "user_sessions" ADD CONSTRAINT "user_sessions_user_context_id_fkey" FOREIGN KEY ("user_context_id") REFERENCES "user_contexts"("id") ON DELETE CASCADE;--> statement-breakpoint
+ALTER TABLE "user_sessions" ADD CONSTRAINT "user_sessions_current_context_id_fkey" FOREIGN KEY ("current_context_id") REFERENCES "user_contexts"("id") ON DELETE CASCADE;--> statement-breakpoint
 ALTER TABLE "users" ADD CONSTRAINT "users_user_profile_id_fkey" FOREIGN KEY ("user_profile_id") REFERENCES "user_profiles"("id") ON DELETE RESTRICT;--> statement-breakpoint
 ALTER TABLE "banks" ADD CONSTRAINT "banks_fkey" FOREIGN KEY ("country_id") REFERENCES "countries"("id");--> statement-breakpoint
 ALTER TABLE "contract_sign_job_controls" ADD CONSTRAINT "contract_sign_job_controls__student_contract_id_fkey" FOREIGN KEY ("student_contract_id") REFERENCES "student_contracts"("id");--> statement-breakpoint
@@ -1507,8 +1424,6 @@ ALTER TABLE "contract_tokens" ADD CONSTRAINT "contract_tokens__student_contract_
 ALTER TABLE "contract_tokens" ADD CONSTRAINT "contract_tokens__teacher_contract_id_fkey" FOREIGN KEY ("teacher_contract_id") REFERENCES "teacher_contracts"("id");--> statement-breakpoint
 ALTER TABLE "data_contracts" ADD CONSTRAINT "data_contracts__address_id_fkey" FOREIGN KEY ("address_id") REFERENCES "addresses"("id");--> statement-breakpoint
 ALTER TABLE "data_contracts" ADD CONSTRAINT "data_contracts__nationality_id_fkey" FOREIGN KEY ("nationality_id") REFERENCES "countries"("id");--> statement-breakpoint
-ALTER TABLE "financial_responsibles" ADD CONSTRAINT "financial_responsibles__address_id_fkey" FOREIGN KEY ("address_id") REFERENCES "addresses"("id");--> statement-breakpoint
-ALTER TABLE "financial_responsibles" ADD CONSTRAINT "financial_responsibles__nationality_id_fkey" FOREIGN KEY ("nationality_id") REFERENCES "countries"("id");--> statement-breakpoint
 ALTER TABLE "invoice_itens" ADD CONSTRAINT "invoice_itens__invoice_id_fkey" FOREIGN KEY ("invoice_id") REFERENCES "invoices"("id");--> statement-breakpoint
 ALTER TABLE "invoice_itens" ADD CONSTRAINT "invoice_itens__student_contract_id_fkey" FOREIGN KEY ("student_contract_id") REFERENCES "student_contracts"("id");--> statement-breakpoint
 ALTER TABLE "invoice_notes" ADD CONSTRAINT "invoice_notes_fkey" FOREIGN KEY ("invoice_id") REFERENCES "invoices"("id");--> statement-breakpoint
@@ -1516,8 +1431,10 @@ ALTER TABLE "invoices" ADD CONSTRAINT "invoices__collector_id_fkey" FOREIGN KEY 
 ALTER TABLE "invoices" ADD CONSTRAINT "invoices__currency_id_fkey" FOREIGN KEY ("currency_id") REFERENCES "currencies"("id");--> statement-breakpoint
 ALTER TABLE "invoices" ADD CONSTRAINT "invoices__student_id_fkey" FOREIGN KEY ("student_id") REFERENCES "students"("id");--> statement-breakpoint
 ALTER TABLE "issue_activities" ADD CONSTRAINT "issue_activities_fkey" FOREIGN KEY ("issue_id") REFERENCES "issues"("id");--> statement-breakpoint
+ALTER TABLE "issue_activities" ADD CONSTRAINT "issue_activities_user_context_id_fkey" FOREIGN KEY ("user_context_id") REFERENCES "user_contexts"("id");--> statement-breakpoint
 ALTER TABLE "issue_attachments" ADD CONSTRAINT "issue_attachments_fkey" FOREIGN KEY ("issue_id") REFERENCES "issues"("id");--> statement-breakpoint
 ALTER TABLE "issue_comments" ADD CONSTRAINT "issue_comments_fkey" FOREIGN KEY ("issue_id") REFERENCES "issues"("id");--> statement-breakpoint
+ALTER TABLE "issue_comments" ADD CONSTRAINT "issue_comments_user_context_id_fkey" FOREIGN KEY ("user_context_id") REFERENCES "user_contexts"("id");--> statement-breakpoint
 ALTER TABLE "lead_import_files" ADD CONSTRAINT "lead_import_files__internal_campaign_id_fkey" FOREIGN KEY ("internal_campaign_id") REFERENCES "internal_campaigns"("id");--> statement-breakpoint
 ALTER TABLE "lead_imports" ADD CONSTRAINT "lead_imports__lead_import_file_id_fkey" FOREIGN KEY ("lead_import_file_id") REFERENCES "lead_import_files"("id");--> statement-breakpoint
 ALTER TABLE "lead_imports" ADD CONSTRAINT "lead_imports__lead_id_fkey" FOREIGN KEY ("lead_id") REFERENCES "leads"("id");--> statement-breakpoint
@@ -1532,19 +1449,23 @@ ALTER TABLE "material_with_experimental_feedbacks" ADD CONSTRAINT "mwef_scef_id_
 ALTER TABLE "materials" ADD CONSTRAINT "materials_fkey" FOREIGN KEY ("teacher_id") REFERENCES "teachers"("id");--> statement-breakpoint
 ALTER TABLE "national_holidays" ADD CONSTRAINT "national_holidays_fkey" FOREIGN KEY ("country_id") REFERENCES "countries"("id");--> statement-breakpoint
 ALTER TABLE "payments" ADD CONSTRAINT "payments_fkey" FOREIGN KEY ("invoice_id") REFERENCES "invoices"("id");--> statement-breakpoint
+ALTER TABLE "refresh_tokens" ADD CONSTRAINT "refresh_tokens_user_context_id_fkey" FOREIGN KEY ("user_context_id") REFERENCES "user_contexts"("id");--> statement-breakpoint
+ALTER TABLE "sellers" ADD CONSTRAINT "sellers_user_context_id_fkey" FOREIGN KEY ("user_context_id") REFERENCES "user_contexts"("id") ON DELETE RESTRICT;--> statement-breakpoint
 ALTER TABLE "squad_managers" ADD CONSTRAINT "squad_managers_fkey" FOREIGN KEY ("squad_id") REFERENCES "squads"("id");--> statement-breakpoint
 ALTER TABLE "student_cancel_pause_job" ADD CONSTRAINT "student_cancel_pause_job_fkey" FOREIGN KEY ("student_id") REFERENCES "students"("id");--> statement-breakpoint
+ALTER TABLE "student_class_events" ADD CONSTRAINT "student_class_events_user_context_id_user_contexts_id_fkey" FOREIGN KEY ("user_context_id") REFERENCES "user_contexts"("id");--> statement-breakpoint
 ALTER TABLE "student_class_experimental_feedbacks" ADD CONSTRAINT "scef_lead_id_fkey" FOREIGN KEY ("lead_id") REFERENCES "leads"("id");--> statement-breakpoint
 ALTER TABLE "student_class_experimental_feedbacks" ADD CONSTRAINT "scef_student_class_id_fkey" FOREIGN KEY ("student_class_id") REFERENCES "student_classes"("id");--> statement-breakpoint
 ALTER TABLE "student_class_experimental_feedbacks" ADD CONSTRAINT "scef_student_profession_id_fkey" FOREIGN KEY ("student_profession_id") REFERENCES "student_professions"("id");--> statement-breakpoint
 ALTER TABLE "student_class_experimental_feedbacks" ADD CONSTRAINT "scef_ssc_id_fkey" FOREIGN KEY ("student_specific_condition_id") REFERENCES "student_specific_conditions"("id");--> statement-breakpoint
 ALTER TABLE "student_class_meet_events" ADD CONSTRAINT "student_class_meet_events_fkey" FOREIGN KEY ("student_class_id") REFERENCES "student_classes"("id");--> statement-breakpoint
+ALTER TABLE "student_class_meet_events" ADD CONSTRAINT "student_class_meet_events_user_context_id_fkey" FOREIGN KEY ("user_context_id") REFERENCES "user_contexts"("id");--> statement-breakpoint
 ALTER TABLE "student_class_student_feedbacks" ADD CONSTRAINT "student_class_student_feedbacks_fkey" FOREIGN KEY ("student_class_id") REFERENCES "student_classes"("id");--> statement-breakpoint
 ALTER TABLE "student_class_teacher_feedbacks" ADD CONSTRAINT "student_class_teacher_feedbacks__student_class_id_fkey" FOREIGN KEY ("student_class_id") REFERENCES "student_classes"("id");--> statement-breakpoint
 ALTER TABLE "student_class_teacher_feedbacks" ADD CONSTRAINT "student_class_teacher_feedbacks__teacher_entity_id_fkey" FOREIGN KEY ("teacher_entity_id") REFERENCES "teachers"("id");--> statement-breakpoint
 ALTER TABLE "student_classes" ADD CONSTRAINT "student_classes__discipline_id_fkey" FOREIGN KEY ("discipline_id") REFERENCES "disciplines"("id");--> statement-breakpoint
-ALTER TABLE "student_classes" ADD CONSTRAINT "student_classes__invoice_item_id_fkey" FOREIGN KEY ("invoice_item_id") REFERENCES "invoice_itens"("id");--> statement-breakpoint
 ALTER TABLE "student_classes" ADD CONSTRAINT "student_classes__lead_id_fkey" FOREIGN KEY ("lead_id") REFERENCES "leads"("id");--> statement-breakpoint
+ALTER TABLE "student_classes" ADD CONSTRAINT "student_classes__student_contract_id_fkey" FOREIGN KEY ("student_contract_id") REFERENCES "student_contracts"("id");--> statement-breakpoint
 ALTER TABLE "student_classes" ADD CONSTRAINT "student_classes__student_id_fkey" FOREIGN KEY ("student_id") REFERENCES "students"("id");--> statement-breakpoint
 ALTER TABLE "student_classes" ADD CONSTRAINT "student_classes__teacher_id_fkey" FOREIGN KEY ("teacher_id") REFERENCES "teachers"("id");--> statement-breakpoint
 ALTER TABLE "student_contract_class_options" ADD CONSTRAINT "student_contract_class_options_fkey" FOREIGN KEY ("student_contract_id") REFERENCES "student_contracts"("id");--> statement-breakpoint
@@ -1560,7 +1481,6 @@ ALTER TABLE "student_contracts" ADD CONSTRAINT "student_contracts__student_id_fk
 ALTER TABLE "student_contracts" ADD CONSTRAINT "student_contracts__teacher_id_fkey" FOREIGN KEY ("teacher_id") REFERENCES "teachers"("id");--> statement-breakpoint
 ALTER TABLE "student_history_events" ADD CONSTRAINT "student_history_events_fkey" FOREIGN KEY ("student_id") REFERENCES "students"("id");--> statement-breakpoint
 ALTER TABLE "student_internal_notes" ADD CONSTRAINT "student_internal_notes_fkey" FOREIGN KEY ("student_id") REFERENCES "students"("id");--> statement-breakpoint
-ALTER TABLE "student_ranking" ADD CONSTRAINT "student_ranking_fkey" FOREIGN KEY ("student_id") REFERENCES "students"("id");--> statement-breakpoint
 ALTER TABLE "student_request_events" ADD CONSTRAINT "student_request_events_fkey" FOREIGN KEY ("student_request_id") REFERENCES "student_requests"("id");--> statement-breakpoint
 ALTER TABLE "student_requests" ADD CONSTRAINT "student_requests__student_request_type_id_fkey" FOREIGN KEY ("student_request_type_id") REFERENCES "student_request_types"("id");--> statement-breakpoint
 ALTER TABLE "student_requests" ADD CONSTRAINT "student_requests__student_id_fkey" FOREIGN KEY ("student_id") REFERENCES "students"("id");--> statement-breakpoint
@@ -1575,13 +1495,13 @@ ALTER TABLE "student_with_materials" ADD CONSTRAINT "student_with_materials__mat
 ALTER TABLE "student_with_materials" ADD CONSTRAINT "student_with_materials__student_id_fkey" FOREIGN KEY ("student_id") REFERENCES "students"("id");--> statement-breakpoint
 ALTER TABLE "student_with_terms" ADD CONSTRAINT "student_with_terms__student_id_fkey" FOREIGN KEY ("student_id") REFERENCES "students"("id");--> statement-breakpoint
 ALTER TABLE "student_with_terms" ADD CONSTRAINT "student_with_terms__student_term_id_fkey" FOREIGN KEY ("student_term_id") REFERENCES "student_terms"("id");--> statement-breakpoint
-ALTER TABLE "students" ADD CONSTRAINT "students__address_id_fkey" FOREIGN KEY ("address_id") REFERENCES "addresses"("id");--> statement-breakpoint
 ALTER TABLE "students" ADD CONSTRAINT "students__collector_id_fkey" FOREIGN KEY ("collector_id") REFERENCES "collectors"("id");--> statement-breakpoint
-ALTER TABLE "students" ADD CONSTRAINT "students__nationality_id_fkey" FOREIGN KEY ("nationality_id") REFERENCES "countries"("id");--> statement-breakpoint
 ALTER TABLE "students" ADD CONSTRAINT "students__financial_responsible_id_fkey" FOREIGN KEY ("financial_responsible_id") REFERENCES "financial_responsibles"("id");--> statement-breakpoint
 ALTER TABLE "teacher_attribute_with_experimental_feedbacks" ADD CONSTRAINT "tawef_scef_id_fkey" FOREIGN KEY ("student_class_experimental_feedback_id") REFERENCES "student_class_experimental_feedbacks"("id");--> statement-breakpoint
 ALTER TABLE "teacher_attribute_with_experimental_feedbacks" ADD CONSTRAINT "tawef_ta_id_fkey" FOREIGN KEY ("teacher_attribute_id") REFERENCES "teacher_attributes"("id");--> statement-breakpoint
 ALTER TABLE "teacher_availabilities" ADD CONSTRAINT "teacher_availabilities_fkey" FOREIGN KEY ("teacher_id") REFERENCES "teachers"("id");--> statement-breakpoint
+ALTER TABLE "teacher_certifications" ADD CONSTRAINT "teacher_certifications__teacher_id_fkey" FOREIGN KEY ("teacher_id") REFERENCES "teachers"("id");--> statement-breakpoint
+ALTER TABLE "teacher_courses" ADD CONSTRAINT "teacher_courses__teacher_id_fkey" FOREIGN KEY ("teacher_id") REFERENCES "teachers"("id");--> statement-breakpoint
 ALTER TABLE "teacher_contracts" ADD CONSTRAINT "teacher_contracts__data_contract_id_fkey" FOREIGN KEY ("data_contract_id") REFERENCES "data_contracts"("id");--> statement-breakpoint
 ALTER TABLE "teacher_contracts" ADD CONSTRAINT "teacher_contracts__discipline_id_fkey" FOREIGN KEY ("discipline_id") REFERENCES "disciplines"("id");--> statement-breakpoint
 ALTER TABLE "teacher_contracts" ADD CONSTRAINT "teacher_contracts__teacher_contract_model_id_fkey" FOREIGN KEY ("teacher_contract_model_id") REFERENCES "teacher_contract_models"("id");--> statement-breakpoint
@@ -1598,7 +1518,5 @@ ALTER TABLE "teacher_with_attributes" ADD CONSTRAINT "teacher_with_attributes__t
 ALTER TABLE "teacher_with_attributes" ADD CONSTRAINT "teacher_with_attributes__teacher_id_fkey" FOREIGN KEY ("teacher_id") REFERENCES "teachers"("id");--> statement-breakpoint
 ALTER TABLE "teacher_with_terms" ADD CONSTRAINT "teacher_with_terms__teacher_id_fkey" FOREIGN KEY ("teacher_id") REFERENCES "teachers"("id");--> statement-breakpoint
 ALTER TABLE "teacher_with_terms" ADD CONSTRAINT "teacher_with_terms__teacher_term_id_fkey" FOREIGN KEY ("teacher_term_id") REFERENCES "teacher_terms"("id");--> statement-breakpoint
-ALTER TABLE "teachers" ADD CONSTRAINT "teachers__address_id_fkey" FOREIGN KEY ("address_id") REFERENCES "addresses"("id");--> statement-breakpoint
 ALTER TABLE "teachers" ADD CONSTRAINT "teachers__bank_account_id_fkey" FOREIGN KEY ("bank_account_id") REFERENCES "bank_accounts"("id");--> statement-breakpoint
-ALTER TABLE "teachers" ADD CONSTRAINT "teachers__nationality_id_fkey" FOREIGN KEY ("nationality_id") REFERENCES "countries"("id");--> statement-breakpoint
 ALTER TABLE "teachers" ADD CONSTRAINT "teachers__squad_id_fkey" FOREIGN KEY ("squad_id") REFERENCES "squads"("id");

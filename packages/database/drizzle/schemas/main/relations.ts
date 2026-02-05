@@ -61,9 +61,9 @@ import { teacherAttributeWithExperimentalFeedbacks } from './teacher-attribute-w
 import { teacherAttributes } from './teacher-attributes'
 import { teacherAvailabilities } from './teacher-availabilities'
 import { teacherCertifications } from './teacher-certifications'
-import { teacherCourses } from './teacher-courses'
 import { teacherContractModels } from './teacher-contract-models'
 import { teacherContracts } from './teacher-contracts'
+import { teacherCourses } from './teacher-courses'
 import { teacherHistoryEvents } from './teacher-history-events'
 import { teacherInternalNotes } from './teacher-internal-notes'
 import { teacherRequestEvents } from './teacher-request-events'
@@ -368,29 +368,26 @@ export const studentClassStudentFeedbacksRelations = relations(studentClassStude
     })
 }))
 
-export const studentClassExperimentalFeedbacksRelations = relations(
-    studentClassExperimentalFeedbacks,
-    ({ one, many }) => ({
-        studentClass: one(studentClasses, {
-            fields: [studentClassExperimentalFeedbacks.studentClassId],
-            references: [studentClasses.id]
-        }),
-        lead: one(leads, {
-            fields: [studentClassExperimentalFeedbacks.leadId],
-            references: [leads.id]
-        }),
-        studentProfession: one(studentProfessions, {
-            fields: [studentClassExperimentalFeedbacks.studentProfessionId],
-            references: [studentProfessions.id]
-        }),
-        studentSpecificCondition: one(studentSpecificConditions, {
-            fields: [studentClassExperimentalFeedbacks.studentSpecificConditionId],
-            references: [studentSpecificConditions.id]
-        }),
-        teacherAttributeWithExperimentalFeedbacks: many(teacherAttributeWithExperimentalFeedbacks),
-        materialWithExperimentalFeedbacks: many(materialWithExperimentalFeedbacks)
-    })
-)
+export const studentClassExperimentalFeedbacksRelations = relations(studentClassExperimentalFeedbacks, ({ one, many }) => ({
+    studentClass: one(studentClasses, {
+        fields: [studentClassExperimentalFeedbacks.studentClassId],
+        references: [studentClasses.id]
+    }),
+    lead: one(leads, {
+        fields: [studentClassExperimentalFeedbacks.leadId],
+        references: [leads.id]
+    }),
+    studentProfession: one(studentProfessions, {
+        fields: [studentClassExperimentalFeedbacks.studentProfessionId],
+        references: [studentProfessions.id]
+    }),
+    studentSpecificCondition: one(studentSpecificConditions, {
+        fields: [studentClassExperimentalFeedbacks.studentSpecificConditionId],
+        references: [studentSpecificConditions.id]
+    }),
+    teacherAttributeWithExperimentalFeedbacks: many(teacherAttributeWithExperimentalFeedbacks),
+    materialWithExperimentalFeedbacks: many(materialWithExperimentalFeedbacks)
+}))
 
 export const studentClassTeacherFeedbacksRelations = relations(studentClassTeacherFeedbacks, ({ one }) => ({
     studentClass: one(studentClasses, {
@@ -421,19 +418,16 @@ export const teacherWithAttributesRelations = relations(teacherWithAttributes, (
     })
 }))
 
-export const teacherAttributeWithExperimentalFeedbacksRelations = relations(
-    teacherAttributeWithExperimentalFeedbacks,
-    ({ one }) => ({
-        teacherAttribute: one(teacherAttributes, {
-            fields: [teacherAttributeWithExperimentalFeedbacks.teacherAttributeId],
-            references: [teacherAttributes.id]
-        }),
-        studentClassExperimentalFeedback: one(studentClassExperimentalFeedbacks, {
-            fields: [teacherAttributeWithExperimentalFeedbacks.studentClassExperimentalFeedbackId],
-            references: [studentClassExperimentalFeedbacks.id]
-        })
+export const teacherAttributeWithExperimentalFeedbacksRelations = relations(teacherAttributeWithExperimentalFeedbacks, ({ one }) => ({
+    teacherAttribute: one(teacherAttributes, {
+        fields: [teacherAttributeWithExperimentalFeedbacks.teacherAttributeId],
+        references: [teacherAttributes.id]
+    }),
+    studentClassExperimentalFeedback: one(studentClassExperimentalFeedbacks, {
+        fields: [teacherAttributeWithExperimentalFeedbacks.studentClassExperimentalFeedbackId],
+        references: [studentClassExperimentalFeedbacks.id]
     })
-)
+}))
 
 // --- Teacher terms ---
 export const teacherTermsRelations = relations(teacherTerms, ({ many }) => ({
@@ -547,35 +541,29 @@ export const studentTeacherRequestsRelations = relations(studentTeacherRequests,
     studentTeacherRequestAttributes: many(studentTeacherRequestAttributes)
 }))
 
-export const studentTeacherRequestAttributesRelations = relations(
-    studentTeacherRequestAttributes,
-    ({ one }) => ({
-        studentTeacherRequest: one(studentTeacherRequests, {
-            fields: [studentTeacherRequestAttributes.studentTeacherRequestId],
-            references: [studentTeacherRequests.id]
-        }),
-        teacherAttribute: one(teacherAttributes, {
-            fields: [studentTeacherRequestAttributes.teacherAttributeId],
-            references: [teacherAttributes.id]
-        })
+export const studentTeacherRequestAttributesRelations = relations(studentTeacherRequestAttributes, ({ one }) => ({
+    studentTeacherRequest: one(studentTeacherRequests, {
+        fields: [studentTeacherRequestAttributes.studentTeacherRequestId],
+        references: [studentTeacherRequests.id]
+    }),
+    teacherAttribute: one(teacherAttributes, {
+        fields: [studentTeacherRequestAttributes.teacherAttributeId],
+        references: [teacherAttributes.id]
     })
-)
+}))
 
-export const studentTeacherObservationsRelations = relations(
-    studentTeacherObservations,
-    ({ one }) => ({
-        student: one(students, {
-            fields: [studentTeacherObservations.studentId],
-            references: [students.id],
-            relationName: 'studentObservations'
-        }),
-        teacher: one(teachers, {
-            fields: [studentTeacherObservations.teacherId],
-            references: [teachers.id],
-            relationName: 'teacherObservations'
-        })
+export const studentTeacherObservationsRelations = relations(studentTeacherObservations, ({ one }) => ({
+    student: one(students, {
+        fields: [studentTeacherObservations.studentId],
+        references: [students.id],
+        relationName: 'studentObservations'
+    }),
+    teacher: one(teachers, {
+        fields: [studentTeacherObservations.teacherId],
+        references: [teachers.id],
+        relationName: 'teacherObservations'
     })
-)
+}))
 
 // --- Student requests ---
 export const studentRequestTypesRelations = relations(studentRequestTypes, ({ many }) => ({
@@ -649,19 +637,16 @@ export const studentWithMaterialsRelations = relations(studentWithMaterials, ({ 
     })
 }))
 
-export const materialWithExperimentalFeedbacksRelations = relations(
-    materialWithExperimentalFeedbacks,
-    ({ one }) => ({
-        material: one(materials, {
-            fields: [materialWithExperimentalFeedbacks.materialId],
-            references: [materials.id]
-        }),
-        studentClassExperimentalFeedback: one(studentClassExperimentalFeedbacks, {
-            fields: [materialWithExperimentalFeedbacks.studentClassExperimentalFeedbackId],
-            references: [studentClassExperimentalFeedbacks.id]
-        })
+export const materialWithExperimentalFeedbacksRelations = relations(materialWithExperimentalFeedbacks, ({ one }) => ({
+    material: one(materials, {
+        fields: [materialWithExperimentalFeedbacks.materialId],
+        references: [materials.id]
+    }),
+    studentClassExperimentalFeedback: one(studentClassExperimentalFeedbacks, {
+        fields: [materialWithExperimentalFeedbacks.studentClassExperimentalFeedbackId],
+        references: [studentClassExperimentalFeedbacks.id]
     })
-)
+}))
 
 // --- Student professions, specific conditions ---
 export const studentProfessionsRelations = relations(studentProfessions, ({ many }) => ({
@@ -751,9 +736,9 @@ export const issueCommentsRelations = relations(issueComments, ({ one }) => ({
         fields: [issueComments.issueId],
         references: [issues.id]
     }),
-    userTenant: one(userTenants, {
-        fields: [issueComments.userTenantId],
-        references: [userTenants.id]
+    userContext: one(userContexts, {
+        fields: [issueComments.userContextId],
+        references: [userContexts.id]
     })
 }))
 

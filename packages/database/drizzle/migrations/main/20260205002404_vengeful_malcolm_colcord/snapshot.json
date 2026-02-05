@@ -1,9 +1,9 @@
 {
   "version": "8",
   "dialect": "postgres",
-  "id": "cb09185c-2b80-49df-8a22-835ba3b9cd1c",
+  "id": "01c6c69e-b3b1-4439-85d2-6d3b74b73d3a",
   "prevIds": [
-    "ca59ee1f-ea24-4713-84db-5bbc94caf6ae"
+    "00000000-0000-0000-0000-000000000000"
   ],
   "ddl": [
     {
@@ -85,20 +85,10 @@
     },
     {
       "values": [
-        "active",
-        "inactive",
-        "blocked"
-      ],
-      "name": "student_status",
-      "entityType": "enums",
-      "schema": "public"
-    },
-    {
-      "values": [
         "system_admin",
         "alianza_admin"
       ],
-      "name": "tenant_role_type",
+      "name": "user_context_role_type",
       "entityType": "enums",
       "schema": "public"
     },
@@ -110,6 +100,157 @@
         "alianza"
       ],
       "name": "user_type",
+      "entityType": "enums",
+      "schema": "public"
+    },
+    {
+      "values": [
+        "America/Adak",
+        "America/Anchorage",
+        "America/Atikokan",
+        "America/Blanc-Sablon",
+        "America/Boise",
+        "America/Cambridge_Bay",
+        "America/Chicago",
+        "America/Creston",
+        "America/Dawson",
+        "America/Dawson_Creek",
+        "America/Denver",
+        "America/Detroit",
+        "America/Edmonton",
+        "America/Fort_Nelson",
+        "America/Glace_Bay",
+        "America/Goose_Bay",
+        "America/Halifax",
+        "America/Indiana/Indianapolis",
+        "America/Indiana/Knox",
+        "America/Indiana/Marengo",
+        "America/Indiana/Petersburg",
+        "America/Indiana/Tell_City",
+        "America/Indiana/Vevay",
+        "America/Indiana/Vincennes",
+        "America/Indiana/Winamac",
+        "America/Inuvik",
+        "America/Iqaluit",
+        "America/Juneau",
+        "America/Kentucky/Louisville",
+        "America/Kentucky/Monticello",
+        "America/Los_Angeles",
+        "America/Menominee",
+        "America/Metlakatla",
+        "America/Moncton",
+        "America/Nome",
+        "America/North_Dakota/Beulah",
+        "America/North_Dakota/Center",
+        "America/North_Dakota/New_Salem",
+        "America/New_York",
+        "America/Phoenix",
+        "America/Rainy_River",
+        "America/Rankin_Inlet",
+        "America/Regina",
+        "America/Resolute",
+        "America/Sitka",
+        "America/Swift_Current",
+        "America/St_Johns",
+        "America/Thunder_Bay",
+        "America/Toronto",
+        "America/Vancouver",
+        "America/Whitehorse",
+        "America/Winnipeg",
+        "America/Yakutat",
+        "America/Yellowknife",
+        "America/Bahia_Banderas",
+        "America/Cancun",
+        "America/Chihuahua",
+        "America/Ciudad_Juarez",
+        "America/Hermosillo",
+        "America/Matamoros",
+        "America/Mazatlan",
+        "America/Merida",
+        "America/Mexico_City",
+        "America/Monterrey",
+        "America/Ojinaga",
+        "America/Tijuana",
+        "America/Belize",
+        "America/Costa_Rica",
+        "America/El_Salvador",
+        "America/Guatemala",
+        "America/Managua",
+        "America/Panama",
+        "America/Tegucigalpa",
+        "America/Anguilla",
+        "America/Antigua",
+        "America/Aruba",
+        "America/Barbados",
+        "America/Cayman",
+        "America/Curacao",
+        "America/Dominica",
+        "America/Grand_Turk",
+        "America/Guadeloupe",
+        "America/Havana",
+        "America/Jamaica",
+        "America/Kralendijk",
+        "America/Lower_Princes",
+        "America/Marigot",
+        "America/Martinique",
+        "America/Montserrat",
+        "America/Nassau",
+        "America/Port-au-Prince",
+        "America/Port_of_Spain",
+        "America/Puerto_Rico",
+        "America/Santo_Domingo",
+        "America/St_Barthelemy",
+        "America/St_Kitts",
+        "America/St_Lucia",
+        "America/St_Thomas",
+        "America/St_Vincent",
+        "America/Tortola",
+        "America/Araguaina",
+        "America/Argentina/Buenos_Aires",
+        "America/Argentina/Catamarca",
+        "America/Argentina/Cordoba",
+        "America/Argentina/Jujuy",
+        "America/Argentina/La_Rioja",
+        "America/Argentina/Mendoza",
+        "America/Argentina/Rio_Gallegos",
+        "America/Argentina/Salta",
+        "America/Argentina/San_Juan",
+        "America/Argentina/San_Luis",
+        "America/Argentina/Tucuman",
+        "America/Argentina/Ushuaia",
+        "America/Asuncion",
+        "America/Bahia",
+        "America/Belem",
+        "America/Boa_Vista",
+        "America/Bogota",
+        "America/Campo_Grande",
+        "America/Caracas",
+        "America/Cayenne",
+        "America/Cuiaba",
+        "America/Eirunepe",
+        "America/Fortaleza",
+        "America/Guyana",
+        "America/La_Paz",
+        "America/Lima",
+        "America/Maceio",
+        "America/Manaus",
+        "America/Montevideo",
+        "America/Noronha",
+        "America/Paramaribo",
+        "America/Porto_Velho",
+        "America/Punta_Arenas",
+        "America/Recife",
+        "America/Rio_Branco",
+        "America/Santarem",
+        "America/Santiago",
+        "America/Sao_Paulo",
+        "America/Danmarkshavn",
+        "America/Nuuk",
+        "America/Scoresbysund",
+        "America/Thule",
+        "America/Miquelon"
+      ],
+      "name": "american_timezone",
       "entityType": "enums",
       "schema": "public"
     },
@@ -570,6 +711,16 @@
     },
     {
       "values": [
+        "active",
+        "inactive",
+        "blocked"
+      ],
+      "name": "student_status",
+      "entityType": "enums",
+      "schema": "public"
+    },
+    {
+      "values": [
         "all",
         "experimental",
         "effective"
@@ -643,24 +794,6 @@
     },
     {
       "isRlsEnabled": false,
-      "name": "tenant_profiles",
-      "entityType": "tables",
-      "schema": "public"
-    },
-    {
-      "isRlsEnabled": false,
-      "name": "tenant_roles",
-      "entityType": "tables",
-      "schema": "public"
-    },
-    {
-      "isRlsEnabled": false,
-      "name": "tenants",
-      "entityType": "tables",
-      "schema": "public"
-    },
-    {
-      "isRlsEnabled": false,
       "name": "terms_of_use",
       "entityType": "tables",
       "schema": "public"
@@ -668,6 +801,24 @@
     {
       "isRlsEnabled": false,
       "name": "terms_of_use_acceptances",
+      "entityType": "tables",
+      "schema": "public"
+    },
+    {
+      "isRlsEnabled": false,
+      "name": "user_context_permission_groups",
+      "entityType": "tables",
+      "schema": "public"
+    },
+    {
+      "isRlsEnabled": false,
+      "name": "user_context_roles",
+      "entityType": "tables",
+      "schema": "public"
+    },
+    {
+      "isRlsEnabled": false,
+      "name": "user_contexts",
       "entityType": "tables",
       "schema": "public"
     },
@@ -686,18 +837,6 @@
     {
       "isRlsEnabled": false,
       "name": "user_sessions",
-      "entityType": "tables",
-      "schema": "public"
-    },
-    {
-      "isRlsEnabled": false,
-      "name": "user_tenant_permission_groups",
-      "entityType": "tables",
-      "schema": "public"
-    },
-    {
-      "isRlsEnabled": false,
-      "name": "user_tenants",
       "entityType": "tables",
       "schema": "public"
     },
@@ -1015,12 +1154,6 @@
     },
     {
       "isRlsEnabled": false,
-      "name": "student_ranking",
-      "entityType": "tables",
-      "schema": "public"
-    },
-    {
-      "isRlsEnabled": false,
       "name": "student_request_events",
       "entityType": "tables",
       "schema": "public"
@@ -1111,7 +1244,19 @@
     },
     {
       "isRlsEnabled": false,
+      "name": "teacher_certifications",
+      "entityType": "tables",
+      "schema": "public"
+    },
+    {
+      "isRlsEnabled": false,
       "name": "teacher_contract_models",
+      "entityType": "tables",
+      "schema": "public"
+    },
+    {
+      "isRlsEnabled": false,
+      "name": "teacher_courses",
       "entityType": "tables",
       "schema": "public"
     },
@@ -1377,19 +1522,6 @@
       "table": "permission_groups"
     },
     {
-      "type": "varchar(16)",
-      "typeSchema": null,
-      "notNull": true,
-      "dimensions": 0,
-      "default": null,
-      "generated": null,
-      "identity": null,
-      "name": "tenant_id",
-      "entityType": "columns",
-      "schema": "public",
-      "table": "permission_groups"
-    },
-    {
       "type": "timestamp(6) with time zone",
       "typeSchema": null,
       "notNull": true,
@@ -1453,344 +1585,6 @@
       "entityType": "columns",
       "schema": "public",
       "table": "permission_groups_permissions"
-    },
-    {
-      "type": "varchar(16)",
-      "typeSchema": null,
-      "notNull": true,
-      "dimensions": 0,
-      "default": null,
-      "generated": null,
-      "identity": null,
-      "name": "id",
-      "entityType": "columns",
-      "schema": "public",
-      "table": "tenant_profiles"
-    },
-    {
-      "type": "varchar(100)",
-      "typeSchema": null,
-      "notNull": true,
-      "dimensions": 0,
-      "default": null,
-      "generated": null,
-      "identity": null,
-      "name": "name",
-      "entityType": "columns",
-      "schema": "public",
-      "table": "tenant_profiles"
-    },
-    {
-      "type": "varchar(100)",
-      "typeSchema": null,
-      "notNull": false,
-      "dimensions": 0,
-      "default": null,
-      "generated": null,
-      "identity": null,
-      "name": "legal_name",
-      "entityType": "columns",
-      "schema": "public",
-      "table": "tenant_profiles"
-    },
-    {
-      "type": "varchar(255)",
-      "typeSchema": null,
-      "notNull": false,
-      "dimensions": 0,
-      "default": null,
-      "generated": null,
-      "identity": null,
-      "name": "website",
-      "entityType": "columns",
-      "schema": "public",
-      "table": "tenant_profiles"
-    },
-    {
-      "type": "varchar(16)",
-      "typeSchema": null,
-      "notNull": false,
-      "dimensions": 0,
-      "default": null,
-      "generated": null,
-      "identity": null,
-      "name": "avatar_id",
-      "entityType": "columns",
-      "schema": "public",
-      "table": "tenant_profiles"
-    },
-    {
-      "type": "varchar(16)",
-      "typeSchema": null,
-      "notNull": false,
-      "dimensions": 0,
-      "default": null,
-      "generated": null,
-      "identity": null,
-      "name": "address_id",
-      "entityType": "columns",
-      "schema": "public",
-      "table": "tenant_profiles"
-    },
-    {
-      "type": "varchar(50)",
-      "typeSchema": null,
-      "notNull": false,
-      "dimensions": 0,
-      "default": null,
-      "generated": null,
-      "identity": null,
-      "name": "document_number",
-      "entityType": "columns",
-      "schema": "public",
-      "table": "tenant_profiles"
-    },
-    {
-      "type": "document_type",
-      "typeSchema": "public",
-      "notNull": false,
-      "dimensions": 0,
-      "default": null,
-      "generated": null,
-      "identity": null,
-      "name": "document_type",
-      "entityType": "columns",
-      "schema": "public",
-      "table": "tenant_profiles"
-    },
-    {
-      "type": "varchar(100)",
-      "typeSchema": null,
-      "notNull": false,
-      "dimensions": 0,
-      "default": null,
-      "generated": null,
-      "identity": null,
-      "name": "contact_first_name",
-      "entityType": "columns",
-      "schema": "public",
-      "table": "tenant_profiles"
-    },
-    {
-      "type": "varchar(100)",
-      "typeSchema": null,
-      "notNull": false,
-      "dimensions": 0,
-      "default": null,
-      "generated": null,
-      "identity": null,
-      "name": "contact_last_name",
-      "entityType": "columns",
-      "schema": "public",
-      "table": "tenant_profiles"
-    },
-    {
-      "type": "varchar(255)",
-      "typeSchema": null,
-      "notNull": false,
-      "dimensions": 0,
-      "default": null,
-      "generated": null,
-      "identity": null,
-      "name": "contact_email",
-      "entityType": "columns",
-      "schema": "public",
-      "table": "tenant_profiles"
-    },
-    {
-      "type": "varchar(50)",
-      "typeSchema": null,
-      "notNull": false,
-      "dimensions": 0,
-      "default": null,
-      "generated": null,
-      "identity": null,
-      "name": "phone",
-      "entityType": "columns",
-      "schema": "public",
-      "table": "tenant_profiles"
-    },
-    {
-      "type": "timestamp(6) with time zone",
-      "typeSchema": null,
-      "notNull": true,
-      "dimensions": 0,
-      "default": "CURRENT_TIMESTAMP",
-      "generated": null,
-      "identity": null,
-      "name": "created_at",
-      "entityType": "columns",
-      "schema": "public",
-      "table": "tenant_profiles"
-    },
-    {
-      "type": "timestamp(6) with time zone",
-      "typeSchema": null,
-      "notNull": true,
-      "dimensions": 0,
-      "default": "CURRENT_TIMESTAMP",
-      "generated": null,
-      "identity": null,
-      "name": "updated_at",
-      "entityType": "columns",
-      "schema": "public",
-      "table": "tenant_profiles"
-    },
-    {
-      "type": "varchar(16)",
-      "typeSchema": null,
-      "notNull": true,
-      "dimensions": 0,
-      "default": null,
-      "generated": null,
-      "identity": null,
-      "name": "id",
-      "entityType": "columns",
-      "schema": "public",
-      "table": "tenant_roles"
-    },
-    {
-      "type": "tenant_role_type",
-      "typeSchema": "public",
-      "notNull": true,
-      "dimensions": 0,
-      "default": null,
-      "generated": null,
-      "identity": null,
-      "name": "role",
-      "entityType": "columns",
-      "schema": "public",
-      "table": "tenant_roles"
-    },
-    {
-      "type": "varchar(16)",
-      "typeSchema": null,
-      "notNull": true,
-      "dimensions": 0,
-      "default": null,
-      "generated": null,
-      "identity": null,
-      "name": "tenant_id",
-      "entityType": "columns",
-      "schema": "public",
-      "table": "tenant_roles"
-    },
-    {
-      "type": "timestamp(6) with time zone",
-      "typeSchema": null,
-      "notNull": true,
-      "dimensions": 0,
-      "default": "CURRENT_TIMESTAMP",
-      "generated": null,
-      "identity": null,
-      "name": "created_at",
-      "entityType": "columns",
-      "schema": "public",
-      "table": "tenant_roles"
-    },
-    {
-      "type": "timestamp(6) with time zone",
-      "typeSchema": null,
-      "notNull": true,
-      "dimensions": 0,
-      "default": "CURRENT_TIMESTAMP",
-      "generated": null,
-      "identity": null,
-      "name": "updated_at",
-      "entityType": "columns",
-      "schema": "public",
-      "table": "tenant_roles"
-    },
-    {
-      "type": "boolean",
-      "typeSchema": null,
-      "notNull": true,
-      "dimensions": 0,
-      "default": "true",
-      "generated": null,
-      "identity": null,
-      "name": "is_active",
-      "entityType": "columns",
-      "schema": "public",
-      "table": "tenant_roles"
-    },
-    {
-      "type": "timestamp(6) with time zone",
-      "typeSchema": null,
-      "notNull": false,
-      "dimensions": 0,
-      "default": null,
-      "generated": null,
-      "identity": null,
-      "name": "deleted_at",
-      "entityType": "columns",
-      "schema": "public",
-      "table": "tenant_roles"
-    },
-    {
-      "type": "varchar(16)",
-      "typeSchema": null,
-      "notNull": true,
-      "dimensions": 0,
-      "default": null,
-      "generated": null,
-      "identity": null,
-      "name": "id",
-      "entityType": "columns",
-      "schema": "public",
-      "table": "tenants"
-    },
-    {
-      "type": "varchar(16)",
-      "typeSchema": null,
-      "notNull": true,
-      "dimensions": 0,
-      "default": null,
-      "generated": null,
-      "identity": null,
-      "name": "tenant_profile_id",
-      "entityType": "columns",
-      "schema": "public",
-      "table": "tenants"
-    },
-    {
-      "type": "timestamp(6) with time zone",
-      "typeSchema": null,
-      "notNull": true,
-      "dimensions": 0,
-      "default": "CURRENT_TIMESTAMP",
-      "generated": null,
-      "identity": null,
-      "name": "created_at",
-      "entityType": "columns",
-      "schema": "public",
-      "table": "tenants"
-    },
-    {
-      "type": "timestamp(6) with time zone",
-      "typeSchema": null,
-      "notNull": true,
-      "dimensions": 0,
-      "default": "CURRENT_TIMESTAMP",
-      "generated": null,
-      "identity": null,
-      "name": "updated_at",
-      "entityType": "columns",
-      "schema": "public",
-      "table": "tenants"
-    },
-    {
-      "type": "timestamp(6) with time zone",
-      "typeSchema": null,
-      "notNull": false,
-      "dimensions": 0,
-      "default": null,
-      "generated": null,
-      "identity": null,
-      "name": "deleted_at",
-      "entityType": "columns",
-      "schema": "public",
-      "table": "tenants"
     },
     {
       "type": "varchar(16)",
@@ -1891,7 +1685,7 @@
       "default": null,
       "generated": null,
       "identity": null,
-      "name": "user_id",
+      "name": "user_context_id",
       "entityType": "columns",
       "schema": "public",
       "table": "terms_of_use_acceptances"
@@ -1959,7 +1753,150 @@
       "name": "id",
       "entityType": "columns",
       "schema": "public",
-      "table": "user_password_reset"
+      "table": "user_context_permission_groups"
+    },
+    {
+      "type": "varchar(16)",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "user_context_id",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "user_context_permission_groups"
+    },
+    {
+      "type": "varchar(16)",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "permission_group_id",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "user_context_permission_groups"
+    },
+    {
+      "type": "timestamp(6) with time zone",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": "CURRENT_TIMESTAMP",
+      "generated": null,
+      "identity": null,
+      "name": "created_at",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "user_context_permission_groups"
+    },
+    {
+      "type": "varchar(16)",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "id",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "user_context_roles"
+    },
+    {
+      "type": "user_context_role_type",
+      "typeSchema": "public",
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "role",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "user_context_roles"
+    },
+    {
+      "type": "varchar(16)",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "user_context_id",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "user_context_roles"
+    },
+    {
+      "type": "timestamp(6) with time zone",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": "CURRENT_TIMESTAMP",
+      "generated": null,
+      "identity": null,
+      "name": "created_at",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "user_context_roles"
+    },
+    {
+      "type": "timestamp(6) with time zone",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": "CURRENT_TIMESTAMP",
+      "generated": null,
+      "identity": null,
+      "name": "updated_at",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "user_context_roles"
+    },
+    {
+      "type": "boolean",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": "true",
+      "generated": null,
+      "identity": null,
+      "name": "is_active",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "user_context_roles"
+    },
+    {
+      "type": "timestamp(6) with time zone",
+      "typeSchema": null,
+      "notNull": false,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "deleted_at",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "user_context_roles"
+    },
+    {
+      "type": "varchar(16)",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "id",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "user_contexts"
     },
     {
       "type": "varchar(16)",
@@ -1970,6 +1907,97 @@
       "generated": null,
       "identity": null,
       "name": "user_id",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "user_contexts"
+    },
+    {
+      "type": "varchar(32)",
+      "typeSchema": null,
+      "notNull": false,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "invitation_token",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "user_contexts"
+    },
+    {
+      "type": "timestamp",
+      "typeSchema": null,
+      "notNull": false,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "invitation_expires_at",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "user_contexts"
+    },
+    {
+      "type": "timestamp",
+      "typeSchema": null,
+      "notNull": false,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "invitation_confirmed_at",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "user_contexts"
+    },
+    {
+      "type": "timestamp(6) with time zone",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": "CURRENT_TIMESTAMP",
+      "generated": null,
+      "identity": null,
+      "name": "created_at",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "user_contexts"
+    },
+    {
+      "type": "timestamp(6) with time zone",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": "CURRENT_TIMESTAMP",
+      "generated": null,
+      "identity": null,
+      "name": "updated_at",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "user_contexts"
+    },
+    {
+      "type": "varchar(16)",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "id",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "user_password_reset"
+    },
+    {
+      "type": "varchar(16)",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "user_context_id",
       "entityType": "columns",
       "schema": "public",
       "table": "user_password_reset"
@@ -2157,6 +2185,110 @@
       "table": "user_profiles"
     },
     {
+      "type": "gender",
+      "typeSchema": "public",
+      "notNull": false,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "gender",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "user_profiles"
+    },
+    {
+      "type": "varchar(16)",
+      "typeSchema": null,
+      "notNull": false,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "nationality_id",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "user_profiles"
+    },
+    {
+      "type": "timestamp(6) with time zone",
+      "typeSchema": null,
+      "notNull": false,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "birthday",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "user_profiles"
+    },
+    {
+      "type": "char(4)",
+      "typeSchema": null,
+      "notNull": false,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "primary_phone_country_code",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "user_profiles"
+    },
+    {
+      "type": "char(20)",
+      "typeSchema": null,
+      "notNull": false,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "primary_phone_number",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "user_profiles"
+    },
+    {
+      "type": "char(4)",
+      "typeSchema": null,
+      "notNull": false,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "secondary_phone_country_code",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "user_profiles"
+    },
+    {
+      "type": "char(20)",
+      "typeSchema": null,
+      "notNull": false,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "secondary_phone_number",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "user_profiles"
+    },
+    {
+      "type": "varchar(50)",
+      "typeSchema": null,
+      "notNull": false,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "timezone",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "user_profiles"
+    },
+    {
       "type": "timestamp(6) with time zone",
       "typeSchema": null,
       "notNull": true,
@@ -2203,7 +2335,7 @@
       "default": null,
       "generated": null,
       "identity": null,
-      "name": "user_id",
+      "name": "user_context_id",
       "entityType": "columns",
       "schema": "public",
       "table": "user_sessions"
@@ -2281,166 +2413,10 @@
       "default": null,
       "generated": null,
       "identity": null,
-      "name": "current_tenant_id",
+      "name": "current_context_id",
       "entityType": "columns",
       "schema": "public",
       "table": "user_sessions"
-    },
-    {
-      "type": "varchar(16)",
-      "typeSchema": null,
-      "notNull": true,
-      "dimensions": 0,
-      "default": null,
-      "generated": null,
-      "identity": null,
-      "name": "id",
-      "entityType": "columns",
-      "schema": "public",
-      "table": "user_tenant_permission_groups"
-    },
-    {
-      "type": "varchar(16)",
-      "typeSchema": null,
-      "notNull": true,
-      "dimensions": 0,
-      "default": null,
-      "generated": null,
-      "identity": null,
-      "name": "user_tenant_id",
-      "entityType": "columns",
-      "schema": "public",
-      "table": "user_tenant_permission_groups"
-    },
-    {
-      "type": "varchar(16)",
-      "typeSchema": null,
-      "notNull": true,
-      "dimensions": 0,
-      "default": null,
-      "generated": null,
-      "identity": null,
-      "name": "permission_group_id",
-      "entityType": "columns",
-      "schema": "public",
-      "table": "user_tenant_permission_groups"
-    },
-    {
-      "type": "timestamp(6) with time zone",
-      "typeSchema": null,
-      "notNull": true,
-      "dimensions": 0,
-      "default": "CURRENT_TIMESTAMP",
-      "generated": null,
-      "identity": null,
-      "name": "created_at",
-      "entityType": "columns",
-      "schema": "public",
-      "table": "user_tenant_permission_groups"
-    },
-    {
-      "type": "varchar(16)",
-      "typeSchema": null,
-      "notNull": true,
-      "dimensions": 0,
-      "default": null,
-      "generated": null,
-      "identity": null,
-      "name": "id",
-      "entityType": "columns",
-      "schema": "public",
-      "table": "user_tenants"
-    },
-    {
-      "type": "varchar(16)",
-      "typeSchema": null,
-      "notNull": true,
-      "dimensions": 0,
-      "default": null,
-      "generated": null,
-      "identity": null,
-      "name": "tenant_id",
-      "entityType": "columns",
-      "schema": "public",
-      "table": "user_tenants"
-    },
-    {
-      "type": "varchar(16)",
-      "typeSchema": null,
-      "notNull": true,
-      "dimensions": 0,
-      "default": null,
-      "generated": null,
-      "identity": null,
-      "name": "user_id",
-      "entityType": "columns",
-      "schema": "public",
-      "table": "user_tenants"
-    },
-    {
-      "type": "varchar(32)",
-      "typeSchema": null,
-      "notNull": false,
-      "dimensions": 0,
-      "default": null,
-      "generated": null,
-      "identity": null,
-      "name": "invitation_token",
-      "entityType": "columns",
-      "schema": "public",
-      "table": "user_tenants"
-    },
-    {
-      "type": "timestamp",
-      "typeSchema": null,
-      "notNull": false,
-      "dimensions": 0,
-      "default": null,
-      "generated": null,
-      "identity": null,
-      "name": "invitation_expires_at",
-      "entityType": "columns",
-      "schema": "public",
-      "table": "user_tenants"
-    },
-    {
-      "type": "timestamp",
-      "typeSchema": null,
-      "notNull": false,
-      "dimensions": 0,
-      "default": null,
-      "generated": null,
-      "identity": null,
-      "name": "invitation_confirmed_at",
-      "entityType": "columns",
-      "schema": "public",
-      "table": "user_tenants"
-    },
-    {
-      "type": "timestamp(6) with time zone",
-      "typeSchema": null,
-      "notNull": true,
-      "dimensions": 0,
-      "default": "CURRENT_TIMESTAMP",
-      "generated": null,
-      "identity": null,
-      "name": "created_at",
-      "entityType": "columns",
-      "schema": "public",
-      "table": "user_tenants"
-    },
-    {
-      "type": "timestamp(6) with time zone",
-      "typeSchema": null,
-      "notNull": true,
-      "dimensions": 0,
-      "default": "CURRENT_TIMESTAMP",
-      "generated": null,
-      "identity": null,
-      "name": "updated_at",
-      "entityType": "columns",
-      "schema": "public",
-      "table": "user_tenants"
     },
     {
       "type": "varchar(16)",
@@ -3990,19 +3966,6 @@
       "table": "financial_responsibles"
     },
     {
-      "type": "varchar(16)",
-      "typeSchema": null,
-      "notNull": true,
-      "dimensions": 0,
-      "default": null,
-      "generated": null,
-      "identity": null,
-      "name": "address_id",
-      "entityType": "columns",
-      "schema": "public",
-      "table": "financial_responsibles"
-    },
-    {
       "type": "varchar(300)",
       "typeSchema": null,
       "notNull": true,
@@ -4016,19 +3979,6 @@
       "table": "financial_responsibles"
     },
     {
-      "type": "varchar(200)",
-      "typeSchema": null,
-      "notNull": true,
-      "dimensions": 0,
-      "default": null,
-      "generated": null,
-      "identity": null,
-      "name": "email",
-      "entityType": "columns",
-      "schema": "public",
-      "table": "financial_responsibles"
-    },
-    {
       "type": "char(14)",
       "typeSchema": null,
       "notNull": true,
@@ -4037,32 +3987,6 @@
       "generated": null,
       "identity": null,
       "name": "school_registry",
-      "entityType": "columns",
-      "schema": "public",
-      "table": "financial_responsibles"
-    },
-    {
-      "type": "varchar(350)",
-      "typeSchema": null,
-      "notNull": false,
-      "dimensions": 0,
-      "default": null,
-      "generated": null,
-      "identity": null,
-      "name": "profile_picture",
-      "entityType": "columns",
-      "schema": "public",
-      "table": "financial_responsibles"
-    },
-    {
-      "type": "timestamp",
-      "typeSchema": null,
-      "notNull": true,
-      "dimensions": 0,
-      "default": null,
-      "generated": null,
-      "identity": null,
-      "name": "birthday",
       "entityType": "columns",
       "schema": "public",
       "table": "financial_responsibles"
@@ -4094,183 +4018,14 @@
       "table": "financial_responsibles"
     },
     {
-      "type": "char(4)",
-      "typeSchema": null,
-      "notNull": true,
-      "dimensions": 0,
-      "default": null,
-      "generated": null,
-      "identity": null,
-      "name": "primary_phone_country_code",
-      "entityType": "columns",
-      "schema": "public",
-      "table": "financial_responsibles"
-    },
-    {
-      "type": "char(20)",
-      "typeSchema": null,
-      "notNull": true,
-      "dimensions": 0,
-      "default": null,
-      "generated": null,
-      "identity": null,
-      "name": "primary_phone_number",
-      "entityType": "columns",
-      "schema": "public",
-      "table": "financial_responsibles"
-    },
-    {
-      "type": "char(4)",
-      "typeSchema": null,
-      "notNull": false,
-      "dimensions": 0,
-      "default": null,
-      "generated": null,
-      "identity": null,
-      "name": "secondary_phone_country_code",
-      "entityType": "columns",
-      "schema": "public",
-      "table": "financial_responsibles"
-    },
-    {
-      "type": "char(20)",
-      "typeSchema": null,
-      "notNull": false,
-      "dimensions": 0,
-      "default": null,
-      "generated": null,
-      "identity": null,
-      "name": "secondary_phone_number",
-      "entityType": "columns",
-      "schema": "public",
-      "table": "financial_responsibles"
-    },
-    {
-      "type": "char(40)",
-      "typeSchema": null,
-      "notNull": true,
-      "dimensions": 0,
-      "default": null,
-      "generated": null,
-      "identity": null,
-      "name": "vat_number",
-      "entityType": "columns",
-      "schema": "public",
-      "table": "financial_responsibles"
-    },
-    {
-      "type": "integer",
-      "typeSchema": null,
-      "notNull": true,
-      "dimensions": 0,
-      "default": null,
-      "generated": null,
-      "identity": null,
-      "name": "document_type",
-      "entityType": "columns",
-      "schema": "public",
-      "table": "financial_responsibles"
-    },
-    {
-      "type": "gender",
-      "typeSchema": "public",
-      "notNull": true,
-      "dimensions": 0,
-      "default": null,
-      "generated": null,
-      "identity": null,
-      "name": "gender",
-      "entityType": "columns",
-      "schema": "public",
-      "table": "financial_responsibles"
-    },
-    {
-      "type": "varchar(200)",
-      "typeSchema": null,
-      "notNull": true,
-      "dimensions": 0,
-      "default": null,
-      "generated": null,
-      "identity": null,
-      "name": "password",
-      "entityType": "columns",
-      "schema": "public",
-      "table": "financial_responsibles"
-    },
-    {
-      "type": "char(10)",
-      "typeSchema": null,
-      "notNull": false,
-      "dimensions": 0,
-      "default": null,
-      "generated": null,
-      "identity": null,
-      "name": "password_reset_token",
-      "entityType": "columns",
-      "schema": "public",
-      "table": "financial_responsibles"
-    },
-    {
-      "type": "timestamp",
-      "typeSchema": null,
-      "notNull": false,
-      "dimensions": 0,
-      "default": null,
-      "generated": null,
-      "identity": null,
-      "name": "password_reset_token_expiration",
-      "entityType": "columns",
-      "schema": "public",
-      "table": "financial_responsibles"
-    },
-    {
-      "type": "varchar(300)",
-      "typeSchema": null,
-      "notNull": false,
-      "dimensions": 0,
-      "default": null,
-      "generated": null,
-      "identity": null,
-      "name": "mobile_device_token",
-      "entityType": "columns",
-      "schema": "public",
-      "table": "financial_responsibles"
-    },
-    {
       "type": "boolean",
       "typeSchema": null,
       "notNull": true,
       "dimensions": 0,
-      "default": null,
-      "generated": null,
-      "identity": null,
-      "name": "first_access",
-      "entityType": "columns",
-      "schema": "public",
-      "table": "financial_responsibles"
-    },
-    {
-      "type": "boolean",
-      "typeSchema": null,
-      "notNull": true,
-      "dimensions": 0,
-      "default": null,
+      "default": "false",
       "generated": null,
       "identity": null,
       "name": "send_notifications_block",
-      "entityType": "columns",
-      "schema": "public",
-      "table": "financial_responsibles"
-    },
-    {
-      "type": "varchar(16)",
-      "typeSchema": null,
-      "notNull": true,
-      "dimensions": 0,
-      "default": null,
-      "generated": null,
-      "identity": null,
-      "name": "nationality_id",
       "entityType": "columns",
       "schema": "public",
       "table": "financial_responsibles"
@@ -4341,19 +4096,6 @@
       "table": "internal_campaigns"
     },
     {
-      "type": "varchar(200)",
-      "typeSchema": null,
-      "notNull": true,
-      "dimensions": 0,
-      "default": null,
-      "generated": null,
-      "identity": null,
-      "name": "name",
-      "entityType": "columns",
-      "schema": "public",
-      "table": "internal_campaigns"
-    },
-    {
       "type": "text",
       "typeSchema": null,
       "notNull": false,
@@ -4362,6 +4104,19 @@
       "generated": null,
       "identity": null,
       "name": "url",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "internal_campaigns"
+    },
+    {
+      "type": "varchar(200)",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "name",
       "entityType": "columns",
       "schema": "public",
       "table": "internal_campaigns"
@@ -4445,19 +4200,6 @@
       "table": "internal_campaigns"
     },
     {
-      "type": "boolean",
-      "typeSchema": null,
-      "notNull": true,
-      "dimensions": 0,
-      "default": "true",
-      "generated": null,
-      "identity": null,
-      "name": "is_active",
-      "entityType": "columns",
-      "schema": "public",
-      "table": "internal_campaigns"
-    },
-    {
       "type": "varchar(16)",
       "typeSchema": null,
       "notNull": true,
@@ -4466,6 +4208,19 @@
       "generated": null,
       "identity": null,
       "name": "seller_id",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "internal_campaigns"
+    },
+    {
+      "type": "boolean",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": "true",
+      "generated": null,
+      "identity": null,
+      "name": "is_active",
       "entityType": "columns",
       "schema": "public",
       "table": "internal_campaigns"
@@ -4946,7 +4701,7 @@
       "default": null,
       "generated": null,
       "identity": null,
-      "name": "user_id",
+      "name": "user_context_id",
       "entityType": "columns",
       "schema": "public",
       "table": "issue_activities"
@@ -5167,7 +4922,7 @@
       "default": null,
       "generated": null,
       "identity": null,
-      "name": "user_id",
+      "name": "user_context_id",
       "entityType": "columns",
       "schema": "public",
       "table": "issue_comments"
@@ -6278,8 +6033,8 @@
       "table": "leads"
     },
     {
-      "type": "integer",
-      "typeSchema": null,
+      "type": "age",
+      "typeSchema": "public",
       "notNull": false,
       "dimensions": 0,
       "default": null,
@@ -7234,7 +6989,7 @@
       "default": null,
       "generated": null,
       "identity": null,
-      "name": "user_id",
+      "name": "user_context_id",
       "entityType": "columns",
       "schema": "public",
       "table": "refresh_tokens"
@@ -7507,7 +7262,7 @@
       "default": null,
       "generated": null,
       "identity": null,
-      "name": "tenant_id",
+      "name": "user_context_id",
       "entityType": "columns",
       "schema": "public",
       "table": "sellers"
@@ -7591,14 +7346,14 @@
       "table": "sellers"
     },
     {
-      "type": "integer",
+      "type": "boolean",
       "typeSchema": null,
       "notNull": true,
       "dimensions": 0,
-      "default": null,
+      "default": "true",
       "generated": null,
       "identity": null,
-      "name": "status",
+      "name": "is_active",
       "entityType": "columns",
       "schema": "public",
       "table": "sellers"
@@ -8007,6 +7762,19 @@
       "table": "student_class_events"
     },
     {
+      "type": "user_type",
+      "typeSchema": "public",
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "user_type",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "student_class_events"
+    },
+    {
       "type": "student_class_event_types",
       "typeSchema": "public",
       "notNull": true,
@@ -8027,7 +7795,7 @@
       "default": null,
       "generated": null,
       "identity": null,
-      "name": "user_id",
+      "name": "user_context_id",
       "entityType": "columns",
       "schema": "public",
       "table": "student_class_events"
@@ -8274,7 +8042,7 @@
       "default": null,
       "generated": null,
       "identity": null,
-      "name": "user_id",
+      "name": "user_context_id",
       "entityType": "columns",
       "schema": "public",
       "table": "student_class_meet_events"
@@ -8664,7 +8432,7 @@
       "default": null,
       "generated": null,
       "identity": null,
-      "name": "invoice_item_id",
+      "name": "lead_id",
       "entityType": "columns",
       "schema": "public",
       "table": "student_classes"
@@ -8677,7 +8445,7 @@
       "default": null,
       "generated": null,
       "identity": null,
-      "name": "lead_id",
+      "name": "student_contract_id",
       "entityType": "columns",
       "schema": "public",
       "table": "student_classes"
@@ -8774,45 +8542,6 @@
       "table": "student_classes"
     },
     {
-      "type": "boolean",
-      "typeSchema": null,
-      "notNull": true,
-      "dimensions": 0,
-      "default": null,
-      "generated": null,
-      "identity": null,
-      "name": "rescheduled",
-      "entityType": "columns",
-      "schema": "public",
-      "table": "student_classes"
-    },
-    {
-      "type": "boolean",
-      "typeSchema": null,
-      "notNull": true,
-      "dimensions": 0,
-      "default": null,
-      "generated": null,
-      "identity": null,
-      "name": "two_hours_schedulle",
-      "entityType": "columns",
-      "schema": "public",
-      "table": "student_classes"
-    },
-    {
-      "type": "boolean",
-      "typeSchema": null,
-      "notNull": true,
-      "dimensions": 0,
-      "default": null,
-      "generated": null,
-      "identity": null,
-      "name": "thirty_min_schedulle",
-      "entityType": "columns",
-      "schema": "public",
-      "table": "student_classes"
-    },
-    {
       "type": "class_type",
       "typeSchema": "public",
       "notNull": true,
@@ -8834,19 +8563,6 @@
       "generated": null,
       "identity": null,
       "name": "observation",
-      "entityType": "columns",
-      "schema": "public",
-      "table": "student_classes"
-    },
-    {
-      "type": "varchar(500)",
-      "typeSchema": null,
-      "notNull": false,
-      "dimensions": 0,
-      "default": null,
-      "generated": null,
-      "identity": null,
-      "name": "class_egress_link",
       "entityType": "columns",
       "schema": "public",
       "table": "student_classes"
@@ -10123,110 +9839,6 @@
       "name": "id",
       "entityType": "columns",
       "schema": "public",
-      "table": "student_ranking"
-    },
-    {
-      "type": "varchar(16)",
-      "typeSchema": null,
-      "notNull": true,
-      "dimensions": 0,
-      "default": null,
-      "generated": null,
-      "identity": null,
-      "name": "student_id",
-      "entityType": "columns",
-      "schema": "public",
-      "table": "student_ranking"
-    },
-    {
-      "type": "integer",
-      "typeSchema": null,
-      "notNull": true,
-      "dimensions": 0,
-      "default": null,
-      "generated": null,
-      "identity": null,
-      "name": "total_points",
-      "entityType": "columns",
-      "schema": "public",
-      "table": "student_ranking"
-    },
-    {
-      "type": "integer",
-      "typeSchema": null,
-      "notNull": false,
-      "dimensions": 0,
-      "default": null,
-      "generated": null,
-      "identity": null,
-      "name": "rank",
-      "entityType": "columns",
-      "schema": "public",
-      "table": "student_ranking"
-    },
-    {
-      "type": "timestamp",
-      "typeSchema": null,
-      "notNull": true,
-      "dimensions": 0,
-      "default": null,
-      "generated": null,
-      "identity": null,
-      "name": "last_calculated_at",
-      "entityType": "columns",
-      "schema": "public",
-      "table": "student_ranking"
-    },
-    {
-      "type": "timestamp(6) with time zone",
-      "typeSchema": null,
-      "notNull": true,
-      "dimensions": 0,
-      "default": "CURRENT_TIMESTAMP",
-      "generated": null,
-      "identity": null,
-      "name": "created_at",
-      "entityType": "columns",
-      "schema": "public",
-      "table": "student_ranking"
-    },
-    {
-      "type": "timestamp(6) with time zone",
-      "typeSchema": null,
-      "notNull": true,
-      "dimensions": 0,
-      "default": "CURRENT_TIMESTAMP",
-      "generated": null,
-      "identity": null,
-      "name": "updated_at",
-      "entityType": "columns",
-      "schema": "public",
-      "table": "student_ranking"
-    },
-    {
-      "type": "timestamp(6) with time zone",
-      "typeSchema": null,
-      "notNull": false,
-      "dimensions": 0,
-      "default": null,
-      "generated": null,
-      "identity": null,
-      "name": "deleted_at",
-      "entityType": "columns",
-      "schema": "public",
-      "table": "student_ranking"
-    },
-    {
-      "type": "varchar(16)",
-      "typeSchema": null,
-      "notNull": true,
-      "dimensions": 0,
-      "default": null,
-      "generated": null,
-      "identity": null,
-      "name": "id",
-      "entityType": "columns",
-      "schema": "public",
       "table": "student_request_events"
     },
     {
@@ -10880,32 +10492,6 @@
       "table": "student_teacher_requests"
     },
     {
-      "type": "boolean",
-      "typeSchema": null,
-      "notNull": true,
-      "dimensions": 0,
-      "default": null,
-      "generated": null,
-      "identity": null,
-      "name": "is_manual",
-      "entityType": "columns",
-      "schema": "public",
-      "table": "student_teacher_requests"
-    },
-    {
-      "type": "boolean",
-      "typeSchema": null,
-      "notNull": true,
-      "dimensions": 0,
-      "default": null,
-      "generated": null,
-      "identity": null,
-      "name": "first_invoice_paid",
-      "entityType": "columns",
-      "schema": "public",
-      "table": "student_teacher_requests"
-    },
-    {
       "type": "integer",
       "typeSchema": null,
       "notNull": true,
@@ -11335,21 +10921,21 @@
       "table": "students"
     },
     {
-      "type": "varchar(16)",
+      "type": "varchar(100)",
       "typeSchema": null,
       "notNull": true,
       "dimensions": 0,
       "default": null,
       "generated": null,
       "identity": null,
-      "name": "address_id",
+      "name": "name",
       "entityType": "columns",
       "schema": "public",
       "table": "students"
     },
     {
-      "type": "integer",
-      "typeSchema": null,
+      "type": "student_status",
+      "typeSchema": "public",
       "notNull": true,
       "dimensions": 0,
       "default": null,
@@ -11387,19 +10973,6 @@
       "table": "students"
     },
     {
-      "type": "boolean",
-      "typeSchema": null,
-      "notNull": true,
-      "dimensions": 0,
-      "default": "false",
-      "generated": null,
-      "identity": null,
-      "name": "new_classes_in_app",
-      "entityType": "columns",
-      "schema": "public",
-      "table": "students"
-    },
-    {
       "type": "varchar(16)",
       "typeSchema": null,
       "notNull": false,
@@ -11413,32 +10986,6 @@
       "table": "students"
     },
     {
-      "type": "varchar(300)",
-      "typeSchema": null,
-      "notNull": true,
-      "dimensions": 0,
-      "default": null,
-      "generated": null,
-      "identity": null,
-      "name": "name",
-      "entityType": "columns",
-      "schema": "public",
-      "table": "students"
-    },
-    {
-      "type": "varchar(200)",
-      "typeSchema": null,
-      "notNull": true,
-      "dimensions": 0,
-      "default": null,
-      "generated": null,
-      "identity": null,
-      "name": "email",
-      "entityType": "columns",
-      "schema": "public",
-      "table": "students"
-    },
-    {
       "type": "char(14)",
       "typeSchema": null,
       "notNull": true,
@@ -11447,253 +10994,6 @@
       "generated": null,
       "identity": null,
       "name": "school_registry",
-      "entityType": "columns",
-      "schema": "public",
-      "table": "students"
-    },
-    {
-      "type": "varchar(300)",
-      "typeSchema": null,
-      "notNull": false,
-      "dimensions": 0,
-      "default": null,
-      "generated": null,
-      "identity": null,
-      "name": "profile_picture",
-      "entityType": "columns",
-      "schema": "public",
-      "table": "students"
-    },
-    {
-      "type": "timestamp(6) with time zone",
-      "typeSchema": null,
-      "notNull": true,
-      "dimensions": 0,
-      "default": null,
-      "generated": null,
-      "identity": null,
-      "name": "birthday",
-      "entityType": "columns",
-      "schema": "public",
-      "table": "students"
-    },
-    {
-      "type": "char(10)",
-      "typeSchema": null,
-      "notNull": false,
-      "dimensions": 0,
-      "default": null,
-      "generated": null,
-      "identity": null,
-      "name": "verification_token",
-      "entityType": "columns",
-      "schema": "public",
-      "table": "students"
-    },
-    {
-      "type": "timestamp",
-      "typeSchema": null,
-      "notNull": false,
-      "dimensions": 0,
-      "default": null,
-      "generated": null,
-      "identity": null,
-      "name": "verified_at",
-      "entityType": "columns",
-      "schema": "public",
-      "table": "students"
-    },
-    {
-      "type": "char(4)",
-      "typeSchema": null,
-      "notNull": true,
-      "dimensions": 0,
-      "default": null,
-      "generated": null,
-      "identity": null,
-      "name": "primary_phone_country_code",
-      "entityType": "columns",
-      "schema": "public",
-      "table": "students"
-    },
-    {
-      "type": "char(20)",
-      "typeSchema": null,
-      "notNull": true,
-      "dimensions": 0,
-      "default": null,
-      "generated": null,
-      "identity": null,
-      "name": "primary_phone_number",
-      "entityType": "columns",
-      "schema": "public",
-      "table": "students"
-    },
-    {
-      "type": "char(4)",
-      "typeSchema": null,
-      "notNull": false,
-      "dimensions": 0,
-      "default": null,
-      "generated": null,
-      "identity": null,
-      "name": "secondary_phone_country_code",
-      "entityType": "columns",
-      "schema": "public",
-      "table": "students"
-    },
-    {
-      "type": "char(20)",
-      "typeSchema": null,
-      "notNull": false,
-      "dimensions": 0,
-      "default": null,
-      "generated": null,
-      "identity": null,
-      "name": "secondary_phone_number",
-      "entityType": "columns",
-      "schema": "public",
-      "table": "students"
-    },
-    {
-      "type": "char(40)",
-      "typeSchema": null,
-      "notNull": true,
-      "dimensions": 0,
-      "default": null,
-      "generated": null,
-      "identity": null,
-      "name": "v_a_t_number",
-      "entityType": "columns",
-      "schema": "public",
-      "table": "students"
-    },
-    {
-      "type": "integer",
-      "typeSchema": null,
-      "notNull": true,
-      "dimensions": 0,
-      "default": null,
-      "generated": null,
-      "identity": null,
-      "name": "document_type",
-      "entityType": "columns",
-      "schema": "public",
-      "table": "students"
-    },
-    {
-      "type": "gender",
-      "typeSchema": "public",
-      "notNull": true,
-      "dimensions": 0,
-      "default": null,
-      "generated": null,
-      "identity": null,
-      "name": "gender",
-      "entityType": "columns",
-      "schema": "public",
-      "table": "students"
-    },
-    {
-      "type": "varchar(200)",
-      "typeSchema": null,
-      "notNull": true,
-      "dimensions": 0,
-      "default": null,
-      "generated": null,
-      "identity": null,
-      "name": "password",
-      "entityType": "columns",
-      "schema": "public",
-      "table": "students"
-    },
-    {
-      "type": "char(10)",
-      "typeSchema": null,
-      "notNull": false,
-      "dimensions": 0,
-      "default": null,
-      "generated": null,
-      "identity": null,
-      "name": "password_reset_token",
-      "entityType": "columns",
-      "schema": "public",
-      "table": "students"
-    },
-    {
-      "type": "timestamp",
-      "typeSchema": null,
-      "notNull": false,
-      "dimensions": 0,
-      "default": null,
-      "generated": null,
-      "identity": null,
-      "name": "password_reset_token_expiration",
-      "entityType": "columns",
-      "schema": "public",
-      "table": "students"
-    },
-    {
-      "type": "varchar(300)",
-      "typeSchema": null,
-      "notNull": false,
-      "dimensions": 0,
-      "default": null,
-      "generated": null,
-      "identity": null,
-      "name": "mobile_device_token",
-      "entityType": "columns",
-      "schema": "public",
-      "table": "students"
-    },
-    {
-      "type": "boolean",
-      "typeSchema": null,
-      "notNull": true,
-      "dimensions": 0,
-      "default": null,
-      "generated": null,
-      "identity": null,
-      "name": "first_access",
-      "entityType": "columns",
-      "schema": "public",
-      "table": "students"
-    },
-    {
-      "type": "boolean",
-      "typeSchema": null,
-      "notNull": true,
-      "dimensions": 0,
-      "default": "false",
-      "generated": null,
-      "identity": null,
-      "name": "send_notifications_block",
-      "entityType": "columns",
-      "schema": "public",
-      "table": "students"
-    },
-    {
-      "type": "varchar(16)",
-      "typeSchema": null,
-      "notNull": true,
-      "dimensions": 0,
-      "default": null,
-      "generated": null,
-      "identity": null,
-      "name": "nationality_id",
-      "entityType": "columns",
-      "schema": "public",
-      "table": "students"
-    },
-    {
-      "type": "varchar(200)",
-      "typeSchema": null,
-      "notNull": false,
-      "dimensions": 0,
-      "default": null,
-      "generated": null,
-      "identity": null,
-      "name": "customer_ext_id",
       "entityType": "columns",
       "schema": "public",
       "table": "students"
@@ -12034,6 +11334,123 @@
       "name": "id",
       "entityType": "columns",
       "schema": "public",
+      "table": "teacher_certifications"
+    },
+    {
+      "type": "varchar(16)",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "teacher_id",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "teacher_certifications"
+    },
+    {
+      "type": "varchar(200)",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "name",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "teacher_certifications"
+    },
+    {
+      "type": "varchar(200)",
+      "typeSchema": null,
+      "notNull": false,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "issuing_organization",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "teacher_certifications"
+    },
+    {
+      "type": "timestamp with time zone",
+      "typeSchema": null,
+      "notNull": false,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "issued_at",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "teacher_certifications"
+    },
+    {
+      "type": "varchar(100)",
+      "typeSchema": null,
+      "notNull": false,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "credential_id",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "teacher_certifications"
+    },
+    {
+      "type": "timestamp(6) with time zone",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": "CURRENT_TIMESTAMP",
+      "generated": null,
+      "identity": null,
+      "name": "created_at",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "teacher_certifications"
+    },
+    {
+      "type": "timestamp(6) with time zone",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": "CURRENT_TIMESTAMP",
+      "generated": null,
+      "identity": null,
+      "name": "updated_at",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "teacher_certifications"
+    },
+    {
+      "type": "timestamp(6) with time zone",
+      "typeSchema": null,
+      "notNull": false,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "deleted_at",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "teacher_certifications"
+    },
+    {
+      "type": "varchar(16)",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "id",
+      "entityType": "columns",
+      "schema": "public",
       "table": "teacher_contract_models"
     },
     {
@@ -12113,6 +11530,123 @@
       "entityType": "columns",
       "schema": "public",
       "table": "teacher_contract_models"
+    },
+    {
+      "type": "varchar(16)",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "id",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "teacher_courses"
+    },
+    {
+      "type": "varchar(16)",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "teacher_id",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "teacher_courses"
+    },
+    {
+      "type": "varchar(200)",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "name",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "teacher_courses"
+    },
+    {
+      "type": "varchar(200)",
+      "typeSchema": null,
+      "notNull": false,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "institution",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "teacher_courses"
+    },
+    {
+      "type": "timestamp with time zone",
+      "typeSchema": null,
+      "notNull": false,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "completed_at",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "teacher_courses"
+    },
+    {
+      "type": "varchar(50)",
+      "typeSchema": null,
+      "notNull": false,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "duration",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "teacher_courses"
+    },
+    {
+      "type": "timestamp(6) with time zone",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": "CURRENT_TIMESTAMP",
+      "generated": null,
+      "identity": null,
+      "name": "created_at",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "teacher_courses"
+    },
+    {
+      "type": "timestamp(6) with time zone",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": "CURRENT_TIMESTAMP",
+      "generated": null,
+      "identity": null,
+      "name": "updated_at",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "teacher_courses"
+    },
+    {
+      "type": "timestamp(6) with time zone",
+      "typeSchema": null,
+      "notNull": false,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "deleted_at",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "teacher_courses"
     },
     {
       "type": "varchar(16)",
@@ -13285,6 +12819,19 @@
       "table": "teachers"
     },
     {
+      "type": "varchar(100)",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "name",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "teachers"
+    },
+    {
       "type": "varchar(16)",
       "typeSchema": null,
       "notNull": true,
@@ -13298,19 +12845,6 @@
       "table": "teachers"
     },
     {
-      "type": "varchar(16)",
-      "typeSchema": null,
-      "notNull": true,
-      "dimensions": 0,
-      "default": null,
-      "generated": null,
-      "identity": null,
-      "name": "address_id",
-      "entityType": "columns",
-      "schema": "public",
-      "table": "teachers"
-    },
-    {
       "type": "varchar(300)",
       "typeSchema": null,
       "notNull": false,
@@ -13319,19 +12853,6 @@
       "generated": null,
       "identity": null,
       "name": "class_link",
-      "entityType": "columns",
-      "schema": "public",
-      "table": "teachers"
-    },
-    {
-      "type": "boolean",
-      "typeSchema": null,
-      "notNull": true,
-      "dimensions": 0,
-      "default": null,
-      "generated": null,
-      "identity": null,
-      "name": "is_old_instructor",
       "entityType": "columns",
       "schema": "public",
       "table": "teachers"
@@ -13363,32 +12884,6 @@
       "table": "teachers"
     },
     {
-      "type": "varchar(300)",
-      "typeSchema": null,
-      "notNull": true,
-      "dimensions": 0,
-      "default": null,
-      "generated": null,
-      "identity": null,
-      "name": "name",
-      "entityType": "columns",
-      "schema": "public",
-      "table": "teachers"
-    },
-    {
-      "type": "varchar(200)",
-      "typeSchema": null,
-      "notNull": true,
-      "dimensions": 0,
-      "default": null,
-      "generated": null,
-      "identity": null,
-      "name": "email",
-      "entityType": "columns",
-      "schema": "public",
-      "table": "teachers"
-    },
-    {
       "type": "char(14)",
       "typeSchema": null,
       "notNull": true,
@@ -13397,240 +12892,6 @@
       "generated": null,
       "identity": null,
       "name": "school_registry",
-      "entityType": "columns",
-      "schema": "public",
-      "table": "teachers"
-    },
-    {
-      "type": "varchar(300)",
-      "typeSchema": null,
-      "notNull": false,
-      "dimensions": 0,
-      "default": null,
-      "generated": null,
-      "identity": null,
-      "name": "profile_picture",
-      "entityType": "columns",
-      "schema": "public",
-      "table": "teachers"
-    },
-    {
-      "type": "timestamp(6) with time zone",
-      "typeSchema": null,
-      "notNull": true,
-      "dimensions": 0,
-      "default": null,
-      "generated": null,
-      "identity": null,
-      "name": "birthday",
-      "entityType": "columns",
-      "schema": "public",
-      "table": "teachers"
-    },
-    {
-      "type": "char(10)",
-      "typeSchema": null,
-      "notNull": false,
-      "dimensions": 0,
-      "default": null,
-      "generated": null,
-      "identity": null,
-      "name": "verification_token",
-      "entityType": "columns",
-      "schema": "public",
-      "table": "teachers"
-    },
-    {
-      "type": "timestamp",
-      "typeSchema": null,
-      "notNull": false,
-      "dimensions": 0,
-      "default": null,
-      "generated": null,
-      "identity": null,
-      "name": "verified_at",
-      "entityType": "columns",
-      "schema": "public",
-      "table": "teachers"
-    },
-    {
-      "type": "char(4)",
-      "typeSchema": null,
-      "notNull": true,
-      "dimensions": 0,
-      "default": null,
-      "generated": null,
-      "identity": null,
-      "name": "primary_phone_country_code",
-      "entityType": "columns",
-      "schema": "public",
-      "table": "teachers"
-    },
-    {
-      "type": "char(20)",
-      "typeSchema": null,
-      "notNull": true,
-      "dimensions": 0,
-      "default": null,
-      "generated": null,
-      "identity": null,
-      "name": "primary_phone_number",
-      "entityType": "columns",
-      "schema": "public",
-      "table": "teachers"
-    },
-    {
-      "type": "char(4)",
-      "typeSchema": null,
-      "notNull": false,
-      "dimensions": 0,
-      "default": null,
-      "generated": null,
-      "identity": null,
-      "name": "secondary_phone_country_code",
-      "entityType": "columns",
-      "schema": "public",
-      "table": "teachers"
-    },
-    {
-      "type": "char(20)",
-      "typeSchema": null,
-      "notNull": false,
-      "dimensions": 0,
-      "default": null,
-      "generated": null,
-      "identity": null,
-      "name": "secondary_phone_number",
-      "entityType": "columns",
-      "schema": "public",
-      "table": "teachers"
-    },
-    {
-      "type": "char(40)",
-      "typeSchema": null,
-      "notNull": true,
-      "dimensions": 0,
-      "default": null,
-      "generated": null,
-      "identity": null,
-      "name": "vat_number",
-      "entityType": "columns",
-      "schema": "public",
-      "table": "teachers"
-    },
-    {
-      "type": "document_type",
-      "typeSchema": "public",
-      "notNull": true,
-      "dimensions": 0,
-      "default": null,
-      "generated": null,
-      "identity": null,
-      "name": "document_type",
-      "entityType": "columns",
-      "schema": "public",
-      "table": "teachers"
-    },
-    {
-      "type": "gender",
-      "typeSchema": "public",
-      "notNull": true,
-      "dimensions": 0,
-      "default": null,
-      "generated": null,
-      "identity": null,
-      "name": "gender",
-      "entityType": "columns",
-      "schema": "public",
-      "table": "teachers"
-    },
-    {
-      "type": "varchar(200)",
-      "typeSchema": null,
-      "notNull": true,
-      "dimensions": 0,
-      "default": null,
-      "generated": null,
-      "identity": null,
-      "name": "password",
-      "entityType": "columns",
-      "schema": "public",
-      "table": "teachers"
-    },
-    {
-      "type": "char(10)",
-      "typeSchema": null,
-      "notNull": false,
-      "dimensions": 0,
-      "default": null,
-      "generated": null,
-      "identity": null,
-      "name": "password_reset_token",
-      "entityType": "columns",
-      "schema": "public",
-      "table": "teachers"
-    },
-    {
-      "type": "timestamp",
-      "typeSchema": null,
-      "notNull": false,
-      "dimensions": 0,
-      "default": null,
-      "generated": null,
-      "identity": null,
-      "name": "password_reset_token_expiration",
-      "entityType": "columns",
-      "schema": "public",
-      "table": "teachers"
-    },
-    {
-      "type": "varchar(300)",
-      "typeSchema": null,
-      "notNull": false,
-      "dimensions": 0,
-      "default": null,
-      "generated": null,
-      "identity": null,
-      "name": "mobile_device_token",
-      "entityType": "columns",
-      "schema": "public",
-      "table": "teachers"
-    },
-    {
-      "type": "boolean",
-      "typeSchema": null,
-      "notNull": true,
-      "dimensions": 0,
-      "default": null,
-      "generated": null,
-      "identity": null,
-      "name": "first_access",
-      "entityType": "columns",
-      "schema": "public",
-      "table": "teachers"
-    },
-    {
-      "type": "boolean",
-      "typeSchema": null,
-      "notNull": true,
-      "dimensions": 0,
-      "default": "false",
-      "generated": null,
-      "identity": null,
-      "name": "send_notifications_block",
-      "entityType": "columns",
-      "schema": "public",
-      "table": "teachers"
-    },
-    {
-      "type": "varchar(16)",
-      "typeSchema": null,
-      "notNull": true,
-      "dimensions": 0,
-      "default": null,
-      "generated": null,
-      "identity": null,
-      "name": "nationality_id",
       "entityType": "columns",
       "schema": "public",
       "table": "teachers"
@@ -13678,13 +12939,6 @@
       "nameExplicit": true,
       "columns": [
         {
-          "value": "tenant_id",
-          "isExpression": false,
-          "asc": true,
-          "nullsFirst": false,
-          "opclass": null
-        },
-        {
           "value": "name",
           "isExpression": false,
           "asc": true,
@@ -13697,66 +12951,10 @@
       "with": "",
       "method": "btree",
       "concurrently": false,
-      "name": "permission_groups_tenant_id_name_key",
+      "name": "permission_groups_name_key",
       "entityType": "indexes",
       "schema": "public",
       "table": "permission_groups"
-    },
-    {
-      "nameExplicit": true,
-      "columns": [
-        {
-          "value": "document_number",
-          "isExpression": false,
-          "asc": true,
-          "nullsFirst": false,
-          "opclass": null
-        },
-        {
-          "value": "document_type",
-          "isExpression": false,
-          "asc": true,
-          "nullsFirst": false,
-          "opclass": null
-        }
-      ],
-      "isUnique": true,
-      "where": null,
-      "with": "",
-      "method": "btree",
-      "concurrently": false,
-      "name": "tenant_profiles_document_number_type_key",
-      "entityType": "indexes",
-      "schema": "public",
-      "table": "tenant_profiles"
-    },
-    {
-      "nameExplicit": true,
-      "columns": [
-        {
-          "value": "role",
-          "isExpression": false,
-          "asc": true,
-          "nullsFirst": false,
-          "opclass": null
-        },
-        {
-          "value": "tenant_id",
-          "isExpression": false,
-          "asc": true,
-          "nullsFirst": false,
-          "opclass": null
-        }
-      ],
-      "isUnique": true,
-      "where": null,
-      "with": "",
-      "method": "btree",
-      "concurrently": false,
-      "name": "tenant_roles_role_tenant_id_key",
-      "entityType": "indexes",
-      "schema": "public",
-      "table": "tenant_roles"
     },
     {
       "nameExplicit": true,
@@ -13785,6 +12983,83 @@
       "entityType": "indexes",
       "schema": "public",
       "table": "terms_of_use"
+    },
+    {
+      "nameExplicit": true,
+      "columns": [
+        {
+          "value": "user_context_id",
+          "isExpression": false,
+          "asc": true,
+          "nullsFirst": false,
+          "opclass": null
+        },
+        {
+          "value": "permission_group_id",
+          "isExpression": false,
+          "asc": true,
+          "nullsFirst": false,
+          "opclass": null
+        }
+      ],
+      "isUnique": true,
+      "where": null,
+      "with": "",
+      "method": "btree",
+      "concurrently": false,
+      "name": "ucpg_user_context_permission_group_uk",
+      "entityType": "indexes",
+      "schema": "public",
+      "table": "user_context_permission_groups"
+    },
+    {
+      "nameExplicit": true,
+      "columns": [
+        {
+          "value": "role",
+          "isExpression": false,
+          "asc": true,
+          "nullsFirst": false,
+          "opclass": null
+        },
+        {
+          "value": "user_context_id",
+          "isExpression": false,
+          "asc": true,
+          "nullsFirst": false,
+          "opclass": null
+        }
+      ],
+      "isUnique": true,
+      "where": null,
+      "with": "",
+      "method": "btree",
+      "concurrently": false,
+      "name": "user_context_roles_role_user_context_id_key",
+      "entityType": "indexes",
+      "schema": "public",
+      "table": "user_context_roles"
+    },
+    {
+      "nameExplicit": true,
+      "columns": [
+        {
+          "value": "invitation_token",
+          "isExpression": false,
+          "asc": true,
+          "nullsFirst": false,
+          "opclass": null
+        }
+      ],
+      "isUnique": true,
+      "where": null,
+      "with": "",
+      "method": "btree",
+      "concurrently": false,
+      "name": "user_contexts_invitation_token_key",
+      "entityType": "indexes",
+      "schema": "public",
+      "table": "user_contexts"
     },
     {
       "nameExplicit": true,
@@ -13834,83 +13109,6 @@
       "entityType": "indexes",
       "schema": "public",
       "table": "user_profiles"
-    },
-    {
-      "nameExplicit": true,
-      "columns": [
-        {
-          "value": "user_tenant_id",
-          "isExpression": false,
-          "asc": true,
-          "nullsFirst": false,
-          "opclass": null
-        },
-        {
-          "value": "permission_group_id",
-          "isExpression": false,
-          "asc": true,
-          "nullsFirst": false,
-          "opclass": null
-        }
-      ],
-      "isUnique": true,
-      "where": null,
-      "with": "",
-      "method": "btree",
-      "concurrently": false,
-      "name": "utpg_user_tenant_permission_group_uk",
-      "entityType": "indexes",
-      "schema": "public",
-      "table": "user_tenant_permission_groups"
-    },
-    {
-      "nameExplicit": true,
-      "columns": [
-        {
-          "value": "invitation_token",
-          "isExpression": false,
-          "asc": true,
-          "nullsFirst": false,
-          "opclass": null
-        }
-      ],
-      "isUnique": true,
-      "where": null,
-      "with": "",
-      "method": "btree",
-      "concurrently": false,
-      "name": "user_tenants_invitation_token_key",
-      "entityType": "indexes",
-      "schema": "public",
-      "table": "user_tenants"
-    },
-    {
-      "nameExplicit": true,
-      "columns": [
-        {
-          "value": "user_id",
-          "isExpression": false,
-          "asc": true,
-          "nullsFirst": false,
-          "opclass": null
-        },
-        {
-          "value": "tenant_id",
-          "isExpression": false,
-          "asc": true,
-          "nullsFirst": false,
-          "opclass": null
-        }
-      ],
-      "isUnique": true,
-      "where": null,
-      "with": "",
-      "method": "btree",
-      "concurrently": false,
-      "name": "user_tenants_user_id_tenant_id_key",
-      "entityType": "indexes",
-      "schema": "public",
-      "table": "user_tenants"
     },
     {
       "nameExplicit": true,
@@ -14210,48 +13408,6 @@
       "nameExplicit": true,
       "columns": [
         {
-          "value": "address_id",
-          "isExpression": false,
-          "asc": true,
-          "nullsFirst": false,
-          "opclass": null
-        }
-      ],
-      "isUnique": false,
-      "where": null,
-      "with": "",
-      "method": "btree",
-      "concurrently": false,
-      "name": "financial_responsibles__address_id_idx",
-      "entityType": "indexes",
-      "schema": "public",
-      "table": "financial_responsibles"
-    },
-    {
-      "nameExplicit": true,
-      "columns": [
-        {
-          "value": "nationality_id",
-          "isExpression": false,
-          "asc": true,
-          "nullsFirst": false,
-          "opclass": null
-        }
-      ],
-      "isUnique": false,
-      "where": null,
-      "with": "",
-      "method": "btree",
-      "concurrently": false,
-      "name": "financial_responsibles__nationality_id_idx",
-      "entityType": "indexes",
-      "schema": "public",
-      "table": "financial_responsibles"
-    },
-    {
-      "nameExplicit": true,
-      "columns": [
-        {
           "value": "seller_id",
           "isExpression": false,
           "asc": true,
@@ -14532,7 +13688,7 @@
       "nameExplicit": true,
       "columns": [
         {
-          "value": "user_id",
+          "value": "user_context_id",
           "isExpression": false,
           "asc": true,
           "nullsFirst": false,
@@ -14544,7 +13700,7 @@
       "with": "",
       "method": "btree",
       "concurrently": false,
-      "name": "issue_activities__user_id_idx",
+      "name": "issue_activities__user_context_id_idx",
       "entityType": "indexes",
       "schema": "public",
       "table": "issue_activities"
@@ -14595,7 +13751,7 @@
       "nameExplicit": true,
       "columns": [
         {
-          "value": "user_id",
+          "value": "user_context_id",
           "isExpression": false,
           "asc": true,
           "nullsFirst": false,
@@ -14607,7 +13763,7 @@
       "with": "",
       "method": "btree",
       "concurrently": false,
-      "name": "issue_comments__user_id_idx",
+      "name": "issue_comments__user_context_id_idx",
       "entityType": "indexes",
       "schema": "public",
       "table": "issue_comments"
@@ -15393,7 +14549,7 @@
           "opclass": null
         },
         {
-          "value": "user_id",
+          "value": "user_context_id",
           "isExpression": false,
           "asc": true,
           "nullsFirst": false,
@@ -15419,7 +14575,7 @@
       "with": "",
       "method": "btree",
       "concurrently": false,
-      "name": "refresh_tokens__user_type__user_id__revoked_at__expires_at_idx",
+      "name": "refresh_tokens__user_type__user_context_id__revoked_at__expires_at_idx",
       "entityType": "indexes",
       "schema": "public",
       "table": "refresh_tokens"
@@ -15932,55 +15088,6 @@
       "nameExplicit": true,
       "columns": [
         {
-          "value": "teacher_id",
-          "isExpression": false,
-          "asc": true,
-          "nullsFirst": false,
-          "opclass": null
-        },
-        {
-          "value": "class_date",
-          "isExpression": false,
-          "asc": true,
-          "nullsFirst": false,
-          "opclass": null
-        },
-        {
-          "value": "status",
-          "isExpression": false,
-          "asc": true,
-          "nullsFirst": false,
-          "opclass": null
-        },
-        {
-          "value": "rescheduled",
-          "isExpression": false,
-          "asc": true,
-          "nullsFirst": false,
-          "opclass": null
-        },
-        {
-          "value": "deleted_at",
-          "isExpression": false,
-          "asc": true,
-          "nullsFirst": false,
-          "opclass": null
-        }
-      ],
-      "isUnique": false,
-      "where": null,
-      "with": "",
-      "method": "btree",
-      "concurrently": false,
-      "name": "allocate_students_idx",
-      "entityType": "indexes",
-      "schema": "public",
-      "table": "student_classes"
-    },
-    {
-      "nameExplicit": true,
-      "columns": [
-        {
           "value": "student_id",
           "isExpression": false,
           "asc": true,
@@ -16037,7 +15144,7 @@
       "nameExplicit": true,
       "columns": [
         {
-          "value": "invoice_item_id",
+          "value": "student_contract_id",
           "isExpression": false,
           "asc": true,
           "nullsFirst": false,
@@ -16049,7 +15156,7 @@
       "with": "",
       "method": "btree",
       "concurrently": false,
-      "name": "student_classes__invoice_item_id_idx",
+      "name": "student_classes__student_contract_id_idx",
       "entityType": "indexes",
       "schema": "public",
       "table": "student_classes"
@@ -16625,90 +15732,6 @@
       "nameExplicit": true,
       "columns": [
         {
-          "value": "rank",
-          "isExpression": false,
-          "asc": true,
-          "nullsFirst": false,
-          "opclass": null
-        }
-      ],
-      "isUnique": false,
-      "where": null,
-      "with": "",
-      "method": "btree",
-      "concurrently": false,
-      "name": "student_ranking__rank_idx",
-      "entityType": "indexes",
-      "schema": "public",
-      "table": "student_ranking"
-    },
-    {
-      "nameExplicit": true,
-      "columns": [
-        {
-          "value": "deleted_at",
-          "isExpression": false,
-          "asc": true,
-          "nullsFirst": false,
-          "opclass": null
-        }
-      ],
-      "isUnique": false,
-      "where": null,
-      "with": "",
-      "method": "btree",
-      "concurrently": false,
-      "name": "student_ranking_deleted_at_idx",
-      "entityType": "indexes",
-      "schema": "public",
-      "table": "student_ranking"
-    },
-    {
-      "nameExplicit": true,
-      "columns": [
-        {
-          "value": "student_id",
-          "isExpression": false,
-          "asc": true,
-          "nullsFirst": false,
-          "opclass": null
-        }
-      ],
-      "isUnique": true,
-      "where": null,
-      "with": "",
-      "method": "btree",
-      "concurrently": false,
-      "name": "student_ranking__student_id_key",
-      "entityType": "indexes",
-      "schema": "public",
-      "table": "student_ranking"
-    },
-    {
-      "nameExplicit": true,
-      "columns": [
-        {
-          "value": "total_points",
-          "isExpression": false,
-          "asc": true,
-          "nullsFirst": false,
-          "opclass": null
-        }
-      ],
-      "isUnique": false,
-      "where": null,
-      "with": "",
-      "method": "btree",
-      "concurrently": false,
-      "name": "student_ranking__total_points_idx",
-      "entityType": "indexes",
-      "schema": "public",
-      "table": "student_ranking"
-    },
-    {
-      "nameExplicit": true,
-      "columns": [
-        {
           "value": "deleted_at",
           "isExpression": false,
           "asc": true,
@@ -17234,27 +16257,6 @@
       "nameExplicit": true,
       "columns": [
         {
-          "value": "address_id",
-          "isExpression": false,
-          "asc": true,
-          "nullsFirst": false,
-          "opclass": null
-        }
-      ],
-      "isUnique": false,
-      "where": null,
-      "with": "",
-      "method": "btree",
-      "concurrently": false,
-      "name": "students__address_id_idx",
-      "entityType": "indexes",
-      "schema": "public",
-      "table": "students"
-    },
-    {
-      "nameExplicit": true,
-      "columns": [
-        {
           "value": "collector_id",
           "isExpression": false,
           "asc": true,
@@ -17310,27 +16312,6 @@
       "method": "btree",
       "concurrently": false,
       "name": "students__financial_responsible_id_idx",
-      "entityType": "indexes",
-      "schema": "public",
-      "table": "students"
-    },
-    {
-      "nameExplicit": true,
-      "columns": [
-        {
-          "value": "nationality_id",
-          "isExpression": false,
-          "asc": true,
-          "nullsFirst": false,
-          "opclass": null
-        }
-      ],
-      "isUnique": false,
-      "where": null,
-      "with": "",
-      "method": "btree",
-      "concurrently": false,
-      "name": "students__nationality_id_idx",
       "entityType": "indexes",
       "schema": "public",
       "table": "students"
@@ -17505,10 +16486,94 @@
       "with": "",
       "method": "btree",
       "concurrently": false,
+      "name": "teacher_certifications_deleted_at_idx",
+      "entityType": "indexes",
+      "schema": "public",
+      "table": "teacher_certifications"
+    },
+    {
+      "nameExplicit": true,
+      "columns": [
+        {
+          "value": "teacher_id",
+          "isExpression": false,
+          "asc": true,
+          "nullsFirst": false,
+          "opclass": null
+        }
+      ],
+      "isUnique": false,
+      "where": null,
+      "with": "",
+      "method": "btree",
+      "concurrently": false,
+      "name": "teacher_certifications__teacher_id_idx",
+      "entityType": "indexes",
+      "schema": "public",
+      "table": "teacher_certifications"
+    },
+    {
+      "nameExplicit": true,
+      "columns": [
+        {
+          "value": "deleted_at",
+          "isExpression": false,
+          "asc": true,
+          "nullsFirst": false,
+          "opclass": null
+        }
+      ],
+      "isUnique": false,
+      "where": null,
+      "with": "",
+      "method": "btree",
+      "concurrently": false,
       "name": "teacher_contract_models_deleted_at_idx",
       "entityType": "indexes",
       "schema": "public",
       "table": "teacher_contract_models"
+    },
+    {
+      "nameExplicit": true,
+      "columns": [
+        {
+          "value": "deleted_at",
+          "isExpression": false,
+          "asc": true,
+          "nullsFirst": false,
+          "opclass": null
+        }
+      ],
+      "isUnique": false,
+      "where": null,
+      "with": "",
+      "method": "btree",
+      "concurrently": false,
+      "name": "teacher_courses_deleted_at_idx",
+      "entityType": "indexes",
+      "schema": "public",
+      "table": "teacher_courses"
+    },
+    {
+      "nameExplicit": true,
+      "columns": [
+        {
+          "value": "teacher_id",
+          "isExpression": false,
+          "asc": true,
+          "nullsFirst": false,
+          "opclass": null
+        }
+      ],
+      "isUnique": false,
+      "where": null,
+      "with": "",
+      "method": "btree",
+      "concurrently": false,
+      "name": "teacher_courses__teacher_id_idx",
+      "entityType": "indexes",
+      "schema": "public",
+      "table": "teacher_courses"
     },
     {
       "nameExplicit": true,
@@ -18060,27 +17125,6 @@
       "nameExplicit": true,
       "columns": [
         {
-          "value": "address_id",
-          "isExpression": false,
-          "asc": true,
-          "nullsFirst": false,
-          "opclass": null
-        }
-      ],
-      "isUnique": false,
-      "where": null,
-      "with": "",
-      "method": "btree",
-      "concurrently": false,
-      "name": "teachers__address_id_idx",
-      "entityType": "indexes",
-      "schema": "public",
-      "table": "teachers"
-    },
-    {
-      "nameExplicit": true,
-      "columns": [
-        {
           "value": "bank_account_id",
           "isExpression": false,
           "asc": true,
@@ -18094,27 +17138,6 @@
       "method": "btree",
       "concurrently": false,
       "name": "teachers__bank_account_id_idx",
-      "entityType": "indexes",
-      "schema": "public",
-      "table": "teachers"
-    },
-    {
-      "nameExplicit": true,
-      "columns": [
-        {
-          "value": "nationality_id",
-          "isExpression": false,
-          "asc": true,
-          "nullsFirst": false,
-          "opclass": null
-        }
-      ],
-      "isUnique": false,
-      "where": null,
-      "with": "",
-      "method": "btree",
-      "concurrently": false,
-      "name": "teachers__nationality_id_idx",
       "entityType": "indexes",
       "schema": "public",
       "table": "teachers"
@@ -18164,23 +17187,6 @@
     {
       "nameExplicit": true,
       "columns": [
-        "tenant_id"
-      ],
-      "schemaTo": "public",
-      "tableTo": "tenants",
-      "columnsTo": [
-        "id"
-      ],
-      "onUpdate": "NO ACTION",
-      "onDelete": "CASCADE",
-      "name": "permission_groups_tenant_id_fkey",
-      "entityType": "fks",
-      "schema": "public",
-      "table": "permission_groups"
-    },
-    {
-      "nameExplicit": true,
-      "columns": [
         "permission_group_id"
       ],
       "schemaTo": "public",
@@ -18198,84 +17204,16 @@
     {
       "nameExplicit": true,
       "columns": [
-        "avatar_id"
+        "user_context_id"
       ],
       "schemaTo": "public",
-      "tableTo": "medias",
-      "columnsTo": [
-        "id"
-      ],
-      "onUpdate": "NO ACTION",
-      "onDelete": "SET NULL",
-      "name": "tenant_profiles_avatar_id_fkey",
-      "entityType": "fks",
-      "schema": "public",
-      "table": "tenant_profiles"
-    },
-    {
-      "nameExplicit": true,
-      "columns": [
-        "address_id"
-      ],
-      "schemaTo": "public",
-      "tableTo": "addresses",
-      "columnsTo": [
-        "id"
-      ],
-      "onUpdate": "NO ACTION",
-      "onDelete": "SET NULL",
-      "name": "tenant_profiles_address_id_fkey",
-      "entityType": "fks",
-      "schema": "public",
-      "table": "tenant_profiles"
-    },
-    {
-      "nameExplicit": true,
-      "columns": [
-        "tenant_id"
-      ],
-      "schemaTo": "public",
-      "tableTo": "tenants",
+      "tableTo": "user_contexts",
       "columnsTo": [
         "id"
       ],
       "onUpdate": "NO ACTION",
       "onDelete": "CASCADE",
-      "name": "tenant_roles_tenant_id_fkey",
-      "entityType": "fks",
-      "schema": "public",
-      "table": "tenant_roles"
-    },
-    {
-      "nameExplicit": true,
-      "columns": [
-        "tenant_profile_id"
-      ],
-      "schemaTo": "public",
-      "tableTo": "tenant_profiles",
-      "columnsTo": [
-        "id"
-      ],
-      "onUpdate": "NO ACTION",
-      "onDelete": "RESTRICT",
-      "name": "tenants_tenant_profile_id_fkey",
-      "entityType": "fks",
-      "schema": "public",
-      "table": "tenants"
-    },
-    {
-      "nameExplicit": true,
-      "columns": [
-        "user_id"
-      ],
-      "schemaTo": "public",
-      "tableTo": "users",
-      "columnsTo": [
-        "id"
-      ],
-      "onUpdate": "NO ACTION",
-      "onDelete": "CASCADE",
-      "name": "terms_of_use_acceptances_user_id_fkey",
+      "name": "terms_of_use_acceptances_user_context_id_fkey",
       "entityType": "fks",
       "schema": "public",
       "table": "terms_of_use_acceptances"
@@ -18300,6 +17238,57 @@
     {
       "nameExplicit": true,
       "columns": [
+        "user_context_id"
+      ],
+      "schemaTo": "public",
+      "tableTo": "user_contexts",
+      "columnsTo": [
+        "id"
+      ],
+      "onUpdate": "NO ACTION",
+      "onDelete": "CASCADE",
+      "name": "user_context_permission_groups_user_context_id_fkey",
+      "entityType": "fks",
+      "schema": "public",
+      "table": "user_context_permission_groups"
+    },
+    {
+      "nameExplicit": true,
+      "columns": [
+        "permission_group_id"
+      ],
+      "schemaTo": "public",
+      "tableTo": "permission_groups",
+      "columnsTo": [
+        "id"
+      ],
+      "onUpdate": "NO ACTION",
+      "onDelete": "CASCADE",
+      "name": "user_context_permission_groups_permission_group_id_fkey",
+      "entityType": "fks",
+      "schema": "public",
+      "table": "user_context_permission_groups"
+    },
+    {
+      "nameExplicit": true,
+      "columns": [
+        "user_context_id"
+      ],
+      "schemaTo": "public",
+      "tableTo": "user_contexts",
+      "columnsTo": [
+        "id"
+      ],
+      "onUpdate": "NO ACTION",
+      "onDelete": "CASCADE",
+      "name": "user_context_roles_user_context_id_fkey",
+      "entityType": "fks",
+      "schema": "public",
+      "table": "user_context_roles"
+    },
+    {
+      "nameExplicit": true,
+      "columns": [
         "user_id"
       ],
       "schemaTo": "public",
@@ -18309,7 +17298,24 @@
       ],
       "onUpdate": "NO ACTION",
       "onDelete": "CASCADE",
-      "name": "password_reset_user_id_fkey",
+      "name": "user_contexts_user_id_fkey",
+      "entityType": "fks",
+      "schema": "public",
+      "table": "user_contexts"
+    },
+    {
+      "nameExplicit": true,
+      "columns": [
+        "user_context_id"
+      ],
+      "schemaTo": "public",
+      "tableTo": "user_contexts",
+      "columnsTo": [
+        "id"
+      ],
+      "onUpdate": "NO ACTION",
+      "onDelete": "CASCADE",
+      "name": "password_reset_user_context_id_fkey",
       "entityType": "fks",
       "schema": "public",
       "table": "user_password_reset"
@@ -18351,16 +17357,16 @@
     {
       "nameExplicit": true,
       "columns": [
-        "user_id"
+        "user_context_id"
       ],
       "schemaTo": "public",
-      "tableTo": "users",
+      "tableTo": "user_contexts",
       "columnsTo": [
         "id"
       ],
       "onUpdate": "NO ACTION",
       "onDelete": "CASCADE",
-      "name": "user_sessions_user_id_fkey",
+      "name": "user_sessions_user_context_id_fkey",
       "entityType": "fks",
       "schema": "public",
       "table": "user_sessions"
@@ -18368,87 +17374,19 @@
     {
       "nameExplicit": true,
       "columns": [
-        "current_tenant_id"
+        "current_context_id"
       ],
       "schemaTo": "public",
-      "tableTo": "tenants",
+      "tableTo": "user_contexts",
       "columnsTo": [
         "id"
       ],
       "onUpdate": "NO ACTION",
       "onDelete": "CASCADE",
-      "name": "user_sessions_current_tenant_id_fkey",
+      "name": "user_sessions_current_context_id_fkey",
       "entityType": "fks",
       "schema": "public",
       "table": "user_sessions"
-    },
-    {
-      "nameExplicit": true,
-      "columns": [
-        "user_tenant_id"
-      ],
-      "schemaTo": "public",
-      "tableTo": "user_tenants",
-      "columnsTo": [
-        "id"
-      ],
-      "onUpdate": "NO ACTION",
-      "onDelete": "CASCADE",
-      "name": "user_tenant_permission_groups_user_tenant_id_fkey",
-      "entityType": "fks",
-      "schema": "public",
-      "table": "user_tenant_permission_groups"
-    },
-    {
-      "nameExplicit": true,
-      "columns": [
-        "permission_group_id"
-      ],
-      "schemaTo": "public",
-      "tableTo": "permission_groups",
-      "columnsTo": [
-        "id"
-      ],
-      "onUpdate": "NO ACTION",
-      "onDelete": "CASCADE",
-      "name": "user_tenant_permission_groups_permission_group_id_fkey",
-      "entityType": "fks",
-      "schema": "public",
-      "table": "user_tenant_permission_groups"
-    },
-    {
-      "nameExplicit": true,
-      "columns": [
-        "tenant_id"
-      ],
-      "schemaTo": "public",
-      "tableTo": "tenants",
-      "columnsTo": [
-        "id"
-      ],
-      "onUpdate": "NO ACTION",
-      "onDelete": "CASCADE",
-      "name": "user_tenants_tenant_id_fkey",
-      "entityType": "fks",
-      "schema": "public",
-      "table": "user_tenants"
-    },
-    {
-      "nameExplicit": true,
-      "columns": [
-        "user_id"
-      ],
-      "schemaTo": "public",
-      "tableTo": "users",
-      "columnsTo": [
-        "id"
-      ],
-      "onUpdate": "NO ACTION",
-      "onDelete": "CASCADE",
-      "name": "user_tenants_user_id_fkey",
-      "entityType": "fks",
-      "schema": "public",
-      "table": "user_tenants"
     },
     {
       "nameExplicit": true,
@@ -18589,40 +17527,6 @@
     {
       "nameExplicit": true,
       "columns": [
-        "address_id"
-      ],
-      "schemaTo": "public",
-      "tableTo": "addresses",
-      "columnsTo": [
-        "id"
-      ],
-      "onUpdate": "NO ACTION",
-      "onDelete": "NO ACTION",
-      "name": "financial_responsibles__address_id_fkey",
-      "entityType": "fks",
-      "schema": "public",
-      "table": "financial_responsibles"
-    },
-    {
-      "nameExplicit": true,
-      "columns": [
-        "nationality_id"
-      ],
-      "schemaTo": "public",
-      "tableTo": "countries",
-      "columnsTo": [
-        "id"
-      ],
-      "onUpdate": "NO ACTION",
-      "onDelete": "NO ACTION",
-      "name": "financial_responsibles__nationality_id_fkey",
-      "entityType": "fks",
-      "schema": "public",
-      "table": "financial_responsibles"
-    },
-    {
-      "nameExplicit": true,
-      "columns": [
         "invoice_id"
       ],
       "schemaTo": "public",
@@ -18742,6 +17646,23 @@
     {
       "nameExplicit": true,
       "columns": [
+        "user_context_id"
+      ],
+      "schemaTo": "public",
+      "tableTo": "user_contexts",
+      "columnsTo": [
+        "id"
+      ],
+      "onUpdate": "NO ACTION",
+      "onDelete": "NO ACTION",
+      "name": "issue_activities_user_context_id_fkey",
+      "entityType": "fks",
+      "schema": "public",
+      "table": "issue_activities"
+    },
+    {
+      "nameExplicit": true,
+      "columns": [
         "issue_id"
       ],
       "schemaTo": "public",
@@ -18769,6 +17690,23 @@
       "onUpdate": "NO ACTION",
       "onDelete": "NO ACTION",
       "name": "issue_comments_fkey",
+      "entityType": "fks",
+      "schema": "public",
+      "table": "issue_comments"
+    },
+    {
+      "nameExplicit": true,
+      "columns": [
+        "user_context_id"
+      ],
+      "schemaTo": "public",
+      "tableTo": "user_contexts",
+      "columnsTo": [
+        "id"
+      ],
+      "onUpdate": "NO ACTION",
+      "onDelete": "NO ACTION",
+      "name": "issue_comments_user_context_id_fkey",
       "entityType": "fks",
       "schema": "public",
       "table": "issue_comments"
@@ -19014,6 +17952,40 @@
     {
       "nameExplicit": true,
       "columns": [
+        "user_context_id"
+      ],
+      "schemaTo": "public",
+      "tableTo": "user_contexts",
+      "columnsTo": [
+        "id"
+      ],
+      "onUpdate": "NO ACTION",
+      "onDelete": "NO ACTION",
+      "name": "refresh_tokens_user_context_id_fkey",
+      "entityType": "fks",
+      "schema": "public",
+      "table": "refresh_tokens"
+    },
+    {
+      "nameExplicit": true,
+      "columns": [
+        "user_context_id"
+      ],
+      "schemaTo": "public",
+      "tableTo": "user_contexts",
+      "columnsTo": [
+        "id"
+      ],
+      "onUpdate": "NO ACTION",
+      "onDelete": "RESTRICT",
+      "name": "sellers_user_context_id_fkey",
+      "entityType": "fks",
+      "schema": "public",
+      "table": "sellers"
+    },
+    {
+      "nameExplicit": true,
+      "columns": [
         "squad_id"
       ],
       "schemaTo": "public",
@@ -19044,6 +18016,23 @@
       "entityType": "fks",
       "schema": "public",
       "table": "student_cancel_pause_job"
+    },
+    {
+      "nameExplicit": false,
+      "columns": [
+        "user_context_id"
+      ],
+      "schemaTo": "public",
+      "tableTo": "user_contexts",
+      "columnsTo": [
+        "id"
+      ],
+      "onUpdate": "NO ACTION",
+      "onDelete": "NO ACTION",
+      "name": "student_class_events_user_context_id_user_contexts_id_fkey",
+      "entityType": "fks",
+      "schema": "public",
+      "table": "student_class_events"
     },
     {
       "nameExplicit": true,
@@ -19133,6 +18122,23 @@
     {
       "nameExplicit": true,
       "columns": [
+        "user_context_id"
+      ],
+      "schemaTo": "public",
+      "tableTo": "user_contexts",
+      "columnsTo": [
+        "id"
+      ],
+      "onUpdate": "NO ACTION",
+      "onDelete": "NO ACTION",
+      "name": "student_class_meet_events_user_context_id_fkey",
+      "entityType": "fks",
+      "schema": "public",
+      "table": "student_class_meet_events"
+    },
+    {
+      "nameExplicit": true,
+      "columns": [
         "student_class_id"
       ],
       "schemaTo": "public",
@@ -19201,23 +18207,6 @@
     {
       "nameExplicit": true,
       "columns": [
-        "invoice_item_id"
-      ],
-      "schemaTo": "public",
-      "tableTo": "invoice_itens",
-      "columnsTo": [
-        "id"
-      ],
-      "onUpdate": "NO ACTION",
-      "onDelete": "NO ACTION",
-      "name": "student_classes__invoice_item_id_fkey",
-      "entityType": "fks",
-      "schema": "public",
-      "table": "student_classes"
-    },
-    {
-      "nameExplicit": true,
-      "columns": [
         "lead_id"
       ],
       "schemaTo": "public",
@@ -19228,6 +18217,23 @@
       "onUpdate": "NO ACTION",
       "onDelete": "NO ACTION",
       "name": "student_classes__lead_id_fkey",
+      "entityType": "fks",
+      "schema": "public",
+      "table": "student_classes"
+    },
+    {
+      "nameExplicit": true,
+      "columns": [
+        "student_contract_id"
+      ],
+      "schemaTo": "public",
+      "tableTo": "student_contracts",
+      "columnsTo": [
+        "id"
+      ],
+      "onUpdate": "NO ACTION",
+      "onDelete": "NO ACTION",
+      "name": "student_classes__student_contract_id_fkey",
       "entityType": "fks",
       "schema": "public",
       "table": "student_classes"
@@ -19490,23 +18496,6 @@
     {
       "nameExplicit": true,
       "columns": [
-        "student_id"
-      ],
-      "schemaTo": "public",
-      "tableTo": "students",
-      "columnsTo": [
-        "id"
-      ],
-      "onUpdate": "NO ACTION",
-      "onDelete": "NO ACTION",
-      "name": "student_ranking_fkey",
-      "entityType": "fks",
-      "schema": "public",
-      "table": "student_ranking"
-    },
-    {
-      "nameExplicit": true,
-      "columns": [
         "student_request_id"
       ],
       "schemaTo": "public",
@@ -19745,23 +18734,6 @@
     {
       "nameExplicit": true,
       "columns": [
-        "address_id"
-      ],
-      "schemaTo": "public",
-      "tableTo": "addresses",
-      "columnsTo": [
-        "id"
-      ],
-      "onUpdate": "NO ACTION",
-      "onDelete": "NO ACTION",
-      "name": "students__address_id_fkey",
-      "entityType": "fks",
-      "schema": "public",
-      "table": "students"
-    },
-    {
-      "nameExplicit": true,
-      "columns": [
         "collector_id"
       ],
       "schemaTo": "public",
@@ -19772,23 +18744,6 @@
       "onUpdate": "NO ACTION",
       "onDelete": "NO ACTION",
       "name": "students__collector_id_fkey",
-      "entityType": "fks",
-      "schema": "public",
-      "table": "students"
-    },
-    {
-      "nameExplicit": true,
-      "columns": [
-        "nationality_id"
-      ],
-      "schemaTo": "public",
-      "tableTo": "countries",
-      "columnsTo": [
-        "id"
-      ],
-      "onUpdate": "NO ACTION",
-      "onDelete": "NO ACTION",
-      "name": "students__nationality_id_fkey",
       "entityType": "fks",
       "schema": "public",
       "table": "students"
@@ -19860,6 +18815,40 @@
       "entityType": "fks",
       "schema": "public",
       "table": "teacher_availabilities"
+    },
+    {
+      "nameExplicit": true,
+      "columns": [
+        "teacher_id"
+      ],
+      "schemaTo": "public",
+      "tableTo": "teachers",
+      "columnsTo": [
+        "id"
+      ],
+      "onUpdate": "NO ACTION",
+      "onDelete": "NO ACTION",
+      "name": "teacher_certifications__teacher_id_fkey",
+      "entityType": "fks",
+      "schema": "public",
+      "table": "teacher_certifications"
+    },
+    {
+      "nameExplicit": true,
+      "columns": [
+        "teacher_id"
+      ],
+      "schemaTo": "public",
+      "tableTo": "teachers",
+      "columnsTo": [
+        "id"
+      ],
+      "onUpdate": "NO ACTION",
+      "onDelete": "NO ACTION",
+      "name": "teacher_courses__teacher_id_fkey",
+      "entityType": "fks",
+      "schema": "public",
+      "table": "teacher_courses"
     },
     {
       "nameExplicit": true,
@@ -20136,23 +19125,6 @@
     {
       "nameExplicit": true,
       "columns": [
-        "address_id"
-      ],
-      "schemaTo": "public",
-      "tableTo": "addresses",
-      "columnsTo": [
-        "id"
-      ],
-      "onUpdate": "NO ACTION",
-      "onDelete": "NO ACTION",
-      "name": "teachers__address_id_fkey",
-      "entityType": "fks",
-      "schema": "public",
-      "table": "teachers"
-    },
-    {
-      "nameExplicit": true,
-      "columns": [
         "bank_account_id"
       ],
       "schemaTo": "public",
@@ -20163,23 +19135,6 @@
       "onUpdate": "NO ACTION",
       "onDelete": "NO ACTION",
       "name": "teachers__bank_account_id_fkey",
-      "entityType": "fks",
-      "schema": "public",
-      "table": "teachers"
-    },
-    {
-      "nameExplicit": true,
-      "columns": [
-        "nationality_id"
-      ],
-      "schemaTo": "public",
-      "tableTo": "countries",
-      "columnsTo": [
-        "id"
-      ],
-      "onUpdate": "NO ACTION",
-      "onDelete": "NO ACTION",
-      "name": "teachers__nationality_id_fkey",
       "entityType": "fks",
       "schema": "public",
       "table": "teachers"
@@ -20236,36 +19191,6 @@
         "id"
       ],
       "nameExplicit": false,
-      "name": "tenant_profiles_pkey",
-      "schema": "public",
-      "table": "tenant_profiles",
-      "entityType": "pks"
-    },
-    {
-      "columns": [
-        "id"
-      ],
-      "nameExplicit": false,
-      "name": "tenant_roles_pkey",
-      "schema": "public",
-      "table": "tenant_roles",
-      "entityType": "pks"
-    },
-    {
-      "columns": [
-        "id"
-      ],
-      "nameExplicit": false,
-      "name": "tenants_pkey",
-      "schema": "public",
-      "table": "tenants",
-      "entityType": "pks"
-    },
-    {
-      "columns": [
-        "id"
-      ],
-      "nameExplicit": false,
       "name": "terms_of_use_pkey",
       "schema": "public",
       "table": "terms_of_use",
@@ -20279,6 +19204,36 @@
       "name": "terms_of_use_acceptances_pkey",
       "schema": "public",
       "table": "terms_of_use_acceptances",
+      "entityType": "pks"
+    },
+    {
+      "columns": [
+        "id"
+      ],
+      "nameExplicit": false,
+      "name": "user_context_permission_groups_pkey",
+      "schema": "public",
+      "table": "user_context_permission_groups",
+      "entityType": "pks"
+    },
+    {
+      "columns": [
+        "id"
+      ],
+      "nameExplicit": false,
+      "name": "user_context_roles_pkey",
+      "schema": "public",
+      "table": "user_context_roles",
+      "entityType": "pks"
+    },
+    {
+      "columns": [
+        "id"
+      ],
+      "nameExplicit": false,
+      "name": "user_contexts_pkey",
+      "schema": "public",
+      "table": "user_contexts",
       "entityType": "pks"
     },
     {
@@ -20309,26 +19264,6 @@
       "name": "user_sessions_pkey",
       "schema": "public",
       "table": "user_sessions",
-      "entityType": "pks"
-    },
-    {
-      "columns": [
-        "id"
-      ],
-      "nameExplicit": false,
-      "name": "user_tenant_permission_groups_pkey",
-      "schema": "public",
-      "table": "user_tenant_permission_groups",
-      "entityType": "pks"
-    },
-    {
-      "columns": [
-        "id"
-      ],
-      "nameExplicit": false,
-      "name": "user_tenants_pkey",
-      "schema": "public",
-      "table": "user_tenants",
       "entityType": "pks"
     },
     {
@@ -20856,16 +19791,6 @@
         "id"
       ],
       "nameExplicit": false,
-      "name": "student_ranking_pkey",
-      "schema": "public",
-      "table": "student_ranking",
-      "entityType": "pks"
-    },
-    {
-      "columns": [
-        "id"
-      ],
-      "nameExplicit": false,
       "name": "student_request_events_pkey",
       "schema": "public",
       "table": "student_request_events",
@@ -21016,9 +19941,29 @@
         "id"
       ],
       "nameExplicit": false,
+      "name": "teacher_certifications_pkey",
+      "schema": "public",
+      "table": "teacher_certifications",
+      "entityType": "pks"
+    },
+    {
+      "columns": [
+        "id"
+      ],
+      "nameExplicit": false,
       "name": "teacher_contract_models_pkey",
       "schema": "public",
       "table": "teacher_contract_models",
+      "entityType": "pks"
+    },
+    {
+      "columns": [
+        "id"
+      ],
+      "nameExplicit": false,
+      "name": "teacher_courses_pkey",
+      "schema": "public",
+      "table": "teacher_courses",
       "entityType": "pks"
     },
     {
