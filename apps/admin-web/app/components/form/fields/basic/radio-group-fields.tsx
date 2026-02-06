@@ -16,8 +16,8 @@ const RadioGroupFields = <TFieldValues extends FieldValues = FieldValues, TName 
 }: RadioGroupFieldsProps<TFieldValues, TName>) => {
     return (
         <BaseFields label={label} name={name} required={required}>
-            {({ field }) => (
-                <RadioGroup orientation={orientation} {...field}>
+            {({ register }) => (
+                <RadioGroup orientation={orientation} {...register(name)}>
                     {children}
                 </RadioGroup>
             )}

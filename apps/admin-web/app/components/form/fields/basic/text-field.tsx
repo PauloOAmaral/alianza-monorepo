@@ -5,7 +5,7 @@ import { BaseFields, type BaseFieldsChildrenProps } from '../../base-field'
 const TextField = ({ name, label, placeholder, required, readOnly }: BaseFieldsChildrenProps<FieldValues, FieldPath<FieldValues>>) => {
     return (
         <BaseFields label={label} name={name} required={required}>
-            {({ field }) => <Input {...field} placeholder={placeholder} readOnly={readOnly} type='text' />}
+            {({ register }) => <Input {...register(name)} placeholder={placeholder} readOnly={readOnly} type='text' />}
         </BaseFields>
     )
 }

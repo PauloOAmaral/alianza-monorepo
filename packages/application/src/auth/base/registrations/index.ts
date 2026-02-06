@@ -1,4 +1,3 @@
-export * from './confirm-invite'
 export * from './confirm-signup'
 export * from './create-tenant'
 export * from './create-user-and-tenant'

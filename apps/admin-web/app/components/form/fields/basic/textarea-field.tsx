@@ -5,7 +5,7 @@ import { BaseFields, type BaseFieldsChildrenProps } from '../../base-field'
 const TextareaFields = ({ name, label, placeholder, required, readOnly }: BaseFieldsChildrenProps<FieldValues, FieldPath<FieldValues>>) => {
     return (
         <BaseFields label={label} name={name} required={required}>
-            {({ field }) => <Textarea {...field} placeholder={placeholder} readOnly={readOnly} rows={6} />}
+            {({ register }) => <Textarea {...register(name)} placeholder={placeholder} readOnly={readOnly} rows={6} />}
         </BaseFields>
     )
 }

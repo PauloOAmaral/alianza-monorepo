@@ -12,7 +12,7 @@ const NumberField = <TFieldValues extends FieldValues = FieldValues, TName exten
 }: BaseFieldsChildrenProps<TFieldValues, TName>) => {
     return (
         <BaseFields label={label} name={name} required={required}>
-            {({ field }) => <Input className={cn(readOnly && 'bg-gray-100 text-gray-600')} {...field} placeholder={placeholder} readOnly={readOnly} type='number' />}
+            {({ register }) => <Input className={cn(readOnly && 'bg-gray-100 text-gray-600')} {...register(name)} placeholder={placeholder} readOnly={readOnly} type='number' />}
         </BaseFields>
     )
 }

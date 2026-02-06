@@ -1,4 +1,4 @@
-import { relations } from 'drizzle-orm/_relations'
+import { relations } from 'drizzle-orm/relations'
 import { addresses, userContexts } from '../common'
 import { bankAccounts } from './bank-accounts'
 import { banks } from './banks'

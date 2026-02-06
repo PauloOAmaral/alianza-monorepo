@@ -128,7 +128,7 @@ export async function getI18nextClient() {
 declare module 'i18next' {
     interface CustomTypeOptions {
         resources: {
-            translation: typeof ptBR
+            translation: typeof es
         }
     }
 }

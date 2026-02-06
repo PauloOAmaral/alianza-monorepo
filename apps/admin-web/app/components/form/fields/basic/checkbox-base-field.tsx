@@ -1,6 +1,7 @@
 import { Checkbox } from '@alianza/ui/checkbox'
 import { cn } from '@alianza/ui/utils/cn'
-import type { FieldPath, FieldValues } from 'react-hook-form'
+import type { FieldPath, FieldValues, PathValue } from 'react-hook-form'
+import { useFormContext } from 'react-hook-form'
 import { BaseFields, type BaseFieldsChildrenProps } from '../../base-field'
 
 interface CheckboxOption {
@@ -21,18 +22,27 @@ const CheckboxBaseField = <TFieldValues extends FieldValues = FieldValues, TName
     readOnly,
     inline = false
 }: CheckboxBaseFieldProps<TFieldValues, TName>) => {
+    const { setValue, watch } = useFormContext<TFieldValues>()
+    const value = watch(name)
+
     return (
         <BaseFields label={label} name={name} required={required}>
-            {({ field }) => (
+            {({ register }) => (
                 <div className={cn('mt-2 flex flex-col space-x-4', inline && 'flex-row')}>
+                    <input
+                        type='hidden'
+                        {...register(name)}
+                        value={value ?? ''}
+                        onChange={e => setValue(name, e.target.value as PathValue<TFieldValues, TName>)}
+                    />
                     {options.map(option => (
                         <Checkbox
-                            checked={field.value === option.value}
+                            checked={value === option.value}
                             disabled={readOnly}
                             key={option.value}
-                            onChange={isSelected => {
-                                field.onChange(isSelected ? option.value : undefined)
-                            }}
+                            onCheckedChange={isSelected =>
+                                setValue(name, (isSelected ? option.value : undefined) as PathValue<TFieldValues, TName>)
+                            }
                         >
                             {option.label}
                         </Checkbox>

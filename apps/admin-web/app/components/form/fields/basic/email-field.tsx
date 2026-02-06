@@ -5,7 +5,7 @@ import { BaseFields, type BaseFieldsChildrenProps } from '../../base-field'
 const EmailField = ({ name, label, placeholder, required }: BaseFieldsChildrenProps<FieldValues, FieldPath<FieldValues>>) => {
     return (
         <BaseFields label={label} name={name} required={required}>
-            {({ field }) => <Input {...field} placeholder={placeholder} type='email' />}
+            {({ register }) => <Input {...register(name)} placeholder={placeholder} type='email' />}
         </BaseFields>
     )
 }

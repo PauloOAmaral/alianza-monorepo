@@ -1,5 +1,6 @@
 import { Checkbox } from '@alianza/ui/components/ui/checkbox'
 import type { FieldPath, FieldValues } from 'react-hook-form'
+import { useFormContext } from 'react-hook-form'
 import { BaseFields, type BaseFieldsChildrenProps } from '../../base-field'
 
 interface CheckboxFieldProps<TFieldValues extends FieldValues = FieldValues, TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>> extends BaseFieldsChildrenProps<TFieldValues, TName> {
@@ -13,17 +14,20 @@ const CheckboxField = <TFieldValues extends FieldValues = FieldValues, TName ext
     readOnly,
     checkboxLabel
 }: CheckboxFieldProps<TFieldValues, TName>) => {
+    const { setValue, watch } = useFormContext<TFieldValues>()
+    const value = watch(name)
+    const checked = value === true || value === 'true'
+
     return (
         <BaseFields label={label} name={name} required={required}>
-            {({ field }) => (
+            {({ register }) => (
                 <Checkbox
-                    checked={field.value === true || field.value === 'true'}
+                    {...register(name)}
+                    checked={checked}
                     disabled={readOnly}
-                    onChange={isSelected => {
-                        field.onChange(isSelected ? 'true' : 'false')
-                    }}
+                    onCheckedChange={isSelected => setValue(name, (isSelected ? 'true' : 'false') as TFieldValues[TName])}
                 >
-                    {checkboxLabel || label}
+                    {checkboxLabel ?? label}
                 </Checkbox>
             )}
         </BaseFields>
