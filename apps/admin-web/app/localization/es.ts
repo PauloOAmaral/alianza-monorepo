@@ -50,16 +50,139 @@ export const es = {
         page: {
             title: 'Leads',
             summary: 'Mostrando {{start}}-{{end}} de {{count}}',
-            pageOf: 'PÃ¡gina {{page}} de {{total}}'
+            pageOf: 'Pagina {{page}} de {{total}}',
+            newLead: 'Nuevo lead'
         },
         table: {
             id: 'ID',
             name: 'Nombre',
-            phone: 'TelÃ©fono',
+            phone: 'Telefono',
             email: 'Email',
+            seller: 'Seller',
             status: 'Estado',
             actions: 'Acciones',
             empty: 'No se encontraron leads.'
+        },
+        status: {
+            pre_analisys: 'Pre-analisis',
+            created: 'Creado',
+            in_service: 'En atencion',
+            experimental_class: 'Clase experimental',
+            experimental_class_missed: 'Reprogramar',
+            feedback: 'Feedback',
+            contract: 'Firma de contrato',
+            waiting_payment: 'Esperando pago',
+            paid: 'Matriculado',
+            talk_later: 'Hablar despues',
+            disqualified: 'Descalificado'
+        },
+        sources: {
+            facebook: 'Facebook',
+            messenger: 'Messenger',
+            instagram: 'Instagram',
+            direct: 'Directo',
+            google: 'Google',
+            tiktok: 'TikTok',
+            youtube: 'YouTube',
+            blog: 'Blog',
+            email: 'Email',
+            indication: 'Indicacion',
+            company: 'Empresa',
+            affiliate: 'Afiliado',
+            influencer: 'Influencer',
+            studentIndication: 'Indicacion de alumno',
+            facebookForms: 'Formularios Facebook',
+            exStudent: 'Ex alumno',
+            campaign: 'Campana'
+        },
+        form: {
+            title: 'Nuevo lead',
+            description: 'Registra un nuevo lead para seguimiento comercial.',
+            sections: {
+                identification: 'Identificacion',
+                contact: 'Contacto',
+                source: 'Origen',
+                context: 'Contexto'
+            },
+            fields: {
+                name: 'Nombre',
+                phone: 'Telefono',
+                secondaryPhone: 'Telefono secundario',
+                email: 'Email',
+                source: 'Origen',
+                campaign: 'Campana',
+                status: 'Estado',
+                gender: 'Genero',
+                age: 'Edad',
+                reason: 'Motivo',
+                eventSourceUrl: 'URL de origen',
+                sellerId: 'Seller ID',
+                companyId: 'Company ID',
+                disciplineId: 'Discipline ID'
+            },
+            placeholders: {
+                name: 'Nombre completo',
+                phone: 'Numero principal',
+                email: 'email@ejemplo.com',
+                source: 'Selecciona el origen',
+                campaign: 'Selecciona la campana',
+                status: 'Selecciona el estado',
+                noCampaign: 'Sin campana',
+                phoneCountryCode: 'DDI',
+                phoneNumber: 'Numero',
+                gender: 'Selecciona el genero',
+                age: 'Selecciona la edad',
+                reason: 'Describe el motivo',
+                eventSourceUrl: 'https://',
+                sellerId: 'ID del vendedor',
+                companyId: 'ID de la empresa',
+                disciplineId: 'ID de la disciplina'
+            },
+            age: {
+                under_12: 'Menor de 12',
+                from_12_to_18: '12 a 18',
+                from_18_to_22: '18 a 22',
+                from_22_to_28: '22 a 28',
+                from_28_to_40: '28 a 40',
+                from_40_to_65: '40 a 65',
+                older_65: 'Mayor de 65'
+            },
+            gender: {
+                unknown: 'No informado',
+                masculine: 'Masculino',
+                feminine: 'Femenino'
+            },
+            actions: {
+                save: 'Guardar lead',
+                cancel: 'Cancelar'
+            },
+            errors: {
+                nameRequired: 'Completa el nombre para continuar.',
+                phoneRequired: 'Completa el telefono para continuar.',
+                phoneInvalid: 'Numero de telefono invalido.',
+                phoneCountryRequired: 'DDI obligatorio.',
+                emailInvalid: 'Email invalido',
+                sourceRequired: 'Origen obligatorio.'
+            }
+        },
+        edit: {
+            title: 'Editar lead',
+            description: 'Actualiza la informacion del lead.',
+            actions: {
+                save: 'Guardar cambios'
+            },
+            messages: {
+                updated: 'Lead actualizado con exito!'
+            }
+        },
+        messages: {
+            created: 'Lead creado con exito!',
+            duplicateTitle: 'Lead duplicado',
+            duplicatePhone: 'Ya existe un lead con el telefono {phone}. Deseas registrar igualmente?',
+            duplicateEmail: 'Ya existe un lead con el email {email}. Deseas registrar igualmente?',
+            duplicatePhoneAndEmail: 'Ya existe un lead con este telefono y email. Deseas registrar igualmente?',
+            duplicateConfirm: 'Registrar igualmente',
+            duplicateCancel: 'Cancelar'
         }
     },
     formPages: {

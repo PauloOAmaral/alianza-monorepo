@@ -3,11 +3,11 @@ import { ptBR } from 'date-fns/locale'
 import i18next, { type InitOptions, type Resource } from 'i18next'
 import I18nextBrowserLanguageDetector from 'i18next-browser-languagedetector'
 import { initReactI18next } from 'react-i18next'
-import { es } from '../localization/es'
+import { pt } from '../localization/pt'
 
 const resources: Resource = {
     es: {
-        translation: es
+        translation: pt
     }
 }
 

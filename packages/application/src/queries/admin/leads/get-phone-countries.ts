@@ -1,0 +1,28 @@
+import { createMainDbClient } from '@alianza/database/clients/main'
+import { isNull } from '@alianza/database/drizzle'
+import { countries } from '@alianza/database/schemas/admin'
+import { createAction } from '../../../action-builder'
+
+export const getPhoneCountriesQuery = createAction()
+    .withData()
+    .build(async () => {
+        const db = createMainDbClient()
+
+        const data = await db._query.countries.findMany({
+            columns: {
+                id: true,
+                name: true,
+                countryAlpha2Code: true,
+                phoneCountryCode: true
+            },
+            where: (table, { and, isNull, eq }) =>
+                and(isNull(table.deletedAt), eq(table.isActive, true)),
+            orderBy: (table, { asc }) => asc(table.name)
+        })
+
+        const countriesWithPhone = data.filter(country => Boolean(country.phoneCountryCode))
+
+        return {
+            countries: countriesWithPhone
+        }
+    })

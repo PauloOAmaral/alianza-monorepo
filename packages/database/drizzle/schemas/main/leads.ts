@@ -57,7 +57,7 @@ export const leads = pgTable(
         secondaryPhoneNumber: char('secondary_phone_number', { length: 20 }),
         status: leadStatus('status').notNull(),
         gender: genderEnum('gender'),
-        reason: integer('reason'),
+        reason: text('reason'),
         isActiveFrom: boolean('is_active_from').notNull(),
         disqualifiedType: disqualifiedType('disqualified_type'),
         age: age('age'),
