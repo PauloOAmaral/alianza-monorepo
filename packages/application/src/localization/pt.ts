@@ -45,5 +45,53 @@ export const pt = {
             authTooManyAttempts: 'Muitas tentativas de login incorretas. Sua conta foi bloqueada temporariamente por segurança. Tente novamente mais tarde.',
             authTooManyPasswordResetRequests: 'Muitas solicitações de redefinição de senha. Aguarde alguns minutos antes de tentar novamente.'
         }
+    },
+    enums: {
+        gender: {
+            unknown: 'Nao informado',
+            masculine: 'Masculino',
+            feminine: 'Feminino'
+        },
+        status: {
+            preAnalisys: 'Pre-analise',
+            created: 'Cadastrado',
+            inService: 'Em atendimento',
+            experimentalClass: 'Aula experimental',
+            experimentalClassMissed: 'Reagendar',
+            feedback: 'Feedback',
+            contract: 'Assinatura do contrato',
+            waitingPayment: 'Aguardando pagamento',
+            paid: 'Matriculado',
+            talkLater: 'Falar depois',
+            disqualified: 'Desqualificado'
+        },
+        sources: {
+            facebook: 'Facebook',
+            messenger: 'Messenger',
+            instagram: 'Instagram',
+            direct: 'Direto',
+            google: 'Google',
+            tiktok: 'TikTok',
+            youtube: 'YouTube',
+            blog: 'Blog',
+            email: 'Email',
+            indication: 'Indicacao',
+            company: 'Empresa',
+            affiliate: 'Afiliado',
+            influencer: 'Influenciador',
+            studentIndication: 'Indicacao de aluno',
+            facebookForms: 'Formularios Facebook',
+            exStudent: 'Ex-aluno',
+            campaign: 'Campanha'
+        },
+        age: {
+            under12: 'Abaixo de 12',
+            from12To18: '12 a 18',
+            from18To22: '18 a 22',
+            from22To28: '22 a 28',
+            from28To40: '28 a 40',
+            from40To65: '40 a 65',
+            older65: 'Acima de 65'
+        },
     }
 }

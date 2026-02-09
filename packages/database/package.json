@@ -38,6 +38,7 @@
         "./schemas/admin": "./drizzle/schemas/main/index.ts",
         "./schemas/common": "./drizzle/schemas/common/index.ts",
         "./nanoid": "./src/nanoid.ts",
-        "./types/common": "./src/types/common.ts"
+        "./types/common": "./src/types/common.ts",
+        "./types/enum": "./src/types/enum.ts"
     }
 }
