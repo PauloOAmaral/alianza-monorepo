@@ -20,7 +20,21 @@ export const getLeadsGridQuery = createAction({ schema: getLeadsGridSchema })
             columns: {
                 id: true,
                 name: true,
-                email: true
+                email: true,
+                primaryPhoneCountryCode: true,
+                primaryPhoneNumber: true,
+                status: true,
+                leadSource: true,
+                internalCampaignId: true,
+                sellerId: true,
+                companyId: true,
+                disciplineId: true,
+                secondaryPhoneCountryCode: true,
+                secondaryPhoneNumber: true,
+                gender: true,
+                age: true,
+                reason: true,
+                eventSourceUrl: true
             },
             where: (leads, { isNull, and }) => and(isNull(leads.deletedAt)),
             orderBy: (leads, { desc }) => desc(leads.createdAt),
