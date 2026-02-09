@@ -168,13 +168,13 @@ export function LeadEditForm({
 
     const ageOptions = useMemo(
         () => [
-            { value: 'under_12', label: t('leads.form.age.under_12') },
-            { value: 'from_12_to_18', label: t('leads.form.age.from_12_to_18') },
-            { value: 'from_18_to_22', label: t('leads.form.age.from_18_to_22') },
-            { value: 'from_22_to_28', label: t('leads.form.age.from_22_to_28') },
-            { value: 'from_28_to_40', label: t('leads.form.age.from_28_to_40') },
-            { value: 'from_40_to_65', label: t('leads.form.age.from_40_to_65') },
-            { value: 'older_65', label: t('leads.form.age.older_65') }
+            { value: 'under_12', label: t('enums.age.under_12') },
+            { value: 'from_12_to_18', label: t('enums.age.from_12_to_18') },
+            { value: 'from_18_to_22', label: t('enums.age.from_18_to_22') },
+            { value: 'from_22_to_28', label: t('enums.age.from_22_to_28') },
+            { value: 'from_28_to_40', label: t('enums.age.from_28_to_40') },
+            { value: 'from_40_to_65', label: t('enums.age.from_40_to_65') },
+            { value: 'older_65', label: t('enums.age.older_65') }
         ],
         [t]
     )

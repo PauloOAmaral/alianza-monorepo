@@ -45,5 +45,53 @@ export const en = {
             authTooManyAttempts: 'Too many incorrect login attempts. Your account has been temporarily locked for security. Please try again later.',
             authTooManyPasswordResetRequests: 'Too many password reset requests. Please wait a few minutes before trying again.'
         }
+    },
+    enums: {
+        gender: {
+            unknown: 'Not informed',
+            masculine: 'Masculine',
+            feminine: 'Feminine'
+        },
+        status: {
+            preAnalisys: 'Pre-analysis',
+            created: 'Registered',
+            inService: 'In service',
+            experimentalClass: 'Experimental class',
+            experimentalClassMissed: 'Reschedule',
+            feedback: 'Feedback',
+            contract: 'Contract signing',
+            waitingPayment: 'Waiting payment',
+            paid: 'Enrolled',
+            talkLater: 'Talk later',
+            disqualified: 'Disqualified'
+        },
+        sources: {
+            facebook: 'Facebook',
+            messenger: 'Messenger',
+            instagram: 'Instagram',
+            direct: 'Direct',
+            google: 'Google',
+            tiktok: 'TikTok',
+            youtube: 'YouTube',
+            blog: 'Blog',
+            email: 'Email',
+            indication: 'Indication',
+            company: 'Company',
+            affiliate: 'Affiliate',
+            influencer: 'Influencer',
+            studentIndication: 'Student indication',
+            facebookForms: 'Facebook forms',
+            exStudent: 'Ex-student',
+            campaign: 'Campaign'
+        },
+        age: {
+            under12: 'Under 12',
+            from12To18: '12 to 18',
+            from18To22: '18 to 22',
+            from22To28: '22 to 28',
+            from28To40: '28 to 40',
+            from40To65: '40 to 65',
+            older65: 'Over 65'
+        }
     }
 }

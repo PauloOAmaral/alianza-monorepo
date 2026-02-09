@@ -1,3 +1,5 @@
+import { pt as ptApplication } from '@alianza/application/localization'
+
 export const pt = {
     ariaLabels: {
         profileMenu: 'Menu de perfil'
@@ -164,5 +166,6 @@ export const pt = {
         authTooManyAttempts: 'Muitas tentativas de login. Por favor, tente novamente mais tarde.',
         authUserNotFound: 'Usuário não encontrado.',
         unexpectedError: 'Ocorreu um erro inesperado. Por favor, tente novamente.'
-    }
+    },
+    enums: ptApplication.enums
 }
