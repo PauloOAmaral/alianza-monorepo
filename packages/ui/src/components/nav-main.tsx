@@ -3,13 +3,15 @@ import type { Icon } from '@tabler/icons-react'
 import { SidebarGroup, SidebarGroupContent, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from './ui/sidebar'
 
 export function NavMain({
-    items
+    items,
+    currentPath
 }: {
     items: {
         title: string
         url: string
         icon?: Icon
     }[]
+    currentPath?: string
 }) {
     return (
         <SidebarGroup>
@@ -17,9 +19,15 @@ export function NavMain({
                 <SidebarMenu>
                     {items.map(item => (
                         <SidebarMenuItem key={item.title}>
-                            <SidebarMenuButton tooltip={item.title}>
-                                {item.icon && <item.icon />}
-                                <span>{item.title}</span>
+                            <SidebarMenuButton
+                                asChild
+                                isActive={item.url === '/' ? currentPath === '/' : Boolean(currentPath?.startsWith(item.url))}
+                                tooltip={item.title}
+                            >
+                                <a href={item.url}>
+                                    {item.icon && <item.icon />}
+                                    <span>{item.title}</span>
+                                </a>
                             </SidebarMenuButton>
                         </SidebarMenuItem>
                     ))}

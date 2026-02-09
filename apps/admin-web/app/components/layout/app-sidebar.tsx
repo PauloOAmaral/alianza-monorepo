@@ -1,7 +1,8 @@
 import { NavMain } from '@alianza/ui/components/nav-main'
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@alianza/ui/components/ui/sidebar'
-import { IconDashboard, IconInnerShadowTop } from '@tabler/icons-react'
+import { IconDashboard, IconInnerShadowTop, IconUsers } from '@tabler/icons-react'
 import type * as React from 'react'
+import { useLocation } from 'react-router'
 import { NavUser } from '~/components/layout/nav-user'
 
 const data = {
@@ -14,11 +15,18 @@ const data = {
             title: 'Dashboard',
             url: '/',
             icon: IconDashboard
+        },
+        {
+            title: 'Leads',
+            url: '/leads',
+            icon: IconUsers
         }
     ]
 }
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+    const location = useLocation()
+
     return (
         <Sidebar collapsible='offcanvas' {...props}>
             <SidebarHeader>
@@ -34,7 +42,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                 </SidebarMenu>
             </SidebarHeader>
             <SidebarContent>
-                <NavMain items={data.navMain} />
+                <NavMain items={data.navMain} currentPath={location.pathname} />
             </SidebarContent>
             <SidebarFooter>
                 <NavUser user={data.user} />
