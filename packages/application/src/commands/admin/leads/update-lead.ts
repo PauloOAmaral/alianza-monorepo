@@ -52,16 +52,16 @@ type DuplicateInfo = {
 
 type UpdateLeadResult =
     | {
-          status: 'updated'
-          leadId: string
-      }
+        status: 'updated'
+        leadId: string
+    }
     | {
-          status: 'duplicate'
-          duplicate: {
-              phone?: DuplicateInfo
-              email?: DuplicateInfo
-          }
-      }
+        status: 'duplicate'
+        duplicate: {
+            phone?: DuplicateInfo
+            email?: DuplicateInfo
+        }
+    }
 
 function normalizePhone(value: string) {
     return value.replace(/\D+/g, '')
@@ -89,7 +89,7 @@ export const updateLeadCommand = createAction({ schema: updateLeadSchema })
         const secondaryCountryCode = normalizeCountryCode(data.secondaryPhoneCountryCode)
         const emailNormalized = normalizeEmail(data.email)
 
-        const existingLead = await db._query.leads.findFirst({
+        const existingLead = await db.query.leads.findFirst({
             columns: { id: true },
             where: (table, { and }) => and(isNull(table.deletedAt), eq(table.id, data.leadId))
         })
@@ -100,33 +100,33 @@ export const updateLeadCommand = createAction({ schema: updateLeadSchema })
 
         const [duplicateLeadByPhone, duplicateLeadByEmail] = await Promise.all([
             phoneNormalized
-                ? db._query.leads.findFirst({
-                      columns: { id: true },
-                      where: table =>
-                          sql`(${table.deletedAt} is null) and (${table.primaryPhoneNumber} = ${phoneNormalized}) and (${table.id} <> ${data.leadId})`
-                  })
+                ? db.query.leads.findFirst({
+                    columns: { id: true },
+                    where: table =>
+                        sql`(${table.deletedAt} is null) and (${table.primaryPhoneNumber} = ${phoneNormalized}) and (${table.id} <> ${data.leadId})`
+                })
                 : null,
             emailNormalized
-                ? db._query.leads.findFirst({
-                      columns: { id: true },
-                      where: table =>
-                          sql`(${table.deletedAt} is null) and (lower(${table.email}) = ${emailNormalized}) and (${table.id} <> ${data.leadId})`
-                  })
+                ? db.query.leads.findFirst({
+                    columns: { id: true },
+                    where: table =>
+                        sql`(${table.deletedAt} is null) and (lower(${table.email}) = ${emailNormalized}) and (${table.id} <> ${data.leadId})`
+                })
                 : null
         ])
 
         const [duplicateStudentByPhone, duplicateStudentByEmail] = await Promise.all([
             phoneNormalized
-                ? db._query.dataContracts.findFirst({
-                      columns: { id: true },
-                      where: (table, { and }) => and(isNull(table.deletedAt), eq(table.primaryPhoneNumber, phoneNormalized))
-                  })
+                ? db.query.dataContracts.findFirst({
+                    columns: { id: true },
+                    where: (table, { and }) => and(isNull(table.deletedAt), eq(table.primaryPhoneNumber, phoneNormalized))
+                })
                 : null,
             emailNormalized
-                ? db._query.dataContracts.findFirst({
-                      columns: { id: true },
-                      where: table => sql`(${table.deletedAt} is null) and (lower(${table.email}) = ${emailNormalized})`
-                  })
+                ? db.query.dataContracts.findFirst({
+                    columns: { id: true },
+                    where: table => sql`(${table.deletedAt} is null) and (lower(${table.email}) = ${emailNormalized})`
+                })
                 : null
         ])
 

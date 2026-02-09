@@ -1,6 +1,4 @@
 import { createMainDbClient } from '@alianza/database/clients/main'
-import { isNull } from '@alianza/database/drizzle'
-import { countries } from '@alianza/database/schemas/admin'
 import { createAction } from '../../../action-builder'
 
 export const getPhoneCountriesQuery = createAction()
@@ -8,7 +6,7 @@ export const getPhoneCountriesQuery = createAction()
     .build(async () => {
         const db = createMainDbClient()
 
-        const data = await db._query.countries.findMany({
+        const data = await db.query.countries.findMany({
             columns: {
                 id: true,
                 name: true,

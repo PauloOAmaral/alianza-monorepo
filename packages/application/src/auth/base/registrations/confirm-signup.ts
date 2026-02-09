@@ -17,7 +17,7 @@ export const confirmSignup = createAction({ schema: confirmSignupSchema })
         const { token } = data
         const db = dbClient || dbTransaction!
 
-        const userContext = await db._query.userContexts.findFirst({
+        const userContext = await db.query.userContexts.findFirst({
             columns: {
                 id: true,
                 userId: true,
@@ -53,7 +53,7 @@ export const confirmSignup = createAction({ schema: confirmSignupSchema })
             })
             .where(eq(users.id, userContext.userId))
 
-        const firstUserContext = await db._query.userContexts.findFirst({
+        const firstUserContext = await db.query.userContexts.findFirst({
             columns: {
                 id: true
             },

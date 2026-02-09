@@ -16,7 +16,7 @@ export const getLeadsGridQuery = createAction({ schema: getLeadsGridSchema })
 
         const db = createMainDbClient()
 
-        const leads = await db._query.leads.findMany({
+        const leads = await db.query.leads.findMany({
             columns: {
                 id: true,
                 name: true,

@@ -9,7 +9,7 @@ import { ApplicationError } from '~/error'
 import { ENV } from '~/utils/env'
 
 async function getUserSessionQuery(db: AuthDatabaseClient, sessionId: string) {
-    return db._query.userSessions.findFirst({
+    return db.query.userSessions.findFirst({
         columns: {
             id: true,
             userContextId: true,

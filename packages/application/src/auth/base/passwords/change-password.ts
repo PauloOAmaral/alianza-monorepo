@@ -23,7 +23,7 @@ export const changePassword = createAction({ schema: changePasswordSchema })
             throw new ApplicationError('databaseNotFound')
         }
 
-        const user = await db._query.users.findFirst({
+        const user = await db.query.users.findFirst({
             columns: {
                 id: true,
                 password: true

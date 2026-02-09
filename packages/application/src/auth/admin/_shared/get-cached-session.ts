@@ -8,7 +8,7 @@ import { getSession as baseGetSession } from '../../base'
 import { getCachedOrFetch } from '../../utils'
 
 async function getUserSessionQuery(db: AuthDatabaseClient, sessionId: string) {
-    return db._query.userSessions.findFirst({
+    return db.query.userSessions.findFirst({
         columns: {
             currentContextId: true
         },

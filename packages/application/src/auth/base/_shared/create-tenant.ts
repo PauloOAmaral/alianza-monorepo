@@ -20,7 +20,7 @@ export const getOrCreateDefaultPermissionGroup = createAction({
             throw new ApplicationError('databaseNotFound')
         }
 
-        let adminGroup = await db._query.permissionGroups.findFirst({
+        let adminGroup = await db.query.permissionGroups.findFirst({
             columns: { id: true, name: true },
             where: eq(permissionGroups.name, 'Admin')
         })

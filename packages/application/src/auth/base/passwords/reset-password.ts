@@ -25,7 +25,7 @@ export const resetPassword = createAction({ schema: resetPasswordSchema })
             throw new ApplicationError('databaseNotFound')
         }
 
-        const passwordReset = await db._query.userPasswordReset.findFirst({
+        const passwordReset = await db.query.userPasswordReset.findFirst({
             columns: {
                 id: true,
                 userContextId: true,
@@ -43,7 +43,7 @@ export const resetPassword = createAction({ schema: resetPasswordSchema })
             throw new ApplicationError('authPasswordResetNotFoundOrExpired')
         }
 
-        const userContext = await db._query.userContexts.findFirst({
+        const userContext = await db.query.userContexts.findFirst({
             columns: { userId: true },
             with: {},
             where: (uc, { eq }) => eq(uc.id, passwordReset.userContextId)

@@ -23,7 +23,7 @@ export const resendUserInvite = createAction({ schema: resendUserInviteSchema })
             throw new ApplicationError('databaseNotFound')
         }
 
-        const userContext = await db._query.userContexts.findFirst({
+        const userContext = await db.query.userContexts.findFirst({
             columns: {
                 id: true
             },
@@ -42,7 +42,7 @@ export const resendUserInvite = createAction({ schema: resendUserInviteSchema })
             })
             .where(and(eq(userContexts.id, userContextId), eq(userContexts.userId, userId)))
 
-        const updatedUserContext = await db._query.userContexts.findFirst({
+        const updatedUserContext = await db.query.userContexts.findFirst({
             columns: {
                 id: true,
                 invitationExpiresAt: true,

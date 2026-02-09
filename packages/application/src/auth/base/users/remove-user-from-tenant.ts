@@ -1,5 +1,5 @@
 import { eq } from '@alianza/database/drizzle'
-import { medias, users, userContextPermissionGroups, userContexts } from '@alianza/database/schemas/common'
+import { medias, userContextPermissionGroups, userContexts, users } from '@alianza/database/schemas/common'
 import type { AuthDatabaseClient, AuthDatabaseTransaction } from '@alianza/database/types/common'
 import { getSessionsKv } from '@alianza/services/kv'
 import { getImagesBucket } from '@alianza/services/storage'
@@ -28,7 +28,7 @@ export const removeUserFromContext = createAction({ schema: removeUserFromContex
             throw new ApplicationError('authCannotRemoveYourself')
         }
 
-        const userContextRow = await db._query.userContexts.findFirst({
+        const userContextRow = await db.query.userContexts.findFirst({
             columns: { id: true },
             where: (uc, { and, eq }) => and(eq(uc.userId, userId), eq(uc.id, userContextId))
         })
@@ -37,7 +37,7 @@ export const removeUserFromContext = createAction({ schema: removeUserFromContex
             throw new ApplicationError('authUserNotFound')
         }
 
-        const userContext = await db._query.userContexts.findFirst({
+        const userContext = await db.query.userContexts.findFirst({
             columns: { id: true },
             with: {
                 user: {
@@ -71,9 +71,7 @@ export const removeUserFromContext = createAction({ schema: removeUserFromContex
         }
 
         await db.transaction(async tx => {
-            await tx
-                .delete(userContextPermissionGroups)
-                .where(eq(userContextPermissionGroups.userContextId, userContext.id))
+            await tx.delete(userContextPermissionGroups).where(eq(userContextPermissionGroups.userContextId, userContext.id))
 
             await tx.delete(userContexts).where(eq(userContexts.id, userContext.id))
 

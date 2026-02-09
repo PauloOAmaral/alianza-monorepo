@@ -29,7 +29,7 @@ export const deleteUnconfirmedUserContext = createAction({ schema: deleteUnconfi
             throw new ApplicationError('databaseNotFound')
         }
 
-        const userContext = await db._query.userContexts.findFirst({
+        const userContext = await db.query.userContexts.findFirst({
             columns: { id: true, userId: true },
             with: {
                 user: {

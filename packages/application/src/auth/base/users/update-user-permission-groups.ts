@@ -26,7 +26,7 @@ export const updateUserPermissionGroups = createAction({
             throw new ApplicationError('databaseNotFound')
         }
 
-        const userContext = await db._query.userContexts.findFirst({
+        const userContext = await db.query.userContexts.findFirst({
             columns: {
                 id: true,
                 userId: true
@@ -55,7 +55,7 @@ export const updateUserPermissionGroups = createAction({
             throw new ApplicationError('authCannotChangeOwnPermissions')
         }
 
-        const adminGroup = await db._query.permissionGroups.findFirst({
+        const adminGroup = await db.query.permissionGroups.findFirst({
             columns: {
                 id: true
             },

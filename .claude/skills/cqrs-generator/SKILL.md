@@ -32,7 +32,7 @@ export const getItemByIdQuery = createAction({ schema })
 
         const db = createMainDbClient()
 
-        const result = await db._query.items.findFirst({
+        const result = await db.query.items.findFirst({
             columns: {
                 id: true,
                 name: true,
@@ -87,7 +87,7 @@ export const getItemsQuery = createAction({ schema })
 
         const whereCondition = conditions.length > 0 ? and(...conditions) : undefined
 
-        const dataQuery = db._query.items.findMany({
+        const dataQuery = db.query.items.findMany({
             columns: {
                 id: true,
                 name: true,
@@ -178,7 +178,7 @@ export const updateItemCommand = createAction({ schema })
         const db = createMainDbClient()
 
         await db.transaction(async (tx) => {
-            const existing = await tx._query.items.findFirst({
+            const existing = await tx.query.items.findFirst({
                 columns: { id: true },
                 where(fields, { eq, isNull, and }) {
                     return and(eq(fields.id, id), isNull(fields.deletedAt))
@@ -231,7 +231,7 @@ export const deleteItemCommand = createAction({ schema })
 
         const db = createMainDbClient()
 
-        const existing = await db._query.items.findFirst({
+        const existing = await db.query.items.findFirst({
             columns: { id: true },
             where(fields, { eq, isNull, and }) {
                 return and(eq(fields.id, id), isNull(fields.deletedAt))
@@ -251,7 +251,7 @@ export const deleteItemCommand = createAction({ schema })
 
 ## Key Rules
 
-1. **Always use Query API**: Use `db._query` not `db.select()`
+1. **Always use Query API**: Use `db.query` not `db.select()`
 2. **Always check soft delete**: Filter with `isNull(fields.deletedAt)`
 3. **One file per operation**: Never combine multiple operations
 4. **Export types**: Always export `Awaited<ReturnType<typeof ...>>`

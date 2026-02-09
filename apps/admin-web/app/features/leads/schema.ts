@@ -8,10 +8,12 @@ const leadSourceValues = leadSourceOptions.map(option => option.value) as [strin
 const emptyToUndefined = <T extends z.ZodTypeAny>(schema: T) =>
     z.preprocess(value => (value === '' || value === '__none__' ? undefined : value), schema.optional())
 
-const stringToBoolean = z.preprocess(value => {
-    if (value === true || value === false) return value
-    if (typeof value !== 'string') return false
-    return value === 'true'
+const stringToBoolean = z.preprocess((value) => {
+    if (typeof value === "string") {
+        return value === "true"
+    }
+
+    return value
 }, z.boolean())
 
 const genderValues = ['unknown', 'masculine', 'feminine'] as const
@@ -77,8 +79,6 @@ export function useCreateLeadSchema() {
     return createLeadSchema(t)
 }
 
-export type CreateLeadFormType = z.infer<ReturnType<typeof createLeadSchema>>
-
 export function updateLeadSchema(t: TFunction) {
     return z.object({
         intent: z.literal('update-lead'),
@@ -120,3 +120,4 @@ export function useUpdateLeadSchema() {
 }
 
 export type UpdateLeadFormType = z.infer<ReturnType<typeof updateLeadSchema>>
+export type CreateLeadFormType = z.infer<ReturnType<typeof createLeadSchema>>

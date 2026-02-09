@@ -1,5 +1,4 @@
 import { createMainDbClient } from '@alianza/database/clients/main'
-import { internalCampaigns } from '@alianza/database/schemas/admin'
 import z from 'zod'
 import { createAction } from '../../../action-builder'
 
@@ -12,7 +11,7 @@ export const getInternalCampaignOptionsQuery = createAction({ schema: getInterna
     .build(async ({ data }) => {
         const db = createMainDbClient()
 
-        const campaigns = await db._query.internalCampaigns.findMany({
+        const campaigns = await db.query.internalCampaigns.findMany({
             columns: {
                 id: true,
                 name: true

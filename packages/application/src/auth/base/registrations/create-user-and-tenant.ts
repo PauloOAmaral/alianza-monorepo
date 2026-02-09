@@ -4,8 +4,8 @@ import type { AuthDatabaseClient, AuthDatabaseTransaction } from '@alianza/datab
 import { z } from 'zod'
 import { createAction } from '../../../action-builder'
 import { ApplicationError } from '../../../error'
-import { getOrCreateDefaultPermissionGroup } from '../_shared'
 import { hashPassword } from '../../utils'
+import { getOrCreateDefaultPermissionGroup } from '../_shared'
 
 const createUserAndTenantSchema = z.object({
     user: z.object({
@@ -28,7 +28,7 @@ export const createUserAndTenant = createAction({ schema: createUserAndTenantSch
         }
 
         const createUserAndContextTransaction = async (transaction: AuthDatabaseTransaction) => {
-            const existingUser = await transaction._query.users.findFirst({
+            const existingUser = await transaction.query.users.findFirst({
                 columns: { id: true },
                 where: (users, { eq }) => eq(users.email, user.email)
             })
@@ -37,9 +37,7 @@ export const createUserAndTenant = createAction({ schema: createUserAndTenantSch
                 throw new ApplicationError('authUserAlreadyExists')
             }
 
-            const { permissionGroup } = (
-                await getOrCreateDefaultPermissionGroup({ data: {}, dbTransaction: transaction })
-            ).data
+            const { permissionGroup } = (await getOrCreateDefaultPermissionGroup({ data: {}, dbTransaction: transaction })).data
 
             const userProfileId = nanoid(16)
             await transaction.insert(userProfiles).values({

@@ -19,7 +19,7 @@ export const addUserContextCore = createAction({ schema: addUserContextCoreSchem
         const { email, permissionGroupIds } = data
 
         const addUserContextCoreTransaction = async (transaction: AuthDatabaseTransaction) => {
-            const existingUser = await transaction._query.users.findFirst({
+            const existingUser = await transaction.query.users.findFirst({
                 columns: {
                     id: true,
                     email: true

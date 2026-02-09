@@ -21,7 +21,7 @@ export const validatePasswordResetToken = createAction({
             throw new ApplicationError('databaseNotFound')
         }
 
-        const passwordReset = await db._query.userPasswordReset.findFirst({
+        const passwordReset = await db.query.userPasswordReset.findFirst({
             columns: {
                 id: true,
                 expiresAt: true,

@@ -21,7 +21,7 @@ export const getUserByInvitationToken = createAction({
             throw new ApplicationError('databaseNotFound')
         }
 
-        const result = await db._query.userContexts.findFirst({
+        const result = await db.query.userContexts.findFirst({
             columns: {},
             extras(fields) {
                 return {

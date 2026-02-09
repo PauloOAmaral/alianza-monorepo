@@ -13,13 +13,16 @@ import type { Route } from './+types/leads.new'
 
 export async function action({ request }: Route.ActionArgs) {
     await requireSession(request)
+
     const { t } = await getI18nextServerInstance(request)
 
     const formData = await request.formData()
+
     const { success, value, errors } = await parseFormDataWithZod(formData, createLeadSchema(t))
 
     if (!success) {
         const message = Array.isArray(errors) ? errors.join('. ') : (errors ?? t('serverError.unexpected'))
+
         return await dataWithError({ success: false, message }, errors ?? [], { status: 400 })
     }
 

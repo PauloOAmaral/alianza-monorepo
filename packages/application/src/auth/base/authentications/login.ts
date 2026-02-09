@@ -27,7 +27,7 @@ export const login = createAction({ schema: loginSchema })
             throw new ApplicationError('authTooManyAttempts')
         }
 
-        const user = await db._query.users.findFirst({
+        const user = await db.query.users.findFirst({
             columns: {
                 id: true,
                 password: true,
