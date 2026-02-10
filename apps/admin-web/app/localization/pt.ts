@@ -1,6 +1,7 @@
 import { pt as ptApplication } from '@alianza/application/localization'
 import { authPT } from './translations/auth'
 import { leadsPT } from './translations/leads'
+import { sellersPT } from './translations/sellers'
 
 export const pt = {
     ariaLabels: {
@@ -10,24 +11,32 @@ export const pt = {
         home: 'Home'
     },
     common: {},
-    sidebar: {},
+    sidebar: {
+        comercial: 'Comercial',
+        leads: 'Leads',
+        sellers: 'Vendedores'
+    },
     permissions: {},
     links: {},
     buttons: ptApplication.buttons,
     alerts: {},
     fields: {
         leads: leadsPT.fields,
-        auth: authPT.fields
+        auth: authPT.fields,
+        sellers: sellersPT.fields
     },
     tablePages: {
-        leads: leadsPT.tablePages
+        leads: leadsPT.tablePages,
+        sellers: sellersPT.tablePages
     },
     formPages: {
         leads: leadsPT.formPages,
         login: authPT.formPages,
+        sellers: sellersPT.formPages
     },
     dialogs: {
-        leads: leadsPT.dialogs
+        leads: leadsPT.dialogs,
+        sellers: sellersPT.dialogs
     },
     tables: ptApplication.tables,
     pagination: ptApplication.pagination,

@@ -1,0 +1,1 @@
+export { getPhoneCountriesQuery } from './get-phone-countries'

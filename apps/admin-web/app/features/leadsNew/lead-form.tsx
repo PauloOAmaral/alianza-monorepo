@@ -1,10 +1,9 @@
-import { ageOptions, campaignSourceOptions, genderOptions, leadStatusOptions } from '@alianza/application/utils/enums/age'
+import { campaignSourceOptions, genderOptions } from '@alianza/application/utils/enums/age'
 import { Button } from '@alianza/ui/components/ui/button'
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@alianza/ui/components/ui/dialog'
 import { FieldGroup } from '@alianza/ui/components/ui/field'
-import { ScrollArea } from '@alianza/ui/components/ui/scroll-area'
 import { Separator } from '@alianza/ui/components/ui/separator'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@alianza/ui/components/ui/tabs'
+import { alpha2ToFlag } from '@alianza/utils/common'
 import { objectToFormData } from '@alianza/utils/forms'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Suspense } from 'react'
@@ -12,9 +11,8 @@ import { useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import { Await, Link, useFetcher, useLoaderData, useNavigate } from 'react-router'
 import { EmailField } from '~/components/form/fields/basic/email-field'
-import { PhoneCountryField } from '~/components/form/fields/basic/phone-country-field'
+import { PhoneField } from '~/components/form/fields/basic/phone-field'
 import { TextField } from '~/components/form/fields/basic/text-field'
-import { TextareaFields } from '~/components/form/fields/basic/textarea-field'
 import { BaseSelectField } from '~/components/shared/base-select-field'
 import { BasicForm } from '~/components/shared/basic-form'
 import type { action as createLeadAction, loader } from '~/routes/leads-new'
@@ -44,7 +42,7 @@ export function LeadForm({ campaigns, phoneCountries }: LeadFormProps) {
             internalCampaignId: '',
             gender: undefined,
             sellerId: '',
-            companyId: '',
+            companyId: ''
         }
     })
 
@@ -56,25 +54,30 @@ export function LeadForm({ campaigns, phoneCountries }: LeadFormProps) {
 
     return (
         <BasicForm addProvider={form} onSubmit={handleSubmit}>
-
-            <FieldGroup className='grid gap-4 md:grid-cols-2'>
+            <FieldGroup className='grid gap-4 grid-cols-1'>
                 <TextField label={t('fields.leads.name.label')} name='name' required />
-                <PhoneCountryField
-                    className='md:col-span-2'
-                    countryCodeName='primaryPhoneCountryCode'
-                    items={phoneCountries.filter(country => country.phoneCountryCode)}
-                    label={t('fields.leads.phoneNumber.label')}
-                    numberName='primaryPhoneNumber'
-                />
+
+                <div className='grid gap-2 sm:grid-cols-[220px_1fr]'>
+                    <BaseSelectField items={phoneCountries} label={t('fields.leads.phoneCountryCode.label')} name='primaryPhoneCountryCode' required>
+                        {option => (
+                            <>
+                                <span className='mr-2'>{alpha2ToFlag(option.countryAlpha2Code)}</span>
+                                <span className='truncate'>{option.name}</span>
+                                <span className='ml-auto text-muted-foreground'>+{option.phoneCountryCode}</span>
+                            </>
+                        )}
+                    </BaseSelectField>
+
+                    <PhoneField label={t('fields.leads.phoneNumber.label')} name='primaryPhoneNumber' required />
+                </div>
+
                 <EmailField label={t('fields.leads.email.label')} name='email' />
 
-                <BaseSelectField items={genderOptions} label={t('fields.leads.gender.label')} name='gender' /><BaseSelectField items={campaignSourceOptions} label={t('fields.leads.source.label')} name='source' required />
-                <BaseSelectField items={campaigns} label={t('fields.leads.campaign.label')} name='internalCampaignId' />
+                <BaseSelectField items={genderOptions} label={t('fields.leads.gender.label')} name='gender' />
                 <BaseSelectField items={campaignSourceOptions} label={t('fields.leads.source.label')} name='source' required />
                 <BaseSelectField items={campaigns} label={t('fields.leads.campaign.label')} name='internalCampaignId' />
                 <TextField label={t('fields.leads.sellerId.label')} name='sellerId' />
                 <TextField label={t('fields.leads.companyId.label')} name='companyId' />
-
             </FieldGroup>
 
             <div className='flex flex-wrap items-center gap-2'>
@@ -111,9 +114,7 @@ export function LeadNewDialog() {
                 <Suspense fallback={<LeadEditFormSkeleton />}>
                     <Await errorElement={<div>{t('errors.databaseNotFound')}</div>} resolve={Promise.all([campaigns, phoneCountries])}>
                         {([campaignsResult, phoneCountriesResult]) => (
-                            <ScrollArea className='max-h-[70vh]'>
-                                <LeadForm campaigns={campaignsResult.data} phoneCountries={phoneCountriesResult.data.countries} />
-                            </ScrollArea>
+                            <LeadForm campaigns={campaignsResult.data} phoneCountries={phoneCountriesResult.data.countries} />
                         )}
                     </Await>
                 </Suspense>

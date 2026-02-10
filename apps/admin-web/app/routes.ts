@@ -3,9 +3,13 @@ import { index, layout, type RouteConfig, route } from '@react-router/dev/routes
 export default [
     layout('layouts/main.tsx', [
         index('routes/home.tsx'),
-        route('leads', 'routes/leads.tsx'),
-        route('leads/new', 'routes/leads-new.tsx'),
-        route('leads/:id/edit', 'routes/leads-edit.tsx'),
+        route('leads', 'routes/leads.tsx', [
+            route('new', 'routes/leads-new.tsx'),
+            route(':id/edit', 'routes/leads-edit.tsx')
+        ]),
+        route('sellers', 'routes/sellers.tsx', [
+            route('new', 'routes/sellers-new.tsx'),
+        ]),
         route('logout', 'routes/logout.tsx')
     ]),
     route('login', 'routes/login.tsx'),

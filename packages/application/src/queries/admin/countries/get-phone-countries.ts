@@ -20,6 +20,11 @@ export const getPhoneCountriesQuery = createAction()
         const countriesWithPhone = data.filter(country => Boolean(country.phoneCountryCode))
 
         return {
-            countries: countriesWithPhone
+            countries: countriesWithPhone.map(country => ({
+                id: country.phoneCountryCode,
+                name: country.name,
+                countryAlpha2Code: country.countryAlpha2Code,
+                phoneCountryCode: country.phoneCountryCode
+            }))
         }
     })

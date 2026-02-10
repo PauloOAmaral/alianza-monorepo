@@ -1,6 +1,7 @@
 import { FieldLabel, FormItem } from '@alianza/ui/components/ui/field'
+import { alpha2ToFlag } from '@alianza/utils/common'
 import { useFormContext } from 'react-hook-form'
-import { BaseSelect } from '~/components/shared/base-select'
+import { BaseSelectField } from '~/components/shared/base-select-field'
 import { PhoneField } from './phone-field'
 
 type PhoneCountryOption = {
@@ -19,18 +20,9 @@ type PhoneCountryFieldProps = {
     className?: string
 }
 
-function alpha2ToFlag(alpha2?: string | null) {
-    if (!alpha2 || alpha2.length !== 2) return '🏳️'
-
-    const code = alpha2.toUpperCase()
-
-    return code.replace(/./g, char => String.fromCodePoint(127397 + char.charCodeAt(0)))
-}
-
 export function PhoneCountryField({ label, numberName, countryCodeName, required, items, className }: PhoneCountryFieldProps) {
-    const { watch, setValue, formState, getFieldState } = useFormContext()
+    const { formState, getFieldState } = useFormContext()
 
-    const countryValue = watch(countryCodeName)
     const countryError = getFieldState(countryCodeName, formState).error?.message
     const numberError = getFieldState(numberName, formState).error?.message
 
@@ -41,12 +33,7 @@ export function PhoneCountryField({ label, numberName, countryCodeName, required
                 {required && <span className='text-gray-500 text-xs'>*</span>}
             </FieldLabel>
             <div className='grid gap-2 sm:grid-cols-[220px_1fr]'>
-                <BaseSelect<PhoneCountryOption>
-                    getItemValue={option => option.phoneCountryCode}
-                    items={items}
-                    onValueChange={v => setValue(countryCodeName, v, { shouldValidate: true })}
-                    value={countryValue == null ? '' : String(countryValue)}
-                >
+                <BaseSelectField items={items} name={countryCodeName} required>
                     {option => (
                         <>
                             <span className='mr-2'>{alpha2ToFlag(option.countryAlpha2Code)}</span>
@@ -54,7 +41,7 @@ export function PhoneCountryField({ label, numberName, countryCodeName, required
                             <span className='ml-auto text-muted-foreground'>+{option.phoneCountryCode}</span>
                         </>
                     )}
-                </BaseSelect>
+                </BaseSelectField>
                 <PhoneField label={label} name={numberName} required />
             </div>
 

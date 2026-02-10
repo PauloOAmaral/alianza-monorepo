@@ -1,6 +1,7 @@
 import { en as enApplication } from '@alianza/application/localization'
 import { authEN } from './translations/auth'
 import { leadsEN } from './translations/leads'
+import { sellersEN } from './translations/sellers'
 
 export const en = {
     ariaLabels: {
@@ -10,21 +11,29 @@ export const en = {
         home: 'Home'
     },
     common: {},
-    sidebar: {},
+    sidebar: {
+        comercial: 'Commercial',
+        leads: 'Leads',
+        sellers: 'Sellers'
+    },
     permissions: {},
     fields: {
         leads: leadsEN.fields,
         auth: authEN.fields,
+        sellers: sellersEN.fields
     },
     tablePages: {
         leads: leadsEN.tablePages,
+        sellers: sellersEN.tablePages
     },
     formPages: {
         leads: leadsEN.formPages,
         login: authEN.formPages,
+        sellers: sellersEN.formPages
     },
     dialogs: {
         leads: leadsEN.dialogs,
+        sellers: sellersEN.dialogs
     },
     links: {},
     buttons: enApplication.buttons,

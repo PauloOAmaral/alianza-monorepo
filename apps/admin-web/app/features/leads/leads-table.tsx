@@ -8,6 +8,7 @@ import { Suspense } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Await, useLoaderData, useNavigate } from 'react-router'
 import type { loader } from '~/routes/leads'
+import { LeadsTablePagination } from './leads-table-pagination'
 
 export function LeadsTable() {
     const { t } = useTranslation()
@@ -21,10 +22,10 @@ export function LeadsTable() {
     }
 
     return (
-        <div className='overflow-hidden rounded-lg border'>
-            <Suspense fallback={<LeadsTableSkeleton />}>
-                <Await resolve={leadsGridResult.data}>
-                    {leads => (
+        <Suspense fallback={<LeadsTableSkeleton />}>
+            <Await resolve={leadsGridResult.data}>
+                {leads => (
+                    <>
                         <Table>
                             <TableHeader className='bg-muted'>
                                 <TableRow>
@@ -67,10 +68,11 @@ export function LeadsTable() {
                                 )}
                             </TableBody>
                         </Table>
-                    )}
-                </Await>
-            </Suspense>
-        </div>
+                        <LeadsTablePagination loaderDataResult={leadsGridResult} />
+                    </>
+                )}
+            </Await>
+        </Suspense>
     )
 }
 

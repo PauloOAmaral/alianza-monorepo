@@ -1,6 +1,5 @@
 import { Field, FieldError, FieldLabel, FormItem } from '@alianza/ui/components/ui/field'
 import { type FieldPath, type FieldValues, type UseFormRegister, useFormContext } from 'react-hook-form'
-import { useTranslation } from 'react-i18next'
 
 interface BaseFieldsProps<TFieldValues extends FieldValues = FieldValues, TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>> {
     name: TName
@@ -27,14 +26,13 @@ const BaseFields = <TFieldValues extends FieldValues = FieldValues, TName extend
     srOnlyValue
 }: BaseFieldsProps<TFieldValues, TName>) => {
     const { register } = useFormContext<TFieldValues>()
-    const { t } = useTranslation()
 
     return (
         <FormItem>
             {label ? (
-                <FieldLabel className='font-semibold text-primary flex justify-between'>
+                <FieldLabel className='font-semibold text-primary'>
                     {label}
-                    {required && <span className='text-gray-500 text-xs'>{t('common.required')}*</span>}
+                    {required && <span className='text-gray-500 text-xs'>*</span>}
                 </FieldLabel>
             ) : (
                 <FieldLabel className='sr-only'>{srOnlyValue ?? String(name)}</FieldLabel>

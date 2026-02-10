@@ -27,7 +27,7 @@ export async function action({ request }: Route.ActionArgs) {
     }
 
     try {
-        const result = await createLeadCommand(
+        await createLeadCommand(
             createRequest(request, {
                 name: value.name,
                 primaryPhoneCountryCode: value.primaryPhoneCountryCode,
@@ -35,18 +35,8 @@ export async function action({ request }: Route.ActionArgs) {
                 email: value.email,
                 leadSource: value.source,
                 internalCampaignId: value.internalCampaignId,
-                status: value.status,
                 sellerId: value.sellerId,
                 companyId: value.companyId,
-                disciplineId: value.disciplineId,
-                secondaryPhoneCountryCode: value.secondaryPhoneCountryCode,
-                secondaryPhoneNumber: value.secondaryPhoneNumber,
-                gender: value.gender,
-                age: value.age,
-                reason: value.reason,
-                eventSourceUrl: value.eventSourceUrl,
-                allowDuplicateEmail: value.allowDuplicateEmail,
-                allowDuplicatePhone: value.allowDuplicatePhone
             })
         )
 
