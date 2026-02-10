@@ -34,6 +34,6 @@ export const pt = {
     languages: ptApplication.languages,
     dates: ptApplication.dates,
     duration: ptApplication.duration,
-    errors: ptApplication.errors,
+    errors: { ...ptApplication.errors.auth, ...ptApplication.errors.common, ...ptApplication.errors.base },
     enums: ptApplication.enums,
 }

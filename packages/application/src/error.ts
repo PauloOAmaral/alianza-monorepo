@@ -1,9 +1,9 @@
-import type { pt } from './localization'
+import type { es } from './localization'
 
 type ErrorCategories = {
-    base: keyof typeof pt.errors.base
-    auth: keyof typeof pt.errors.auth
-    common: keyof typeof pt.errors.common
+    base: keyof typeof es.errors.base
+    auth: keyof typeof es.errors.auth
+    common: keyof typeof es.errors.common
 }
 
 export type ErrorCategory = keyof ErrorCategories

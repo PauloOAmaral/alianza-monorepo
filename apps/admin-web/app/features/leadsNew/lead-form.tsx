@@ -17,7 +17,7 @@ import { TextField } from '~/components/form/fields/basic/text-field'
 import { TextareaFields } from '~/components/form/fields/basic/textarea-field'
 import { BaseSelectField } from '~/components/shared/base-select-field'
 import { BasicForm } from '~/components/shared/basic-form'
-import { action, type action as createLeadAction, type loader } from '~/routes/leads-new'
+import type { action as createLeadAction, loader } from '~/routes/leads-new'
 import { LeadEditFormSkeleton } from '../leadsEdit/lead-edit-form-skeleton'
 import { type CreateLeadFormInputType, type CreateLeadFormOutputType, useCreateLeadSchema } from './schema'
 
@@ -36,7 +36,6 @@ export function LeadForm({ campaigns, phoneCountries }: LeadFormProps) {
     const form = useForm<CreateLeadFormInputType, any, CreateLeadFormOutputType>({
         resolver: zodResolver(createLeadSchema),
         defaultValues: {
-            intent: 'create-lead',
             name: '',
             primaryPhoneCountryCode: undefined,
             primaryPhoneNumber: '',
@@ -155,7 +154,7 @@ export function LeadNewDialog() {
                 </DialogHeader>
                 <Separator />
                 <Suspense fallback={<LeadEditFormSkeleton />}>
-                    <Await errorElement={<div>{t('errors.common.databaseNotFound')}</div>} resolve={Promise.all([campaigns, phoneCountries])}>
+                    <Await errorElement={<div>{t('errors.databaseNotFound')}</div>} resolve={Promise.all([campaigns, phoneCountries])}>
                         {([campaignsResult, phoneCountriesResult]) => (
                             <ScrollArea className='max-h-[70vh]'>
                                 <LeadForm campaigns={campaignsResult.data} phoneCountries={phoneCountriesResult.data.countries} />

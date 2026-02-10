@@ -2,7 +2,7 @@ import { login } from '@alianza/application/auth/admin'
 import { ApplicationError } from '@alianza/application/error'
 import { validateTurnstile } from '@alianza/services/captcha/turnstile'
 import { parseFormDataWithZod } from '@alianza/utils/forms'
-import { data, href, redirect } from 'react-router'
+import { href, redirect } from 'react-router'
 import { LoginForm } from '~/features/auth/login-form'
 import { loginWithPasswordSchema } from '~/features/auth/schema'
 import { getI18nextServerInstance } from '~/middleware/i18next-middleware'
@@ -33,7 +33,7 @@ export async function action({ request }: Route.ActionArgs) {
     const { success: turnstileSuccess } = await validateTurnstile(value['cf-turnstile-response'] as string)
 
     if (!turnstileSuccess) {
-        return dataWithError({ success: false, message: t('errors.common.invalidTurnstileResponse') }, { status: 400 })
+        return dataWithError({ success: false }, t('errors.common.invalidTurnstileResponse'), { status: 400 })
     }
 
     try {

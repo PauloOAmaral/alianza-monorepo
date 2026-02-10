@@ -32,9 +32,9 @@ const BaseFields = <TFieldValues extends FieldValues = FieldValues, TName extend
     return (
         <FormItem>
             {label ? (
-                <FieldLabel className='font-semibold text-primary flex justify-between gap-1'>
+                <FieldLabel className='font-semibold text-primary flex justify-between'>
                     {label}
-                    {required && <span className='text-gray-500 text-xs'>{t('fields.required')}*</span>}
+                    {required && <span className='text-gray-500 text-xs'>{t('common.required')}*</span>}
                 </FieldLabel>
             ) : (
                 <FieldLabel className='sr-only'>{srOnlyValue ?? String(name)}</FieldLabel>

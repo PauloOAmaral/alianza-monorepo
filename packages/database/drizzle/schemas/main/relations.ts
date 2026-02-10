@@ -182,9 +182,10 @@ export const internalCampaignsRelations = relations(internalCampaigns, ({ many }
     leadImportFiles: many(leadImportFiles)
 }))
 
-export const sellersRelations = relations(sellers, ({ many }) => ({
+export const sellersRelations = relations(sellers, ({ one, many }) => ({
     leads: many(leads),
-    studentContracts: many(studentContracts)
+    studentContracts: many(studentContracts),
+    userContext: one(userContexts, { fields: [sellers.userContextId], references: [userContexts.id] })
 }))
 
 // --- Invoices and invoice itens ---

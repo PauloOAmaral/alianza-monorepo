@@ -9,7 +9,7 @@ import { requireSession } from '~/middleware/session-middleware'
 import { parseApplicationError } from '~/utils/server/errors'
 import { createRequest } from '~/utils/server/request-builder'
 import { dataWithError, dataWithSuccess } from '~/utils/server/toasts'
-import type { Route } from './+types/leads.edit'
+import type { Route } from './+types/leads-edit'
 
 export async function action({ request }: Route.ActionArgs) {
     await requireSession(request)
@@ -21,7 +21,7 @@ export async function action({ request }: Route.ActionArgs) {
     const { success, value, errors } = await parseFormDataWithZod(formData, updateLeadSchema(t))
 
     if (!success) {
-        const message = Array.isArray(errors) ? errors.join('. ') : (errors ?? t('errors.serverError.unexpected'))
+        const message = Array.isArray(errors) ? errors.join('. ') : (errors ?? t('errors.unexpectedError'))
 
         return await dataWithError({ success: false, message }, errors ?? [], { status: 400 })
     }
@@ -57,12 +57,12 @@ export async function action({ request }: Route.ActionArgs) {
             return dataWithError({ success: false }, await parseApplicationError(error, request))
         }
 
-        return dataWithError({ success: false }, t('errors.serverError.unexpected'))
+        return dataWithError({ success: false }, t('errors.unexpectedError'))
     }
 }
 
 export async function loader({ request, params }: Route.LoaderArgs) {
-    await requireSession(request)
+    requireSession(request)
 
     return {
         lead: getLeadByIdQuery(createRequest(request, { id: params.id })),

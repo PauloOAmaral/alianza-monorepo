@@ -13,7 +13,6 @@ const stringToBoolean = z.preprocess(value => {
 
 export function updateLeadSchema(t: TFunction) {
     return z.object({
-        intent: z.literal('update-lead'),
         leadId: z.string().min(1),
         name: z
             .string()

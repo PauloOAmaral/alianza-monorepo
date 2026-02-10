@@ -37,7 +37,6 @@ function LeadEditForm({ lead, campaigns, phoneCountries }: LeadEditFormProps) {
     const form = useForm<UpdateLeadFormInputType, any, UpdateLeadFormOutputType>({
         resolver: zodResolver(updateSchema),
         defaultValues: {
-            intent: 'update-lead',
             leadId: lead.id,
             name: lead.name,
             primaryPhoneCountryCode: lead.primaryPhoneCountryCode ?? undefined,
@@ -62,7 +61,6 @@ function LeadEditForm({ lead, campaigns, phoneCountries }: LeadEditFormProps) {
 
     useEffect(() => {
         form.reset({
-            intent: 'update-lead',
             leadId: lead.id,
             name: lead.name,
             primaryPhoneCountryCode: lead.primaryPhoneCountryCode ?? undefined,
@@ -182,7 +180,7 @@ export function LeadEditDialog() {
                 </DialogHeader>
                 <Separator />
                 <Suspense fallback={<LeadEditFormSkeleton />}>
-                    <Await errorElement={<div>{t('errors.common.databaseNotFound')}</div>} resolve={Promise.all([lead, campaigns, phoneCountries])}>
+                    <Await errorElement={<div>{t('errors.databaseNotFound')}</div>} resolve={Promise.all([lead, campaigns, phoneCountries])}>
                         {([leadResult, campaignsResult, phoneCountriesResult]) => (
                             <ScrollArea className='max-h-[70vh] pr-4'>
                                 <LeadEditForm campaigns={campaignsResult.data} lead={leadResult.data} phoneCountries={phoneCountriesResult.data.countries} />

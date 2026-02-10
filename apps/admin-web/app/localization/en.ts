@@ -31,7 +31,7 @@ export const en = {
     alerts: {},
     tables: enApplication.tables,
     pagination: enApplication.pagination,
-    errors: enApplication.errors,
+    errors: { ...enApplication.errors.auth, ...enApplication.errors.common, ...enApplication.errors.base },
     logout: enApplication.logout,
     languages: enApplication.languages,
     dates: enApplication.dates,

@@ -1,22 +1,31 @@
-import { createMainDbClient } from "@alianza/database/clients/main"
-import { isNull, sql } from "@alianza/database/drizzle"
-import { leads } from "@alianza/database/schemas/admin"
-import z from "zod"
-import { createAction } from "~/action-builder"
+import { createMainDbClient } from '@alianza/database/clients/main'
+import { and, isNull, or, sql } from '@alianza/database/drizzle'
+import { leads } from '@alianza/database/schemas/admin'
+import z from 'zod'
+import { createAction } from '~/action-builder'
 
 const getLeadsGridSchema = z.object({
+    query: z.string().optional(),
     page: z.number().int().min(1).default(1),
-    limit: z.number().int().min(1).max(1000).default(20),
+    limit: z.number().int().min(1).max(1000).default(20)
 })
 
 export const getLeadsGridQuery = createAction({ schema: getLeadsGridSchema })
     .withData()
     .build(async ({ data }) => {
-        const { page, limit } = data
+        const { query, page, limit } = data
+
+        const offset = (page - 1) * limit
 
         const db = createMainDbClient()
 
-        const leads = await db.query.leads.findMany({
+        const searchCondition = query
+            ? or(sql`unaccent(${leads.name}) ilike unaccent(${`%${query}%`})`)
+            : undefined
+
+        const whereCondition = and(isNull(leads.deletedAt), searchCondition)
+
+        const dataQuery = db.query.leads.findMany({
             columns: {
                 id: true,
                 name: true,
@@ -24,33 +33,44 @@ export const getLeadsGridQuery = createAction({ schema: getLeadsGridSchema })
                 primaryPhoneCountryCode: true,
                 primaryPhoneNumber: true,
                 status: true,
-                leadSource: true,
-                internalCampaignId: true,
-                sellerId: true,
-                companyId: true,
-                disciplineId: true,
-                secondaryPhoneCountryCode: true,
-                secondaryPhoneNumber: true,
-                gender: true,
-                age: true,
-                reason: true,
-                eventSourceUrl: true
             },
-            where: (leads, { isNull, and }) => and(isNull(leads.deletedAt)),
-            orderBy: (leads, { desc }) => desc(leads.createdAt),
+            with: {
+                seller: {
+                    with: {
+                        userContext: {
+                            with: {
+                                user: {
+                                    with: {
+                                        userProfile: {
+                                            extras(fields) {
+                                                return {
+                                                    fullName: sql<string>`
+                                                        CONCAT(${fields.firstName}, ' ', ${fields.lastName})
+                                                    `.as('fullName')
+                                                }
+                                            },
+                                        },
+                                    },
+                                },
+                            },
+                        },
+                    },
+                },
+                discipline: {
+                    columns: {
+                        name: true,
+                    },
+                },
+            },
+            where: whereCondition,
             limit,
-            offset: (page - 1) * limit,
+            offset,
+            orderBy: (leads, { desc }) => desc(leads.createdAt),
         })
 
-        const countRows = await db
-            .select({ count: sql<number>`count(*)` })
-            .from(leads)
-            .where(isNull(leads.deletedAt))
+        const countQuery = db.$count(leads, whereCondition)
 
-        const count = countRows[0]?.count ?? 0
+        const [result, count] = await Promise.all([dataQuery, countQuery])
 
-        return {
-            data: leads,
-            count,
-        }
+        return { data: result, count }
     })

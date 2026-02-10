@@ -32,7 +32,7 @@ export const es = {
     buttons: esApplication.buttons,
     alerts: {},
     logout: esApplication.logout,
-    errors: esApplication.errors,
+    errors: { ...esApplication.errors.auth, ...esApplication.errors.common, ...esApplication.errors.base },
     languages: esApplication.languages,
     dates: esApplication.dates,
     duration: esApplication.duration,
