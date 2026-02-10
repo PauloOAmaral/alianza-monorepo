@@ -53,7 +53,6 @@ export const updateLeadCommand = createAction({ schema: updateLeadSchema })
         const db = createMainDbClient()
 
         const phoneNormalized = normalizePhone(data.primaryPhoneNumber)
-        const primaryCountryCode = normalizeCountryCode(data.primaryPhoneCountryCode)
         const secondaryCountryCode = normalizeCountryCode(data.secondaryPhoneCountryCode)
         const emailNormalized = normalizeEmail(data.email)
 

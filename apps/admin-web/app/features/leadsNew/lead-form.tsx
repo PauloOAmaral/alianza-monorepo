@@ -18,7 +18,7 @@ import { TextareaFields } from '~/components/form/fields/basic/textarea-field'
 import { BaseSelectField } from '~/components/shared/base-select-field'
 import { BasicForm } from '~/components/shared/basic-form'
 import type { action as createLeadAction, loader } from '~/routes/leads-new'
-import { LeadEditFormSkeleton } from '../leadsEdit/lead-edit-form-skeleton'
+import { LeadEditFormSkeleton } from '../leadsEdit/lead-form-skeleton'
 import { type CreateLeadFormInputType, type CreateLeadFormOutputType, useCreateLeadSchema } from './schema'
 
 interface LeadFormProps {
@@ -37,23 +37,14 @@ export function LeadForm({ campaigns, phoneCountries }: LeadFormProps) {
         resolver: zodResolver(createLeadSchema),
         defaultValues: {
             name: '',
-            primaryPhoneCountryCode: undefined,
+            primaryPhoneCountryCode: '',
             primaryPhoneNumber: '',
-            email: undefined,
+            email: '',
             source: undefined,
-            internalCampaignId: undefined,
-            status: undefined,
-            secondaryPhoneCountryCode: undefined,
-            secondaryPhoneNumber: undefined,
+            internalCampaignId: '',
             gender: undefined,
-            age: undefined,
-            reason: undefined,
-            eventSourceUrl: undefined,
-            sellerId: undefined,
-            companyId: undefined,
-            disciplineId: undefined,
-            allowDuplicateEmail: false,
-            allowDuplicatePhone: false
+            sellerId: '',
+            companyId: '',
         }
     })
 
@@ -65,69 +56,33 @@ export function LeadForm({ campaigns, phoneCountries }: LeadFormProps) {
 
     return (
         <BasicForm addProvider={form} onSubmit={handleSubmit}>
-            <Tabs className='space-y-4' defaultValue='identification'>
-                <TabsList className='grid w-full grid-cols-2 gap-2 md:grid-cols-4'>
-                    <TabsTrigger value='identification'>{t('dialogs.leads.sections.identification')}</TabsTrigger>
-                    <TabsTrigger value='contact'>{t('dialogs.leads.sections.contact')}</TabsTrigger>
-                    <TabsTrigger value='source'>{t('dialogs.leads.sections.source')}</TabsTrigger>
-                    <TabsTrigger value='context'>{t('dialogs.leads.sections.context')}</TabsTrigger>
-                </TabsList>
 
-                <TabsContent value='identification'>
-                    <FieldGroup className='grid gap-4 md:grid-cols-2'>
-                        <TextField label={t('fields.leads.name.label')} name='name' required />
-                        <BaseSelectField items={leadStatusOptions} label={t('fields.leads.status.label')} name='status' />
-                        <BaseSelectField items={genderOptions} label={t('fields.leads.gender.label')} name='gender' />
-                        <BaseSelectField items={ageOptions} label={t('fields.leads.age.label')} name='age' />
-                        <TextareaFields label={t('fields.leads.reason.label')} name='reason' />
-                    </FieldGroup>
-                </TabsContent>
+            <FieldGroup className='grid gap-4 md:grid-cols-2'>
+                <TextField label={t('fields.leads.name.label')} name='name' required />
+                <PhoneCountryField
+                    className='md:col-span-2'
+                    countryCodeName='primaryPhoneCountryCode'
+                    items={phoneCountries.filter(country => country.phoneCountryCode)}
+                    label={t('fields.leads.phoneNumber.label')}
+                    numberName='primaryPhoneNumber'
+                />
+                <EmailField label={t('fields.leads.email.label')} name='email' />
 
-                <TabsContent value='contact'>
-                    <FieldGroup className='grid gap-4 md:grid-cols-2'>
-                        <EmailField label={t('fields.leads.email.label')} name='email' />
-                        <PhoneCountryField
-                            className='md:col-span-2'
-                            countryCodeName='primaryPhoneCountryCode'
-                            items={phoneCountries.filter(country => country.phoneCountryCode)}
-                            label={t('fields.leads.phoneNumber.label')}
-                            numberName='primaryPhoneNumber'
-                        />
-                        <PhoneCountryField
-                            className='md:col-span-2'
-                            countryCodeName='secondaryPhoneCountryCode'
-                            items={phoneCountries.filter(country => country.phoneCountryCode)}
-                            label={t('fields.leads.secondaryPhoneNumber.label')}
-                            numberName='secondaryPhoneNumber'
-                        />
-                    </FieldGroup>
-                </TabsContent>
+                <BaseSelectField items={genderOptions} label={t('fields.leads.gender.label')} name='gender' /><BaseSelectField items={campaignSourceOptions} label={t('fields.leads.source.label')} name='source' required />
+                <BaseSelectField items={campaigns} label={t('fields.leads.campaign.label')} name='internalCampaignId' />
+                <BaseSelectField items={campaignSourceOptions} label={t('fields.leads.source.label')} name='source' required />
+                <BaseSelectField items={campaigns} label={t('fields.leads.campaign.label')} name='internalCampaignId' />
+                <TextField label={t('fields.leads.sellerId.label')} name='sellerId' />
+                <TextField label={t('fields.leads.companyId.label')} name='companyId' />
 
-                <TabsContent value='source'>
-                    <FieldGroup className='grid gap-4 md:grid-cols-2'>
-                        <BaseSelectField items={campaignSourceOptions} label={t('fields.leads.source.label')} name='source' required />
-                        <BaseSelectField items={campaigns} label={t('fields.leads.campaign.label')} name='internalCampaignId' />
-                        <div className='md:col-span-2'>
-                            <TextField label={t('fields.leads.eventSourceUrl.label')} name='eventSourceUrl' />
-                        </div>
-                    </FieldGroup>
-                </TabsContent>
-
-                <TabsContent value='context'>
-                    <FieldGroup className='grid gap-4 md:grid-cols-2'>
-                        <TextField label={t('fields.leads.sellerId.label')} name='sellerId' />
-                        <TextField label={t('fields.leads.companyId.label')} name='companyId' />
-                        <TextField label={t('fields.leads.disciplineId.label')} name='disciplineId' />
-                    </FieldGroup>
-                </TabsContent>
-            </Tabs>
+            </FieldGroup>
 
             <div className='flex flex-wrap items-center gap-2'>
-                <Button isPending={isPending} type='submit'>
-                    {t('buttons.save')}
-                </Button>
                 <Button asChild type='button' variant='outline'>
                     <Link to='/leads'>{t('buttons.cancel')}</Link>
+                </Button>
+                <Button isPending={isPending} type='submit'>
+                    {t('buttons.save')}
                 </Button>
             </div>
         </BasicForm>

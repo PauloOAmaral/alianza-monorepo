@@ -18,7 +18,7 @@ import { TextareaFields } from '~/components/form/fields/basic/textarea-field'
 import { BaseSelectField } from '~/components/shared/base-select-field'
 import { BasicForm } from '~/components/shared/basic-form'
 import type { loader, action as updateLeadAction } from '~/routes/leads-edit'
-import { LeadEditFormSkeleton } from './lead-edit-form-skeleton'
+import { LeadEditFormSkeleton } from './lead-form-skeleton'
 import { type UpdateLeadFormInputType, type UpdateLeadFormOutputType, useUpdateLeadSchema } from './schema'
 
 interface LeadEditFormProps {
