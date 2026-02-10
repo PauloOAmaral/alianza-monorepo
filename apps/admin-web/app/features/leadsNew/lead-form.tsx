@@ -20,6 +20,7 @@ import { LeadEditFormSkeleton } from '../leadsEdit/lead-form-skeleton'
 import { type CreateLeadFormInputType, type CreateLeadFormOutputType, useCreateLeadSchema } from './schema'
 import { Skeleton } from '@alianza/ui/components/ui/skeleton'
 import { FieldSkeleton, TextareaFieldSkeleton } from '~/components/basic/field-skeleton'
+import { LeadNewFormSkeleton } from './lead-form-skeleton'
 
 interface LeadFormProps {
     campaigns: Awaited<Awaited<ReturnType<typeof loader>>['campaigns']>['data']
@@ -123,26 +124,3 @@ export function LeadNewDialog() {
         </Dialog>
     )
 }
-
-function LeadNewFormSkeleton() {
-    return (
-        <>
-            <FieldGroup className='grid gap-4'>
-                <FieldSkeleton />
-                <div className='grid gap-2 sm:grid-cols-[220px_1fr]'>
-                    <FieldSkeleton />
-                    <FieldSkeleton />
-                </div>
-                <FieldSkeleton />
-                <FieldSkeleton />
-                <FieldSkeleton />
-                <FieldSkeleton />
-                <FieldSkeleton />
-            </FieldGroup>
-            <div className='flex flex-wrap items-center gap-2'>
-                <Skeleton className='h-9 w-20' />
-                <Skeleton className='h-9 w-20' />
-            </div>
-        </>
-    )
-}   
