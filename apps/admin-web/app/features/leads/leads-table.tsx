@@ -28,27 +28,20 @@ export type LeadRow = {
 export function LeadsTable({ leads, onEdit }: { leads: LeadRow[]; onEdit: (lead: LeadRow) => void }) {
     const { t } = useTranslation()
 
-    const idLabel = t('leads.table.id')
-    const nameLabel = t('leads.table.name')
-    const phoneLabel = t('leads.table.phone')
-    const emailLabel = t('leads.table.email')
-    const sellerLabel = t('leads.table.seller')
-    const statusLabel = t('leads.table.status')
-    const actionsLabel = t('leads.table.actions')
-    const emptyLabel = t('leads.table.empty')
+    const emptyLabel = t('tablePages.leads.empty')
 
     return (
         <div className='overflow-hidden rounded-lg border'>
             <Table>
                 <TableHeader className='bg-muted'>
                     <TableRow>
-                        <TableHead>{idLabel}</TableHead>
-                        <TableHead>{nameLabel}</TableHead>
-                        <TableHead>{phoneLabel}</TableHead>
-                        <TableHead>{emailLabel}</TableHead>
-                        <TableHead>{sellerLabel}</TableHead>
-                        <TableHead>{statusLabel}</TableHead>
-                        <TableHead className='w-[140px]'>{actionsLabel}</TableHead>
+                        <TableHead>{t('tablePages.leads.headers.id')}</TableHead>
+                        <TableHead>{t('tablePages.leads.headers.name')}</TableHead>
+                        <TableHead>{t('tablePages.leads.headers.phone')}</TableHead>
+                        <TableHead>{t('tablePages.leads.headers.email')}</TableHead>
+                        <TableHead>{t('tablePages.leads.headers.seller')}</TableHead>
+                        <TableHead>{t('tablePages.leads.headers.status')}</TableHead>
+                        <TableHead className='w-[140px]'>{t('tablePages.leads.headers.actions')}</TableHead>
                     </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -74,7 +67,7 @@ export function LeadsTable({ leads, onEdit }: { leads: LeadRow[]; onEdit: (lead:
                                         <DropdownMenuTrigger asChild>
                                             <Button size='icon' variant='ghost'>
                                                 <MoreHorizontal className='size-4' />
-                                                <span className='sr-only'>{actionsLabel}</span>
+                                                <span className='sr-only'>{t('tablePages.leads.headers.actions')}</span>
                                             </Button>
                                         </DropdownMenuTrigger>
                                         <DropdownMenuContent align='end'>

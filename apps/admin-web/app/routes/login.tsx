@@ -25,7 +25,7 @@ export async function action({ request }: Route.ActionArgs) {
     const { success, value, errors } = await parseFormDataWithZod(formData, loginWithPasswordSchema(t))
 
     if (!success) {
-        const message = Array.isArray(errors) ? errors.join('. ') : (errors ?? t('serverError.unexpected'))
+        const message = Array.isArray(errors) ? errors.join('. ') : (errors ?? t('errors.serverError.unexpected'))
 
         return await dataWithError({ success: false, message }, errors ?? [], { status: 400 })
     }
@@ -33,7 +33,7 @@ export async function action({ request }: Route.ActionArgs) {
     const { success: turnstileSuccess } = await validateTurnstile(value['cf-turnstile-response'] as string)
 
     if (!turnstileSuccess) {
-        return data({ success: false, message: t('errors.invalidCaptchaResponse') }, { status: 400 })
+        return dataWithError({ success: false, message: t('errors.common.invalidTurnstileResponse') }, { status: 400 })
     }
 
     try {
@@ -52,7 +52,7 @@ export async function action({ request }: Route.ActionArgs) {
             return dataWithError({ success: false }, await parseApplicationError(error, request))
         }
 
-        return dataWithError({ success: false }, t('serverError.unexpected'))
+        return dataWithError({ success: false }, t('errors.serverError.unexpected'))
     }
 }
 

@@ -2,7 +2,6 @@ import { createMainDbClient } from '@alianza/database/clients/main'
 import { createAction } from '../../../action-builder'
 
 export const getPhoneCountriesQuery = createAction()
-    .withData()
     .build(async () => {
         const db = createMainDbClient()
 
@@ -11,10 +10,10 @@ export const getPhoneCountriesQuery = createAction()
                 id: true,
                 name: true,
                 countryAlpha2Code: true,
-                phoneCountryCode: true
+                phoneCountryCode: true,
+                isActive: true
             },
-            where: (table, { and, isNull, eq }) =>
-                and(isNull(table.deletedAt), eq(table.isActive, true)),
+            where: (table, { and, isNull, eq }) => and(isNull(table.deletedAt), eq(table.isActive, true)),
             orderBy: (table, { asc }) => asc(table.name)
         })
 

@@ -1,34 +1,19 @@
 import { createMainDbClient } from '@alianza/database/clients/main'
-import z from 'zod'
 import { createAction } from '../../../action-builder'
 
-const getInternalCampaignOptionsSchema = z.object({
-    includeInactive: z.boolean().optional().default(false)
-})
-
-export const getInternalCampaignOptionsQuery = createAction({ schema: getInternalCampaignOptionsSchema })
-    .withData()
-    .build(async ({ data }) => {
+export const getInternalCampaignOptionsQuery = createAction()
+    .build(async () => {
         const db = createMainDbClient()
 
         const campaigns = await db.query.internalCampaigns.findMany({
             columns: {
                 id: true,
-                name: true
+                name: true,
+                isActive: true
             },
-            where: (table, { and, isNull, eq }) => {
-                const base = and(isNull(table.deletedAt))
-
-                if (data.includeInactive) {
-                    return base
-                }
-
-                return and(base, eq(table.isActive, true))
-            },
+            where: (table, { and, isNull, eq }) => and(isNull(table.deletedAt), eq(table.isActive, true)),
             orderBy: (table, { asc }) => asc(table.name)
         })
 
-        return {
-            campaigns
-        }
+        return campaigns
     })

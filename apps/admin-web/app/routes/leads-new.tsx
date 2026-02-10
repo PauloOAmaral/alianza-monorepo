@@ -1,9 +1,9 @@
 import { createLeadCommand } from '@alianza/application/commands/admin'
 import { ApplicationError } from '@alianza/application/error'
+import { getInternalCampaignOptionsQuery, getPhoneCountriesQuery } from '@alianza/application/queries/admin'
 import { parseFormDataWithZod } from '@alianza/utils/forms'
 import { data } from 'react-router'
-import { leadSourceCodeByValue } from '~/features/leads/lead-sources'
-import { createLeadSchema } from '~/features/leads/schema'
+import { createLeadSchema } from '~/features/leadsNew/schema'
 import { getI18nextServerInstance } from '~/middleware/i18next-middleware'
 import { requireSession } from '~/middleware/session-middleware'
 import { parseApplicationError } from '~/utils/server/errors'
@@ -21,7 +21,7 @@ export async function action({ request }: Route.ActionArgs) {
     const { success, value, errors } = await parseFormDataWithZod(formData, createLeadSchema(t))
 
     if (!success) {
-        const message = Array.isArray(errors) ? errors.join('. ') : (errors ?? t('serverError.unexpected'))
+        const message = Array.isArray(errors) ? errors.join('. ') : (errors ?? t('errors.serverError.unexpected'))
 
         return await dataWithError({ success: false, message }, errors ?? [], { status: 400 })
     }
@@ -30,21 +30,21 @@ export async function action({ request }: Route.ActionArgs) {
         const result = await createLeadCommand(
             createRequest(request, {
                 name: value.name,
-                primaryPhoneCountryCode: value.primaryPhoneCountryCode ?? null,
+                primaryPhoneCountryCode: value.primaryPhoneCountryCode,
                 primaryPhoneNumber: value.primaryPhoneNumber,
-                email: value.email ?? null,
-                leadSource: leadSourceCodeByValue.get(value.source) ?? 0,
-                internalCampaignId: value.internalCampaignId ?? null,
-                status: value.status ?? null,
-                sellerId: value.sellerId ?? null,
-                companyId: value.companyId ?? null,
-                disciplineId: value.disciplineId ?? null,
-                secondaryPhoneCountryCode: value.secondaryPhoneCountryCode ?? null,
-                secondaryPhoneNumber: value.secondaryPhoneNumber ?? null,
-                gender: value.gender ?? null,
-                age: value.age ?? null,
-                reason: value.reason ?? null,
-                eventSourceUrl: value.eventSourceUrl ?? null,
+                email: value.email,
+                leadSource: value.source,
+                internalCampaignId: value.internalCampaignId,
+                status: value.status,
+                sellerId: value.sellerId,
+                companyId: value.companyId,
+                disciplineId: value.disciplineId,
+                secondaryPhoneCountryCode: value.secondaryPhoneCountryCode,
+                secondaryPhoneNumber: value.secondaryPhoneNumber,
+                gender: value.gender,
+                age: value.age,
+                reason: value.reason,
+                eventSourceUrl: value.eventSourceUrl,
                 allowDuplicateEmail: value.allowDuplicateEmail,
                 allowDuplicatePhone: value.allowDuplicatePhone
             })
@@ -54,12 +54,21 @@ export async function action({ request }: Route.ActionArgs) {
             return data({ status: 'duplicate', duplicate: result.data.duplicate }, { status: 409 })
         }
 
-        return await dataWithSuccess({ status: 'created' }, t('leads.messages.created'))
+        return await dataWithSuccess({ status: 'created' }, t('dialogs.leads.new.success'))
     } catch (error) {
         if (error instanceof ApplicationError) {
             return dataWithError({ success: false }, await parseApplicationError(error, request))
         }
 
-        return dataWithError({ success: false }, t('serverError.unexpected'))
+        return dataWithError({ success: false }, t('errors.serverError.unexpected'))
+    }
+}
+
+export async function loader({ request }: Route.LoaderArgs) {
+    await requireSession(request)
+
+    return {
+        campaigns: getInternalCampaignOptionsQuery(request),
+        phoneCountries: getPhoneCountriesQuery(request)
     }
 }

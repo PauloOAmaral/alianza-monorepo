@@ -102,10 +102,10 @@ function AlertDialogAction({
     className,
     variant = 'default',
     size = 'default',
-    isPending,
-    disabled,
+    isPending = false,
+    disabled = false,
     ...props
-}: React.ComponentProps<typeof AlertDialogPrimitive.Action> & Pick<React.ComponentProps<typeof Button>, 'variant' | 'size' | 'isPending' | 'disabled'>) {
+}: React.ComponentProps<typeof AlertDialogPrimitive.Action> & Partial<Pick<React.ComponentProps<typeof Button>, 'variant' | 'size' | 'isPending' | 'disabled'>>) {
     return (
         <Button asChild disabled={disabled} isPending={isPending} size={size} variant={variant}>
             <AlertDialogPrimitive.Action className={cn(className)} data-slot='alert-dialog-action' {...props} />

@@ -4,8 +4,8 @@ export default [
     layout('layouts/main.tsx', [
         index('routes/home.tsx'),
         route('leads', 'routes/leads.tsx'),
-        route('leads/new', 'routes/leads.new.tsx'),
-        route('leads/:id/edit', 'routes/leads.edit.tsx'),
+        route('leads/new', 'routes/leads-new.tsx'),
+        route('leads/:id/edit', 'routes/leads-edit.tsx'),
         route('logout', 'routes/logout.tsx')
     ]),
     route('login', 'routes/login.tsx'),

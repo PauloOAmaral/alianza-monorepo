@@ -4,6 +4,7 @@ export const es = {
             unexpectedError: 'Lo sentimos, ha ocurrido un error inesperado. Por favor, inténtelo de nuevo o contacte con soporte.'
         },
         common: {
+            invalidTurnstileResponse: 'Respuesta inválida del captcha. Por favor, inténtelo de nuevo.',
             databaseNotFound: 'Base de datos no encontrada.',
             commonAlreadyExists: 'Este registro ya existe.',
             commonNameAlreadyExists: 'Este nombre ya está en uso. Por favor, elija otro nombre.',
@@ -44,7 +45,64 @@ export const es = {
             authCannotRemoveYourself: 'No puede eliminarse a sí mismo.',
             authTooManyAttempts: 'Demasiados intentos de inicio de sesión incorrectos. Su cuenta ha sido bloqueada temporalmente por seguridad. Por favor, inténtelo más tarde.',
             authTooManyPasswordResetRequests: 'Demasiadas solicitudes de restablecimiento de contraseña. Por favor, espere unos minutos antes de intentar de nuevo.'
+        },
+        serverError: {
+            title: 'Error del servidor',
+            unexpected: 'Ha ocurrido un error inesperado. Por favor, inténtelo de nuevo.',
+            description: 'Ha ocurrido un error al procesar la solicitud.',
+            returnHome: 'Volver a la página principal'
         }
+    },
+    logout: {
+        dialogTitle: 'Cerrando sesión',
+        dialogDescription: 'Su sesión se está cerrando. ¿Desea continuar?',
+        cancel: 'Cancelar',
+        confirm: 'Cerrar sesión'
+    },
+    tables: {
+        headers: {
+            actions: 'Acciones',
+            active: 'Activo',
+            createdAt: 'Fecha de registro',
+            email: 'Email',
+            inactive: 'Inactivo',
+            status: 'Status',
+            protocols: 'Protocolos',
+            type: 'Tipo'
+        },
+        totalRecords: 'Total de registros',
+        summary: 'Mostrando {{start}}-{{end}} de {{count}}',
+        pageOf: 'Página {{page}} de {{total}}',
+        buttons: {
+            edit: 'Editar',
+            delete: 'Eliminar',
+            active: 'Activar',
+            inactive: 'Desactivar',
+            continue: 'Continuar'
+        }
+    },
+    pagination: {
+        previousPage: 'Página anterior',
+        nextPage: 'Página siguiente'
+    },
+    languages: {
+        pt: 'Portugués',
+        en: 'Inglés',
+        es: 'Español'
+    },
+    dates: {
+        short: '{{date, short}}',
+        long: '{{date, long}}',
+        ago: '{{date, ago}}'
+    },
+    duration: {
+        short: '{{duration, duration}}',
+        long: '{{duration, durationLong}}'
+    },
+    buttons: {
+        save: 'Guardar',
+        cancel: 'Cancelar',
+        confirm: 'Confirmar'
     },
     enums: {
         gender: {

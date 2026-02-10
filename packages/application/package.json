@@ -35,6 +35,7 @@
         "./auth/utils": "./src/auth/utils/index.ts",
         "./auth/admin": "./src/auth/admin/index.ts",
         "./queries/admin": "./src/queries/admin/index.ts",
-        "./commands/admin": "./src/commands/admin/index.ts"
+        "./commands/admin": "./src/commands/admin/index.ts",
+        "./utils/enums/age": "./src/utils/enums/index.ts"
     }
 }
