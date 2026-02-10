@@ -27,7 +27,17 @@ export async function action({ request }: Route.ActionArgs) {
     }
 
     try {
-        await createSellerCommand(createRequest(request, { userContextId: value.userContextId }))
+        await createSellerCommand(
+            createRequest(request, {
+                userContextId: value.userContextId,
+                referralCode: value.referralCode,
+                leadPrefix: value.leadPrefix,
+                dailyToSell: value.dailyToSell ?? null,
+                dailyExperimentalClass: value.dailyExperimentalClass ?? null,
+                pixelId: value.pixelId ?? null,
+                pixelSecret: value.pixelSecret ?? null
+            })
+        )
 
         return await redirectWithSuccess('/sellers', t('dialogs.sellers.new.success'))
     } catch (error) {

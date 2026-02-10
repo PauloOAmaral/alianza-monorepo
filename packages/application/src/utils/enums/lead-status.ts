@@ -10,4 +10,4 @@ export const leadStatusOptions = [
     { id: 'paid', translateKey: 'enums.status.paid' },
     { id: 'talk_later', translateKey: 'enums.status.talkLater' },
     { id: 'disqualified', translateKey: 'enums.status.disqualified' }
-] as const
+]

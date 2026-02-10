@@ -6,13 +6,27 @@ import { createAction } from '../../../action-builder'
 import { ApplicationError } from '../../../error'
 
 const schema = z.object({
-    userContextId: z.string().min(1)
+    userContextId: z.string().min(1),
+    referralCode: z.string().min(1).max(10).optional(),
+    leadPrefix: z.string().min(1).max(2).optional(),
+    dailyToSell: z.coerce.number().min(0).optional().nullable(),
+    dailyExperimentalClass: z.coerce.number().int().min(0).optional().nullable(),
+    pixelId: z.string().max(500).optional().nullable(),
+    pixelSecret: z.string().max(500).optional().nullable()
 })
 
 export const createSellerCommand = createAction({ schema })
     .withData()
     .build(async ({ data }) => {
-        const { userContextId } = data
+        const {
+            userContextId,
+            referralCode: referralCodeInput,
+            leadPrefix: leadPrefixInput,
+            dailyToSell,
+            dailyExperimentalClass,
+            pixelId,
+            pixelSecret
+        } = data
 
         const db = createMainDbClient()
 
@@ -27,8 +41,8 @@ export const createSellerCommand = createAction({ schema })
             throw new ApplicationError('commonAlreadyExists')
         }
 
-        const referralCode = nanoid(8)
-        const leadPrefix = nanoid(2)
+        const referralCode = referralCodeInput?.trim() ? referralCodeInput.trim() : nanoid(8)
+        const leadPrefix = leadPrefixInput?.trim() ? leadPrefixInput.trim() : nanoid(2)
 
         const [created] = await db
             .insert(sellers)
@@ -36,6 +50,10 @@ export const createSellerCommand = createAction({ schema })
                 userContextId,
                 referralCode,
                 leadPrefix,
+                dailyToSell: dailyToSell ?? null,
+                dailyExperimentalClass: dailyExperimentalClass ?? null,
+                pixelId: pixelId ?? null,
+                pixelSecret: pixelSecret ?? null,
                 isActive: true
             })
             .returning({ id: sellers.id })

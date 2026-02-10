@@ -9,7 +9,13 @@ export default [
         ]),
         route('sellers', 'routes/sellers.tsx', [
             route('new', 'routes/sellers-new.tsx'),
+            route(':id/edit', 'routes/sellers-edit.tsx')
         ]),
+        route('users', 'routes/users.tsx', [
+            route(':id/edit', 'routes/users-edit.tsx'),
+        ]),
+        route('collectors', 'routes/collectors.tsx'),
+        route('account', 'routes/account.tsx'),
         route('logout', 'routes/logout.tsx')
     ]),
     route('login', 'routes/login.tsx'),

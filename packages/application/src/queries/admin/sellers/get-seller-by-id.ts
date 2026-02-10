@@ -24,6 +24,8 @@ export const getSellerByIdQuery = createAction({ schema })
                 leadPrefix: true,
                 dailyToSell: true,
                 dailyExperimentalClass: true,
+                pixelId: true,
+                pixelSecret: true,
                 isActive: true,
                 createdAt: true,
                 updatedAt: true

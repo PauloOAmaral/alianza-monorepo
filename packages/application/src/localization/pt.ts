@@ -1,4 +1,12 @@
 export const pt = {
+    dialogs: {
+        activate: {
+            title: 'Ativar'
+        },
+        deactivate: {
+            title: 'Desativar'
+        }
+    },
     errors: {
         base: {
             unexpectedError: 'Sorry, an unexpected error occurred. Please try again or contact support.'
@@ -76,6 +84,7 @@ export const pt = {
         buttons: {
             edit: 'Editar',
             delete: 'Remover',
+            actions: 'Ações',
             active: 'Ativar',
             inactive: 'Desativar',
             continue: 'Continuar'

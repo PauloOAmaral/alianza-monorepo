@@ -9,5 +9,7 @@ export async function getLeadsGrid(request: Request) {
         data: { data, count }
     } = await getLeadsGridQuery(createRequest(request, { query, page, limit }))
 
-    return { data, count }
+    const totalPages = Math.ceil(count / limit)
+
+    return { data, count, totalPages }
 }

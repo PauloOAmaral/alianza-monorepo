@@ -1,4 +1,3 @@
-import { Badge } from '@alianza/ui/components/ui/badge'
 import { Skeleton } from '@alianza/ui/components/ui/skeleton'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@alianza/ui/components/ui/table'
 import { Suspense } from 'react'
@@ -6,8 +5,10 @@ import { useTranslation } from 'react-i18next'
 import { Await, useLoaderData } from 'react-router'
 import type { loader } from '~/routes/sellers'
 import { SellersTablePagination } from './sellers-table-pagination'
+import { DataTableStatusCell } from '~/components/data-table/data-table-status-cell'
+import { SellersTableAction } from './sellers-table-action'
 
-function getSellerDisplayName(seller: {
+export function getSellerDisplayName(seller: {
     userContext?: {
         user?: {
             userProfile?: { firstName?: string | null; lastName?: string | null; fullName?: string }
@@ -59,12 +60,10 @@ export function SellersTable() {
                                             <TableCell className='font-medium'>{getSellerDisplayName(seller)}</TableCell>
                                             <TableCell className='font-medium'>{seller.referralCode}</TableCell>
                                             <TableCell className='font-medium'>{seller.leadPrefix}</TableCell>
-                                            <TableCell>
-                                                <Badge variant={seller.isActive ? 'default' : 'secondary'}>
-                                                    {seller.isActive ? t('tables.headers.active', { defaultValue: 'Ativo' }) : t('tables.headers.inactive', { defaultValue: 'Inativo' })}
-                                                </Badge>
+                                            <DataTableStatusCell isActive={seller.isActive} />
+                                            <TableCell className='w-[100px]'>
+                                                <SellersTableAction seller={seller} />
                                             </TableCell>
-                                            <TableCell className='w-[100px]' />
                                         </TableRow>
                                     ))
                                 )}

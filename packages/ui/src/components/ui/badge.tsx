@@ -14,7 +14,14 @@ const badgeVariants = cva(
                 destructive: 'bg-destructive text-white [a&]:hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60',
                 outline: 'border-border text-foreground [a&]:hover:bg-accent [a&]:hover:text-accent-foreground',
                 ghost: '[a&]:hover:bg-accent [a&]:hover:text-accent-foreground',
-                link: 'text-primary underline-offset-4 [a&]:hover:underline'
+                link: 'text-primary underline-offset-4 [a&]:hover:underline',
+                success: 'bg-emerald-300 border border-emerald-400 text-emerald-950 [a&]:hover:bg-green-500/90',
+                error: 'bg-red-300 border border-red-400 text-red-950 [a&]:hover:bg-red-500/90',
+                warning: 'bg-yellow-300 border border-yellow-400 text-yellow-950 [a&]:hover:bg-yellow-500/90',
+                info: 'bg-blue-300 border border-blue-400 text-blue-950 [a&]:hover:bg-blue-500/90',
+                muted: 'bg-gray-300 border border-gray-400 text-gray-950 [a&]:hover:bg-gray-500/90',
+                light: 'bg-white border border-gray-200 text-gray-950 [a&]:hover:bg-gray-500/90',
+                dark: 'bg-black border border-gray-800 text-white [a&]:hover:bg-gray-500/90',
             }
         },
         defaultVariants: {
@@ -23,7 +30,12 @@ const badgeVariants = cva(
     }
 )
 
-function Badge({ className, variant = 'default', asChild = false, ...props }: React.ComponentProps<'span'> & VariantProps<typeof badgeVariants> & { asChild?: boolean }) {
+function Badge({
+    className,
+    variant = 'default',
+    asChild = false,
+    ...props
+}: React.ComponentPropsWithoutRef<'span'> & VariantProps<typeof badgeVariants> & { asChild?: boolean }) {
     const Comp = asChild ? Slot : 'span'
 
     return <Comp className={cn(badgeVariants({ variant }), className)} data-slot='badge' data-variant={variant} {...props} />

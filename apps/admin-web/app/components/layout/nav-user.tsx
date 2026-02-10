@@ -50,17 +50,11 @@ export function NavUser({
                         )}
                         <DropdownMenuSeparator />
                         <DropdownMenuGroup>
-                            <DropdownMenuItem>
-                                <IconUserCircle />
-                                Account
-                            </DropdownMenuItem>
-                            <DropdownMenuItem>
-                                <IconCreditCard />
-                                Billing
-                            </DropdownMenuItem>
-                            <DropdownMenuItem>
-                                <IconNotification />
-                                Notifications
+                            <DropdownMenuItem asChild>
+                                <Link to={href('/account')}>
+                                    <IconUserCircle />
+                                    {t('sidebar.account')}
+                                </Link>
                             </DropdownMenuItem>
                         </DropdownMenuGroup>
                         <DropdownMenuSeparator />

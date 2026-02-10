@@ -7,6 +7,8 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import { Link, useFetcher, useLoaderData, useNavigate } from 'react-router'
+import { NumberField } from '~/components/form/fields/basic/number-field'
+import { TextField } from '~/components/form/fields/basic/text-field'
 import { BaseSelectField } from '~/components/shared/base-select-field'
 import { BasicForm } from '~/components/shared/basic-form'
 import type { action as createSellerAction, loader } from '~/routes/sellers-new'
@@ -34,7 +36,13 @@ export function SellerForm({ userContextOptions }: SellerFormProps) {
     const form = useForm<CreateSellerFormInputType, unknown, CreateSellerFormOutputType>({
         resolver: zodResolver(createSellerSchema),
         defaultValues: {
-            userContextId: ''
+            userContextId: '',
+            referralCode: '',
+            leadPrefix: '',
+            dailyToSell: undefined,
+            dailyExperimentalClass: undefined,
+            pixelId: '',
+            pixelSecret: ''
         }
     })
 
@@ -47,15 +55,49 @@ export function SellerForm({ userContextOptions }: SellerFormProps) {
 
     return (
         <BasicForm addProvider={form} onSubmit={handleSubmit}>
-            <FieldGroup className='grid gap-4 grid-cols-1'>
+            <FieldGroup className='grid gap-4 grid-cols-1 md:grid-cols-2'>
+
                 <BaseSelectField
                     items={selectItems}
-                    label={t('fields.sellers.userContext.label', { defaultValue: 'Usuário do sistema' })}
+                    label={t('fields.sellers.userContext.label')}
                     name='userContextId'
                     required
                 >
                     {(option) => <span className='truncate'>{option.name ?? option.id}</span>}
                 </BaseSelectField>
+
+                <TextField
+                    label={t('fields.sellers.referralCode.label')}
+                    name='referralCode'
+                    placeholder={t('fields.sellers.referralCode.placeholder')}
+                />
+
+                <TextField
+                    label={t('fields.sellers.leadPrefix.label')}
+                    name='leadPrefix'
+                    placeholder={t('fields.sellers.leadPrefix.placeholder')}
+                />
+
+                <NumberField
+                    label={t('fields.sellers.dailyToSell.label')}
+                    name='dailyToSell'
+                />
+
+                <NumberField
+                    label={t('fields.sellers.dailyExperimentalClass.label')}
+                    name='dailyExperimentalClass'
+                />
+
+                <TextField
+                    label={t('fields.sellers.pixelId.label')}
+                    name='pixelId'
+                />
+
+                <TextField
+                    label={t('fields.sellers.pixelSecret.label')}
+                    name='pixelSecret'
+                />
+
             </FieldGroup>
 
             <div className='flex flex-wrap items-center gap-2'>
@@ -82,7 +124,7 @@ export function SellerNewDialog() {
             }}
             open={true}
         >
-            <DialogContent className='max-w-md'>
+            <DialogContent className='max-w-lg'>
                 <DialogHeader>
                     <DialogTitle>{t('dialogs.sellers.new.title', { defaultValue: 'Novo vendedor' })}</DialogTitle>
                     <DialogDescription>

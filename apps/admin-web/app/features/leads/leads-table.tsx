@@ -47,9 +47,7 @@ export function LeadsTable() {
                                             <TableCell>{lead.primaryPhoneNumber ?? '-'}</TableCell>
                                             <TableCell>{lead.email ?? '-'}</TableCell>
                                             <TableCell>{lead.seller?.userContext?.user?.userProfile?.fullName ?? '-'}</TableCell>
-                                            <TableCell>
-                                                <Badge variant='secondary'>{t(`leads.status.${lead.status}`, { defaultValue: lead.status })}</Badge>
-                                            </TableCell>
+
                                             <TableCell>
                                                 <DropdownMenu>
                                                     <DropdownMenuTrigger asChild>

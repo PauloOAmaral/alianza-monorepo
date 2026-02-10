@@ -1,4 +1,12 @@
 export const en = {
+    dialogs: {
+        activate: {
+            title: 'Activate'
+        },
+        deactivate: {
+            title: 'Deactivate'
+        }
+    },
     errors: {
         base: {
             unexpectedError: 'Sorry, an unexpected error occurred. Please try again or contact support.'
@@ -76,6 +84,7 @@ export const en = {
         buttons: {
             edit: 'Edit',
             delete: 'Delete',
+            actions: 'Actions',
             active: 'Activate',
             inactive: 'Deactivate',
             continue: 'Continue'

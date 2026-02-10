@@ -11,7 +11,7 @@ import {
     SidebarMenuButton,
     SidebarMenuItem
 } from '@alianza/ui/components/ui/sidebar'
-import { IconDashboard, IconInnerShadowTop, IconShoppingCart, IconUsers } from '@tabler/icons-react'
+import { IconCash, IconDashboard, IconInnerShadowTop, IconShoppingCart, IconUser, IconUsers } from '@tabler/icons-react'
 import type * as React from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link, useLocation } from 'react-router'
@@ -77,6 +77,38 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                                     <Link to='/sellers'>
                                         <IconShoppingCart className='size-4' />
                                         <span>{t('sidebar.sellers')}</span>
+                                    </Link>
+                                </SidebarMenuButton>
+                            </SidebarMenuItem>
+                            <SidebarMenuItem>
+                                <SidebarMenuButton
+                                    asChild
+                                    isActive={location.pathname.startsWith('/collectors')}
+                                    tooltip={t('sidebar.collectors')}
+                                >
+                                    <Link to='/collectors'>
+                                        <IconCash className='size-4' />
+                                        <span>{t('sidebar.collectors')}</span>
+                                    </Link>
+                                </SidebarMenuButton>
+                            </SidebarMenuItem>
+                        </SidebarMenu>
+                    </SidebarGroupContent>
+                </SidebarGroup>
+
+                <SidebarGroup>
+                    <SidebarGroupLabel>{t('sidebar.sistema')}</SidebarGroupLabel>
+                    <SidebarGroupContent className='flex flex-col gap-2'>
+                        <SidebarMenu>
+                            <SidebarMenuItem>
+                                <SidebarMenuButton
+                                    asChild
+                                    isActive={location.pathname.startsWith('/users')}
+                                    tooltip={t('sidebar.users')}
+                                >
+                                    <Link to='/users'>
+                                        <IconUser className='size-4' />
+                                        <span>{t('sidebar.users')}</span>
                                     </Link>
                                 </SidebarMenuButton>
                             </SidebarMenuItem>
