@@ -42,11 +42,11 @@ export function LeadsTable() {
                                 ) : (
                                     leads.map(lead => (
                                         <TableRow key={lead.id}>
-                                            <TableCell className='font-medium'>{lead.id}</TableCell>
-                                            <TableCell className='font-medium'>{lead.name}</TableCell>
-                                            <TableCell className='font-medium'>{lead.primaryPhoneNumber ?? '-'}</TableCell>
-                                            <TableCell className='font-medium'>{lead.email ?? '-'}</TableCell>
-                                            <TableCell className='font-medium'>{lead.sellerId ?? '-'}</TableCell>
+                                            <TableCell>{lead.id}</TableCell>
+                                            <TableCell>{lead.name}</TableCell>
+                                            <TableCell>{lead.primaryPhoneNumber ?? '-'}</TableCell>
+                                            <TableCell>{lead.email ?? '-'}</TableCell>
+                                            <TableCell>{lead.seller?.userContext?.user?.userProfile?.fullName ?? '-'}</TableCell>
                                             <TableCell>
                                                 <Badge variant='secondary'>{t(`leads.status.${lead.status}`, { defaultValue: lead.status })}</Badge>
                                             </TableCell>
@@ -68,7 +68,7 @@ export function LeadsTable() {
                                 )}
                             </TableBody>
                         </Table>
-                        <LeadsTablePagination loaderDataResult={leadsGridResult} />
+                        {leadsGridResult.totalPages > 1 && <LeadsTablePagination loaderDataResult={leadsGridResult} />}
                     </>
                 )}
             </Await>

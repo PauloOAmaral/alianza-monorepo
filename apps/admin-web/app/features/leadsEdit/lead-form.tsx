@@ -2,7 +2,6 @@ import { ageOptions, campaignSourceOptions, genderOptions, leadStatusOptions } f
 import { Button } from '@alianza/ui/components/ui/button'
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@alianza/ui/components/ui/dialog'
 import { FieldGroup } from '@alianza/ui/components/ui/field'
-import { ScrollArea } from '@alianza/ui/components/ui/scroll-area'
 import { Separator } from '@alianza/ui/components/ui/separator'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@alianza/ui/components/ui/tabs'
 import { objectToFormData } from '@alianza/utils/forms'
@@ -180,11 +179,9 @@ export function LeadEditDialog() {
                 </DialogHeader>
                 <Separator />
                 <Suspense fallback={<LeadEditFormSkeleton />}>
-                    <Await errorElement={<div>{t('errors.databaseNotFound')}</div>} resolve={Promise.all([lead, campaigns, phoneCountries])}>
+                    <Await errorElement={t('errors.databaseNotFound')} resolve={Promise.all([lead, campaigns, phoneCountries])}>
                         {([leadResult, campaignsResult, phoneCountriesResult]) => (
-                            <ScrollArea className='max-h-[70vh] pr-4'>
-                                <LeadEditForm campaigns={campaignsResult.data} lead={leadResult.data} phoneCountries={phoneCountriesResult.data.countries} />
-                            </ScrollArea>
+                            <LeadEditForm campaigns={campaignsResult.data} lead={leadResult.data} phoneCountries={phoneCountriesResult.data.countries} />
                         )}
                     </Await>
                 </Suspense>

@@ -18,6 +18,8 @@ import { BasicForm } from '~/components/shared/basic-form'
 import type { action as createLeadAction, loader } from '~/routes/leads-new'
 import { LeadEditFormSkeleton } from '../leadsEdit/lead-form-skeleton'
 import { type CreateLeadFormInputType, type CreateLeadFormOutputType, useCreateLeadSchema } from './schema'
+import { Skeleton } from '@alianza/ui/components/ui/skeleton'
+import { FieldSkeleton, TextareaFieldSkeleton } from '~/components/basic/field-skeleton'
 
 interface LeadFormProps {
     campaigns: Awaited<Awaited<ReturnType<typeof loader>>['campaigns']>['data']
@@ -77,7 +79,6 @@ export function LeadForm({ campaigns, phoneCountries }: LeadFormProps) {
                 <BaseSelectField items={campaignSourceOptions} label={t('fields.leads.source.label')} name='source' required />
                 <BaseSelectField items={campaigns} label={t('fields.leads.campaign.label')} name='internalCampaignId' />
                 <TextField label={t('fields.leads.sellerId.label')} name='sellerId' />
-                <TextField label={t('fields.leads.companyId.label')} name='companyId' />
             </FieldGroup>
 
             <div className='flex flex-wrap items-center gap-2'>
@@ -111,7 +112,7 @@ export function LeadNewDialog() {
                     <DialogDescription>{t('dialogs.leads.new.description')}</DialogDescription>
                 </DialogHeader>
                 <Separator />
-                <Suspense fallback={<LeadEditFormSkeleton />}>
+                <Suspense fallback={<LeadNewFormSkeleton />}>
                     <Await errorElement={<div>{t('errors.databaseNotFound')}</div>} resolve={Promise.all([campaigns, phoneCountries])}>
                         {([campaignsResult, phoneCountriesResult]) => (
                             <LeadForm campaigns={campaignsResult.data} phoneCountries={phoneCountriesResult.data.countries} />
@@ -122,3 +123,26 @@ export function LeadNewDialog() {
         </Dialog>
     )
 }
+
+function LeadNewFormSkeleton() {
+    return (
+        <>
+            <FieldGroup className='grid gap-4'>
+                <FieldSkeleton />
+                <div className='grid gap-2 sm:grid-cols-[220px_1fr]'>
+                    <FieldSkeleton />
+                    <FieldSkeleton />
+                </div>
+                <FieldSkeleton />
+                <FieldSkeleton />
+                <FieldSkeleton />
+                <FieldSkeleton />
+                <FieldSkeleton />
+            </FieldGroup>
+            <div className='flex flex-wrap items-center gap-2'>
+                <Skeleton className='h-9 w-20' />
+                <Skeleton className='h-9 w-20' />
+            </div>
+        </>
+    )
+}   
