@@ -1,11 +1,6 @@
 import { Badge } from '@alianza/ui/components/ui/badge'
 import { Button } from '@alianza/ui/components/ui/button'
-import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuTrigger
-} from '@alianza/ui/components/ui/dropdown-menu'
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@alianza/ui/components/ui/dropdown-menu'
 import { Skeleton } from '@alianza/ui/components/ui/skeleton'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@alianza/ui/components/ui/table'
 import { MoreHorizontal } from 'lucide-react'
@@ -15,9 +10,7 @@ import { Await, useLoaderData, useNavigate } from 'react-router'
 import type { loader } from '~/routes/users'
 import { UsersTablePagination } from './users-table-pagination'
 
-function getUserDisplayName(row: {
-    userProfile?: { firstName?: string | null; lastName?: string | null } | null
-}): string {
+function getUserDisplayName(row: { userProfile?: { firstName?: string | null; lastName?: string | null } | null }): string {
     const p = row.userProfile
 
     if (!p) return '-'
@@ -43,7 +36,7 @@ export function UsersTable() {
     return (
         <Suspense fallback={<UsersTableSkeleton />}>
             <Await resolve={usersResult.data}>
-                {(users) => (
+                {users => (
                     <>
                         <Table>
                             <TableHeader className='bg-muted'>
@@ -59,15 +52,13 @@ export function UsersTable() {
                                         </TableCell>
                                     </TableRow>
                                 ) : (
-                                    users.map((row) => (
+                                    users.map(row => (
                                         <TableRow key={row.id}>
                                             <TableCell className='font-medium'>{getUserDisplayName(row)}</TableCell>
                                             <TableCell className='font-medium'>{row.email}</TableCell>
                                             <TableCell>
                                                 <Badge variant={row.emailConfirmed ? 'default' : 'secondary'}>
-                                                    {row.emailConfirmed
-                                                        ? t('tablePages.users.emailConfirmed')
-                                                        : t('tablePages.users.emailNotConfirmed')}
+                                                    {row.emailConfirmed ? t('tablePages.users.emailConfirmed') : t('tablePages.users.emailNotConfirmed')}
                                                 </Badge>
                                             </TableCell>
                                             <TableCell className='w-[100px]'>
@@ -79,9 +70,7 @@ export function UsersTable() {
                                                         </Button>
                                                     </DropdownMenuTrigger>
                                                     <DropdownMenuContent align='end'>
-                                                        <DropdownMenuItem onClick={() => handleEdit(row.id)}>
-                                                            {t('tables.buttons.edit')}
-                                                        </DropdownMenuItem>
+                                                        <DropdownMenuItem onClick={() => handleEdit(row.id)}>{t('tables.buttons.edit')}</DropdownMenuItem>
                                                     </DropdownMenuContent>
                                                 </DropdownMenu>
                                             </TableCell>
@@ -120,7 +109,7 @@ export function UsersTableSkeleton() {
                 <UsersGridColumns />
             </TableHeader>
             <TableBody>
-                {items.map((item) => (
+                {items.map(item => (
                     <TableRow key={item}>
                         <TableCell>
                             <Skeleton className='h-6 w-full' />

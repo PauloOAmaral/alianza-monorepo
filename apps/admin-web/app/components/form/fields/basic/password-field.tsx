@@ -3,12 +3,7 @@ import type { FieldPath, FieldValues } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import { BaseFields, type BaseFieldsChildrenProps } from '../../base-field'
 
-export function PasswordField({
-    name,
-    label,
-    required,
-    readOnly
-}: BaseFieldsChildrenProps<FieldValues, FieldPath<FieldValues>>) {
+export function PasswordField({ name, label, required, readOnly }: BaseFieldsChildrenProps<FieldValues, FieldPath<FieldValues>>) {
     const { t } = useTranslation()
 
     const labelNode = (

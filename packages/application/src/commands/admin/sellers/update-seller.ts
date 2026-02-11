@@ -19,16 +19,7 @@ const schema = z.object({
 export const updateSellerCommand = createAction({ schema })
     .withData()
     .build(async ({ data }) => {
-        const {
-            id,
-            isActive,
-            referralCode,
-            leadPrefix,
-            dailyToSell,
-            dailyExperimentalClass,
-            pixelId,
-            pixelSecret
-        } = data
+        const { id, isActive, referralCode, leadPrefix, dailyToSell, dailyExperimentalClass, pixelId, pixelSecret } = data
 
         const db = createMainDbClient()
 

@@ -1,9 +1,9 @@
-import { createLoader, parseAsInteger, parseAsString } from "nuqs"
+import { createLoader, parseAsInteger, parseAsString } from 'nuqs'
 
 export const leadsSearchParams = {
-    query: parseAsString.withDefault("").withOptions({ throttleMs: 500 }),
+    query: parseAsString.withDefault('').withOptions({ throttleMs: 500 }),
     page: parseAsInteger.withDefault(1),
-    limit: parseAsInteger.withDefault(20),
+    limit: parseAsInteger.withDefault(20)
 }
 
 export const leadsSearchParamsLoader = createLoader(leadsSearchParams)

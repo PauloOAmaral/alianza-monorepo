@@ -58,7 +58,7 @@ export const pt = {
             authCannotChangeOwnPermissions: 'Você não pode alterar suas próprias permissões.',
             authCannotRemoveYourself: 'Você não pode remover a si mesmo.',
             authTooManyAttempts: 'Muitas tentativas de login incorretas. Sua conta foi bloqueada temporariamente por segurança. Tente novamente mais tarde.',
-            authTooManyPasswordResetRequests: 'Muitas solicitações de redefinição de senha. Aguarde alguns minutos antes de tentar novamente.',
+            authTooManyPasswordResetRequests: 'Muitas solicitações de redefinição de senha. Aguarde alguns minutos antes de tentar novamente.'
         }
     },
     logout: {
@@ -159,6 +159,6 @@ export const pt = {
             from28To40: '28 a 40',
             from40To65: '40 a 65',
             older65: 'Acima de 65'
-        },
+        }
     }
 }

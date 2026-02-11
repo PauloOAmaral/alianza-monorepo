@@ -4,7 +4,7 @@ import { collectorsSearchParams } from './route-params'
 import type { loader } from '~/routes/collectors'
 
 interface CollectorsTablePaginationProps {
-    loaderDataResult?: Awaited<ReturnType<typeof loader>> 
+    loaderDataResult?: Awaited<ReturnType<typeof loader>>
 }
 
 export function CollectorsTablePagination({ loaderDataResult }: CollectorsTablePaginationProps) {
@@ -14,12 +14,5 @@ export function CollectorsTablePagination({ loaderDataResult }: CollectorsTableP
 
     const count = loaderDataResult?.count
 
-    return (
-        <DataTablePagination
-            count={count}
-            limit={filter.limit}
-            page={filter.page}
-            serialize={(page) => serialize({ ...filter, page })}
-        />
-    )
+    return <DataTablePagination count={count} limit={filter.limit} page={filter.page} serialize={page => serialize({ ...filter, page })} />
 }

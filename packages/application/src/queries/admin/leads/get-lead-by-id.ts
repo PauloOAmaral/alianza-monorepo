@@ -1,7 +1,7 @@
-import { createMainDbClient } from "@alianza/database/clients/main"
-import { z } from "zod"
-import { createAction } from "../../../action-builder"
-import { ApplicationError } from "../../../error"
+import { createMainDbClient } from '@alianza/database/clients/main'
+import { z } from 'zod'
+import { createAction } from '../../../action-builder'
+import { ApplicationError } from '../../../error'
 
 const schema = z.object({
     id: z.string().min(1)
@@ -40,7 +40,7 @@ export const getLeadByIdQuery = createAction({ schema })
         })
 
         if (!result) {
-            throw new ApplicationError("common_not_found")
+            throw new ApplicationError('common_not_found')
         }
 
         return result

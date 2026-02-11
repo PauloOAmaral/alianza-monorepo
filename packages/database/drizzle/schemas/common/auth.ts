@@ -325,11 +325,7 @@ export const userContextRoles = pgTable(
         deletedAt
     },
     table => [
-        uniqueIndex('user_context_roles_role_user_context_id_key').using(
-            'btree',
-            table.role.asc().nullsLast(),
-            table.userContextId.asc().nullsLast()
-        ),
+        uniqueIndex('user_context_roles_role_user_context_id_key').using('btree', table.role.asc().nullsLast(), table.userContextId.asc().nullsLast()),
         foreignKey({
             columns: [table.userContextId],
             foreignColumns: [userContexts.id],

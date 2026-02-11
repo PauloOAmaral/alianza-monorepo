@@ -18,9 +18,7 @@ export const getUsersGridQuery = createAction({ schema })
 
         const db = createMainDbClient()
 
-        const searchCondition = query
-            ? sql`unaccent(${users.email}) ilike unaccent(${`%${query}%`})`
-            : undefined
+        const searchCondition = query ? sql`unaccent(${users.email}) ilike unaccent(${`%${query}%`})` : undefined
 
         const whereCondition = and(isNull(users.deletedAt), searchCondition)
 

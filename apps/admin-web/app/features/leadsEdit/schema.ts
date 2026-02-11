@@ -26,7 +26,8 @@ export function updateLeadSchema(t: TFunction) {
             .string()
             .min(1, { message: t('fields.leads.phoneNumber.required') })
             .refine(value => /[0-9]{8,15}/.test(value.replace(/\D+/g, '')), { message: t('fields.leads.phoneNumber.invalid') }),
-        email: z.string()
+        email: z
+            .string()
             .email({ message: t('fields.leads.email.invalid') })
             .max(200)
             .transform(value => value.trim().toLowerCase()),

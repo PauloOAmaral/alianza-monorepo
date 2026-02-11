@@ -1,10 +1,5 @@
 import { Button } from '@alianza/ui/components/ui/button'
-import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuTrigger
-} from '@alianza/ui/components/ui/dropdown-menu'
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@alianza/ui/components/ui/dropdown-menu'
 import { MoreHorizontal } from 'lucide-react'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -36,10 +31,7 @@ export function SellersTableAction({ seller }: SellersTableActionProps) {
     const pending = fetcher.state !== 'idle'
 
     async function handleActivate() {
-        await fetcher.submit(
-            { intent: 'activate-seller', id: seller.id },
-            { method: 'POST' }
-        )
+        await fetcher.submit({ intent: 'activate-seller', id: seller.id }, { method: 'POST' })
 
         setTimeout(() => {
             setActivateOpen(false)
@@ -47,10 +39,7 @@ export function SellersTableAction({ seller }: SellersTableActionProps) {
     }
 
     async function handleInactivate() {
-        await fetcher.submit(
-            { intent: 'inactivate-seller', id: seller.id },
-            { method: 'POST' }
-        )
+        await fetcher.submit({ intent: 'inactivate-seller', id: seller.id }, { method: 'POST' })
 
         setTimeout(() => {
             setActivateOpen(false)
@@ -68,25 +57,27 @@ export function SellersTableAction({ seller }: SellersTableActionProps) {
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align='end'>
                     <DropdownMenuItem asChild>
-                        <Link to={`/sellers/${seller.id}/edit${location.search}`}>
-                            {t('tables.buttons.edit')}
-                        </Link>
+                        <Link to={`/sellers/${seller.id}/edit${location.search}`}>{t('tables.buttons.edit')}</Link>
                     </DropdownMenuItem>
-                    {!seller.isActive && (
-                        <DropdownMenuItem onSelect={() => setActivateOpen(true)}>
-                            {t('tables.buttons.active')}
-                        </DropdownMenuItem>
-                    )}
-                    {seller.isActive && (
-                        <DropdownMenuItem onSelect={() => setInactivateOpen(true)}>
-                            {t('tables.buttons.inactive')}
-                        </DropdownMenuItem>
-                    )}
+                    {!seller.isActive && <DropdownMenuItem onSelect={() => setActivateOpen(true)}>{t('tables.buttons.active')}</DropdownMenuItem>}
+                    {seller.isActive && <DropdownMenuItem onSelect={() => setInactivateOpen(true)}>{t('tables.buttons.inactive')}</DropdownMenuItem>}
                 </DropdownMenuContent>
             </DropdownMenu>
 
-            <DialogActivate isOpen={activateOpen} description={t('dialogs.sellers.activate.description', { name: displayName })} activatePending={pending} handleActivate={handleActivate} onOpenChange={setActivateOpen} />
-            <DialogInactivate isOpen={inactivateOpen} description={t('dialogs.sellers.inactivate.description', { name: displayName })} inactivatePending={pending} handleInactivate={handleInactivate} onOpenChange={setInactivateOpen} />
+            <DialogActivate
+                isOpen={activateOpen}
+                description={t('dialogs.sellers.activate.description', { name: displayName })}
+                activatePending={pending}
+                handleActivate={handleActivate}
+                onOpenChange={setActivateOpen}
+            />
+            <DialogInactivate
+                isOpen={inactivateOpen}
+                description={t('dialogs.sellers.inactivate.description', { name: displayName })}
+                inactivatePending={pending}
+                handleInactivate={handleInactivate}
+                onOpenChange={setInactivateOpen}
+            />
         </>
     )
 }

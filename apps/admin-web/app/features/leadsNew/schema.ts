@@ -3,7 +3,6 @@ import type { TFunction } from 'i18next'
 import { useTranslation } from 'react-i18next'
 import { z } from 'zod'
 
-
 export function createLeadSchema(t: TFunction) {
     return z.object({
         name: z
@@ -18,7 +17,8 @@ export function createLeadSchema(t: TFunction) {
             .string()
             .min(1, { message: t('fields.leads.phoneNumber.required') })
             .refine(value => /[0-9]{8,15}/.test(value.replace(/\D+/g, '')), { message: t('fields.leads.phoneNumber.required') }),
-        email: z.string()
+        email: z
+            .string()
             .email({ message: t('fields.leads.email.required') })
             .max(200)
             .transform(value => value.trim().toLowerCase()),
@@ -26,7 +26,7 @@ export function createLeadSchema(t: TFunction) {
         sellerId: z.string().min(1),
         companyId: z.string().min(1),
         source: z.enum(campaignSourceValues, { message: t('fields.leads.source.required') }),
-        gender: z.enum(genderValues),
+        gender: z.enum(genderValues)
     })
 }
 

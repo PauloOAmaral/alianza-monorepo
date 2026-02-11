@@ -12,11 +12,7 @@ import { NumberField } from '~/components/form/fields/basic/number-field'
 import { TextField } from '~/components/form/fields/basic/text-field'
 import { BasicForm } from '~/components/shared/basic-form'
 import type { action as updateSellerAction, loader } from '~/routes/sellers-edit'
-import {
-    type UpdateSellerFormInputType,
-    type UpdateSellerFormOutputType,
-    useUpdateSellerSchema
-} from './schema'
+import { type UpdateSellerFormInputType, type UpdateSellerFormOutputType, useUpdateSellerSchema } from './schema'
 import { SellerEditFormSkeleton } from './seller-form-skeleton'
 
 type Seller = Awaited<Awaited<ReturnType<typeof loader>>['seller']>['data']
@@ -80,38 +76,17 @@ export function SellerEditForm({ seller }: SellerEditFormProps) {
                     <p className='text-muted-foreground text-sm'>{getSellerDisplayName(seller)}</p>
                 </div>
 
-                <TextField
-                    label={t('fields.sellers.referralCode.label', { defaultValue: 'Código de indicação' })}
-                    name='referralCode'
-                    required
-                />
+                <TextField label={t('fields.sellers.referralCode.label', { defaultValue: 'Código de indicação' })} name='referralCode' required />
 
-                <TextField
-                    label={t('fields.sellers.leadPrefix.label', { defaultValue: 'Prefixo de lead' })}
-                    name='leadPrefix'
-                    required
-                />
+                <TextField label={t('fields.sellers.leadPrefix.label', { defaultValue: 'Prefixo de lead' })} name='leadPrefix' required />
 
-                <NumberField
-                    label={t('fields.sellers.dailyToSell.label', { defaultValue: 'Meta diária de vendas' })}
-                    name='dailyToSell'
-                />
+                <NumberField label={t('fields.sellers.dailyToSell.label', { defaultValue: 'Meta diária de vendas' })} name='dailyToSell' />
 
-                <NumberField
-                    label={t('fields.sellers.dailyExperimentalClass.label', { defaultValue: 'Aula experimental diária' })}
-                    name='dailyExperimentalClass'
-                />
+                <NumberField label={t('fields.sellers.dailyExperimentalClass.label', { defaultValue: 'Aula experimental diária' })} name='dailyExperimentalClass' />
 
-                <TextField
-                    label={t('fields.sellers.pixelId.label', { defaultValue: 'Pixel ID' })}
-                    name='pixelId'
-                />
+                <TextField label={t('fields.sellers.pixelId.label', { defaultValue: 'Pixel ID' })} name='pixelId' />
 
-                <TextField
-                    label={t('fields.sellers.pixelSecret.label', { defaultValue: 'Pixel Secret' })}
-                    name='pixelSecret'
-                />
-
+                <TextField label={t('fields.sellers.pixelSecret.label', { defaultValue: 'Pixel Secret' })} name='pixelSecret' />
             </FieldGroup>
 
             <div className='flex flex-wrap items-center gap-2'>
@@ -133,7 +108,7 @@ export function SellerEditDialog() {
 
     return (
         <Dialog
-            onOpenChange={(open) => {
+            onOpenChange={open => {
                 if (!open) navigate('/sellers')
             }}
             open={true}
@@ -146,7 +121,7 @@ export function SellerEditDialog() {
                 <Separator />
                 <Suspense fallback={<SellerEditFormSkeleton />}>
                     <Await errorElement={<div>{t('errors.commonNotFound')}</div>} resolve={seller}>
-                        {(sellerResult) => <SellerEditForm seller={sellerResult.data} />}
+                        {sellerResult => <SellerEditForm seller={sellerResult.data} />}
                     </Await>
                 </Suspense>
             </DialogContent>

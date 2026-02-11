@@ -48,7 +48,7 @@ export const es = {
         sellers: sellersES.dialogs,
         users: usersES.dialogs,
         activate: esApplication.dialogs.activate,
-        deactivate: esApplication.dialogs.deactivate,
+        deactivate: esApplication.dialogs.deactivate
     },
     tables: esApplication.tables,
     pagination: esApplication.pagination,
@@ -60,6 +60,5 @@ export const es = {
     languages: esApplication.languages,
     dates: esApplication.dates,
     duration: esApplication.duration,
-    enums: esApplication.enums,
-
+    enums: esApplication.enums
 }

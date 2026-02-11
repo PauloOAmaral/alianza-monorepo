@@ -14,12 +14,5 @@ export function UsersTablePagination({ loaderDataResult }: UsersTablePaginationP
 
     const count = loaderDataResult?.count
 
-    return (
-        <DataTablePagination
-            count={count}
-            limit={filter.limit}
-            page={filter.page}
-            serialize={(page) => serialize({ ...filter, page })}
-        />
-    )
+    return <DataTablePagination count={count} limit={filter.limit} page={filter.page} serialize={page => serialize({ ...filter, page })} />
 }

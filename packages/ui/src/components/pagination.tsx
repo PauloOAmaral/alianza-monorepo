@@ -1,6 +1,6 @@
-import { ChevronLeft, ChevronRight } from "lucide-react"
-import { cn } from "../utils"
-import { Slot } from "./utils"
+import { ChevronLeft, ChevronRight } from 'lucide-react'
+import { cn } from '../utils'
+import { Slot } from './utils'
 
 interface PaginationProps {
     page: number
@@ -9,26 +9,10 @@ interface PaginationProps {
     previousPageLabel?: string
     nextPageLabel?: string
     className?: string
-    children: ({
-        page,
-        pageRender,
-        currentPage,
-    }: {
-        page: number
-        pageRender: React.ReactNode
-        currentPage?: "page"
-    }) => React.ReactNode
+    children: ({ page, pageRender, currentPage }: { page: number; pageRender: React.ReactNode; currentPage?: 'page' }) => React.ReactNode
 }
 
-const Pagination = ({
-    page,
-    limit,
-    total,
-    previousPageLabel,
-    nextPageLabel,
-    className,
-    children,
-}: PaginationProps) => {
+const Pagination = ({ page, limit, total, previousPageLabel, nextPageLabel, className, children }: PaginationProps) => {
     const totalPages = Math.ceil((total || 0) / limit)
 
     if (totalPages <= 1) {
@@ -38,16 +22,9 @@ const Pagination = ({
     const visiblePages = getVisiblePages(page, totalPages)
 
     return (
-        <nav
-            aria-label="pagination"
-            className={cn("mt-4 flex items-center justify-center", className)}
-        >
-            <ul className="flex items-center justify-center gap-2">
-                <PreviousPageButton
-                    page={page}
-                    previousPageLabel={previousPageLabel}
-                    totalPages={totalPages}
-                >
+        <nav aria-label='pagination' className={cn('mt-4 flex items-center justify-center', className)}>
+            <ul className='flex items-center justify-center gap-2'>
+                <PreviousPageButton page={page} previousPageLabel={previousPageLabel} totalPages={totalPages}>
                     {children}
                 </PreviousPageButton>
                 <PageNumbers currentPage={page} visiblePages={visiblePages}>
@@ -61,14 +38,11 @@ const Pagination = ({
     )
 }
 
-Pagination.displayName = "Pagination"
+Pagination.displayName = 'Pagination'
 
-const getVisiblePages = (
-    page: number,
-    totalPages: number,
-): (number | "ellipsis-start" | "ellipsis-end")[] => {
+const getVisiblePages = (page: number, totalPages: number): (number | 'ellipsis-start' | 'ellipsis-end')[] => {
     const delta = 2
-    const range: (number | "ellipsis-start" | "ellipsis-end")[] = [1]
+    const range: (number | 'ellipsis-start' | 'ellipsis-end')[] = [1]
 
     let start = Math.max(2, page - delta)
     let end = Math.min(totalPages - 1, page + delta)
@@ -79,7 +53,7 @@ const getVisiblePages = (
     }
 
     if (start > 2) {
-        range.push("ellipsis-start")
+        range.push('ellipsis-start')
     } else if (start === 2) {
         range.push(2)
     }
@@ -91,7 +65,7 @@ const getVisiblePages = (
     }
 
     if (end < totalPages - 1) {
-        range.push("ellipsis-end")
+        range.push('ellipsis-end')
     } else if (end === totalPages - 1 && !range.includes(end)) {
         range.push(end)
     }
@@ -103,97 +77,60 @@ const getVisiblePages = (
     return range
 }
 
-const PreviousPageButton = ({
-    page,
-    previousPageLabel,
-    children,
-}: {
-    page: number
-    totalPages: number
-    previousPageLabel?: string
-    children: PaginationProps["children"]
-}) => {
+const PreviousPageButton = ({ page, previousPageLabel, children }: { page: number; totalPages: number; previousPageLabel?: string; children: PaginationProps['children'] }) => {
     return (
-        <li
-            className={cn(
-                "[&>a]:p-2 [&>a]:w-fit [&>a]:h-fit [&>a]:block [&>a]:rounded-md",
-                page === 1 && "opacity-70 [&>a]:pointer-events-none",
-            )}
-        >
+        <li className={cn('[&>a]:p-2 [&>a]:w-fit [&>a]:h-fit [&>a]:block [&>a]:rounded-md', page === 1 && 'opacity-70 [&>a]:pointer-events-none')}>
             <Slot aria-disabled={page === 1}>
                 {children({
                     page: Math.max(1, page - 1),
                     pageRender: (
                         <>
-                            <ChevronLeft aria-hidden className="h-4 w-4" />
+                            <ChevronLeft aria-hidden className='h-4 w-4' />
                             {previousPageLabel ? (
-                                <span aria-hidden className="sr-only">
+                                <span aria-hidden className='sr-only'>
                                     {previousPageLabel}
                                 </span>
                             ) : null}
                         </>
                     ),
-                    currentPage: page === 1 ? "page" : undefined,
+                    currentPage: page === 1 ? 'page' : undefined
                 })}
             </Slot>
         </li>
     )
 }
 
-const NextPageButton = ({
-    page,
-    totalPages,
-    nextPageLabel,
-    children,
-}: {
-    page: number
-    totalPages: number
-    nextPageLabel?: string
-    children: PaginationProps["children"]
-}) => {
+const NextPageButton = ({ page, totalPages, nextPageLabel, children }: { page: number; totalPages: number; nextPageLabel?: string; children: PaginationProps['children'] }) => {
     return (
-        <li
-            className={cn(
-                "[&>a]:p-2 [&>a]:w-fit [&>a]:h-fit [&>a]:block [&>a]:rounded-md",
-                page === totalPages && "opacity-70 [&>a]:pointer-events-none",
-            )}
-        >
+        <li className={cn('[&>a]:p-2 [&>a]:w-fit [&>a]:h-fit [&>a]:block [&>a]:rounded-md', page === totalPages && 'opacity-70 [&>a]:pointer-events-none')}>
             <Slot aria-disabled={page === totalPages}>
                 {children({
                     page: Math.min(totalPages, page + 1),
                     pageRender: (
                         <>
-                            <ChevronRight aria-hidden className="h-4 w-4" />
+                            <ChevronRight aria-hidden className='h-4 w-4' />
                             {nextPageLabel ? (
-                                <span aria-hidden className="sr-only">
+                                <span aria-hidden className='sr-only'>
                                     {nextPageLabel}
                                 </span>
                             ) : null}
                         </>
                     ),
-                    currentPage: page === totalPages ? "page" : undefined,
+                    currentPage: page === totalPages ? 'page' : undefined
                 })}
             </Slot>
         </li>
     )
 }
 
-const PageNumbers = ({
-    visiblePages,
-    currentPage,
-    children,
-}: {
-    visiblePages: (number | "ellipsis-start" | "ellipsis-end")[]
-    currentPage: number
-    children: PaginationProps["children"]
-}) => {
+const PageNumbers = ({ visiblePages, currentPage, children }: { visiblePages: (number | 'ellipsis-start' | 'ellipsis-end')[]; currentPage: number; children: PaginationProps['children'] }) => {
     return (
         <>
-            {visiblePages.map((item) => {
-                if (item === "ellipsis-start" || item === "ellipsis-end") {
+            {visiblePages.map(item => {
+                if (item === 'ellipsis-start' || item === 'ellipsis-end') {
                     return (
-                        <li className="px-2" key={item}>
-                            <span aria-hidden className="text-muted-foreground">
+                        <li className='px-2' key={item}>
+                            <span aria-hidden className='text-muted-foreground'>
                                 ...
                             </span>
                         </li>
@@ -202,18 +139,11 @@ const PageNumbers = ({
 
                 const pageNumber = item as number
                 return (
-                    <li
-                        className={cn(
-                            "[&>a]:p-2 [&>a]:rounded-md",
-                            pageNumber === currentPage && "[&>a]:bg-muted",
-                            pageNumber === currentPage && "[&>a]:text-muted-foreground",
-                        )}
-                        key={pageNumber}
-                    >
+                    <li className={cn('[&>a]:p-2 [&>a]:rounded-md', pageNumber === currentPage && '[&>a]:bg-muted', pageNumber === currentPage && '[&>a]:text-muted-foreground')} key={pageNumber}>
                         {children({
                             page: pageNumber,
                             pageRender: pageNumber,
-                            currentPage: pageNumber === currentPage ? "page" : undefined,
+                            currentPage: pageNumber === currentPage ? 'page' : undefined
                         })}
                     </li>
                 )

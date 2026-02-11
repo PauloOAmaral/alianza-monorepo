@@ -52,21 +52,11 @@ export function UserEditForm({ user }: UserEditFormProps) {
     const isPending = updateFetcher.state !== 'idle'
 
     return (
-        <BasicForm className="space-y-6" addProvider={form} onSubmit={handleSubmit}>
+        <BasicForm addProvider={form} className='space-y-6' onSubmit={handleSubmit}>
             <FieldGroup className='grid gap-4 md:grid-cols-2'>
-                <TextField
-                    label={t('fields.users.firstName.label')}
-                    name='firstName'
-                />
-                <TextField
-                    label={t('fields.users.lastName.label')}
-                    name='lastName'
-                />
-                <EmailField
-                    label={t('fields.users.email.label')}
-                    name='email'
-                    required
-                />
+                <TextField label={t('fields.users.firstName.label')} name='firstName' />
+                <TextField label={t('fields.users.lastName.label')} name='lastName' />
+                <EmailField label={t('fields.users.email.label')} name='email' required />
             </FieldGroup>
 
             <div className='flex flex-wrap items-center gap-2'>
@@ -88,7 +78,7 @@ export function UserEditDialog() {
 
     return (
         <Dialog
-            onOpenChange={(open) => {
+            onOpenChange={open => {
                 if (!open) navigate('/users')
             }}
             open={true}
@@ -101,7 +91,7 @@ export function UserEditDialog() {
                 <Separator />
                 <Suspense fallback={<UserEditFormSkeleton />}>
                     <Await errorElement={<div>{t('errors.databaseNotFound')}</div>} resolve={user}>
-                        {(userResult) => <UserEditForm user={userResult.data} />}
+                        {userResult => <UserEditForm user={userResult.data} />}
                     </Await>
                 </Suspense>
             </DialogContent>

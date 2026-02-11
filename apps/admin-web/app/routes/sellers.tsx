@@ -5,10 +5,10 @@ import { Link, NavLink, Outlet } from 'react-router'
 import { z } from 'zod'
 import { getSellersGrid } from '~/features/sellers/loader-server'
 import { SellersTable } from '~/features/sellers/sellers-table'
-import { requireSession } from '~/middleware/session-middleware'
 import { getI18nextServerInstance } from '~/middleware/i18next-middleware'
-import { createRequest } from '~/utils/server/request-builder'
+import { requireSession } from '~/middleware/session-middleware'
 import { parseApplicationError } from '~/utils/server/errors'
+import { createRequest } from '~/utils/server/request-builder'
 import { dataWithError, dataWithSuccess } from '~/utils/server/toasts'
 import type { Route } from './+types/sellers'
 
@@ -58,7 +58,7 @@ export async function action({ request }: Route.ActionArgs) {
     const parsed = sellerActionSchema.safeParse(Object.fromEntries(formData))
 
     if (!parsed.success) {
-        const messages = parsed.error.issues.map((issue) => issue.message).join('. ')
+        const messages = parsed.error.issues.map(issue => issue.message).join('. ')
         return await dataWithError({ success: false }, messages, { status: 400 })
     }
 
@@ -70,10 +70,7 @@ export async function action({ request }: Route.ActionArgs) {
         const message = isActive ? t('dialogs.sellers.activate.success') : t('dialogs.sellers.inactivate.success')
         return await dataWithSuccess({ success: true }, message)
     } catch (error) {
-        return await dataWithError(
-            { success: false },
-            await parseApplicationError(error as import('@alianza/application/error').ApplicationError<'base' | 'common' | 'auth'>, request)
-        )
+        return await dataWithError({ success: false }, await parseApplicationError(error as import('@alianza/application/error').ApplicationError<'base' | 'common' | 'auth'>, request))
     }
 }
 

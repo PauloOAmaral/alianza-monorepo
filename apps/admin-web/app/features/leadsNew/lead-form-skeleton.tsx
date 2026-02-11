@@ -1,7 +1,6 @@
-import { FieldSkeleton } from "~/components/basic/field-skeleton";
-import { FieldGroup } from "@alianza/ui/components/ui/field";
-import { Skeleton } from "@alianza/ui/components/ui/skeleton";
-
+import { FieldSkeleton } from '~/components/basic/field-skeleton'
+import { FieldGroup } from '@alianza/ui/components/ui/field'
+import { Skeleton } from '@alianza/ui/components/ui/skeleton'
 
 export function LeadNewFormSkeleton() {
     return (
@@ -24,4 +23,4 @@ export function LeadNewFormSkeleton() {
             </div>
         </>
     )
-}   
+}

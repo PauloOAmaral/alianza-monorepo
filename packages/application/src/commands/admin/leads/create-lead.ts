@@ -14,7 +14,7 @@ const createLeadSchema = z.object({
     leadSource: z.enum(campaignSourceValues).optional().nullable(),
     gender: z.enum(genderValues).optional().nullable(),
     sellerId: z.string().optional().nullable(),
-    companyId: z.string().optional().nullable(),
+    companyId: z.string().optional().nullable()
 })
 
 function normalizePhone(value: string) {
@@ -54,7 +54,7 @@ export const createLeadCommand = createAction({ schema: createLeadSchema })
                 internalCampaignId: data.internalCampaignId ?? null,
                 sellerId: data.sellerId ?? null,
                 companyId: data.companyId ?? null,
-                gender: data.gender ?? null,
+                gender: data.gender ?? null
             })
             .returning({ id: leads.id })
 

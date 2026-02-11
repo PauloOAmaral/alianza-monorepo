@@ -48,7 +48,7 @@ export const en = {
         sellers: sellersEN.dialogs,
         users: usersEN.dialogs,
         activate: enApplication.dialogs.activate,
-        deactivate: enApplication.dialogs.deactivate,
+        deactivate: enApplication.dialogs.deactivate
     },
     links: {},
     buttons: enApplication.buttons,
@@ -60,5 +60,5 @@ export const en = {
     languages: enApplication.languages,
     dates: enApplication.dates,
     duration: enApplication.duration,
-    enums: enApplication.enums,
+    enums: enApplication.enums
 }

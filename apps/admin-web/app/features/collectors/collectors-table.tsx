@@ -24,7 +24,7 @@ export function CollectorsTable() {
     return (
         <Suspense fallback={<CollectorsTableSkeleton />}>
             <Await resolve={collectorsResult.data}>
-                {(collectors) => (
+                {collectors => (
                     <>
                         <Table>
                             <TableHeader className='bg-muted'>
@@ -40,12 +40,10 @@ export function CollectorsTable() {
                                         </TableCell>
                                     </TableRow>
                                 ) : (
-                                    collectors.map((collector) => (
+                                    collectors.map(collector => (
                                         <TableRow key={collector.id}>
                                             <TableCell className='font-medium'>{collector.userAdminId}</TableCell>
-                                            <TableCell className='font-medium'>
-                                                {formatDailyToCharge(collector.dailyToCharge)}
-                                            </TableCell>
+                                            <TableCell className='font-medium'>{formatDailyToCharge(collector.dailyToCharge)}</TableCell>
                                             <DataTableStatusCell isActive={collector.isActive} />
                                             <TableCell className='w-[100px]' />
                                         </TableRow>
@@ -53,9 +51,7 @@ export function CollectorsTable() {
                                 )}
                             </TableBody>
                         </Table>
-                        {collectorsResult.totalPages > 1 && (
-                            <CollectorsTablePagination loaderDataResult={collectorsResult} />
-                        )}
+                        {collectorsResult.totalPages > 1 && <CollectorsTablePagination loaderDataResult={collectorsResult} />}
                     </>
                 )}
             </Await>
@@ -85,7 +81,7 @@ export function CollectorsTableSkeleton() {
                 <CollectorsGridColumns />
             </TableHeader>
             <TableBody>
-                {items.map((item) => (
+                {items.map(item => (
                     <TableRow key={item}>
                         <TableCell>
                             <Skeleton className='h-6 w-full' />

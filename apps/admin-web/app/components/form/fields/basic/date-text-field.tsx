@@ -20,15 +20,7 @@ const DateTextField = ({ name, label, required, readOnly }: BaseFieldsChildrenPr
 
     return (
         <BaseFields label={label} name={name} required={required}>
-            {({ register }) => (
-                <Input
-                    {...register(name)}
-                    readOnly={readOnly}
-                    type='text'
-                    value={formattedValue}
-                    onChange={e => setValue(name, e.target.value)}
-                />
-            )}
+            {({ register }) => <Input {...register(name)} readOnly={readOnly} type='text' value={formattedValue} onChange={e => setValue(name, e.target.value)} />}
         </BaseFields>
     )
 }

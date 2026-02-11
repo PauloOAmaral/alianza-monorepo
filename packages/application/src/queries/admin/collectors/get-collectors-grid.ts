@@ -18,9 +18,7 @@ export const getCollectorsGridQuery = createAction({ schema })
 
         const db = createMainDbClient()
 
-        const searchCondition = query
-            ? sql`unaccent(${collectors.userAdminId}) ilike unaccent(${`%${query}%`})`
-            : undefined
+        const searchCondition = query ? sql`unaccent(${collectors.userAdminId}) ilike unaccent(${`%${query}%`})` : undefined
 
         const whereCondition = and(isNull(collectors.deletedAt), searchCondition)
 

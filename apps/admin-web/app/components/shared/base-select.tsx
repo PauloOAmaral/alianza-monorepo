@@ -76,12 +76,7 @@ function BaseSelectInner<TItem extends BaseSelectItem>({
                 {items.map(item => {
                     const itemValue = getItemValue(item)
                     const isDisabled = item.readonly || item.isActive === false
-                    const label: React.ReactNode =
-                        item.translateKey != null
-                            ? t(item.translateKey as never)
-                            : children != null
-                                ? children(item)
-                                : item.name ?? item.id
+                    const label: React.ReactNode = item.translateKey != null ? t(item.translateKey as never) : children != null ? children(item) : (item.name ?? item.id)
 
                     return (
                         <SelectItem disabled={isDisabled} key={item.id} value={itemValue}>

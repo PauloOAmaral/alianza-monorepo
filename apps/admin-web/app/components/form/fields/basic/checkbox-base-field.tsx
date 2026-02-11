@@ -29,20 +29,13 @@ const CheckboxBaseField = <TFieldValues extends FieldValues = FieldValues, TName
         <BaseFields label={label} name={name} required={required}>
             {({ register }) => (
                 <div className={cn('mt-2 flex flex-col space-x-4', inline && 'flex-row')}>
-                    <input
-                        type='hidden'
-                        {...register(name)}
-                        value={value ?? ''}
-                        onChange={e => setValue(name, e.target.value as PathValue<TFieldValues, TName>)}
-                    />
+                    <input type='hidden' {...register(name)} value={value ?? ''} onChange={e => setValue(name, e.target.value as PathValue<TFieldValues, TName>)} />
                     {options.map(option => (
                         <Checkbox
                             checked={value === option.value}
                             disabled={readOnly}
                             key={option.value}
-                            onCheckedChange={isSelected =>
-                                setValue(name, (isSelected ? option.value : undefined) as PathValue<TFieldValues, TName>)
-                            }
+                            onCheckedChange={isSelected => setValue(name, (isSelected ? option.value : undefined) as PathValue<TFieldValues, TName>)}
                         >
                             {option.label}
                         </Checkbox>

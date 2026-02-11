@@ -57,11 +57,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                     <SidebarGroupContent className='flex flex-col gap-2'>
                         <SidebarMenu>
                             <SidebarMenuItem>
-                                <SidebarMenuButton
-                                    asChild
-                                    isActive={location.pathname.startsWith('/leads')}
-                                    tooltip={t('sidebar.leads')}
-                                >
+                                <SidebarMenuButton asChild isActive={location.pathname.startsWith('/leads')} tooltip={t('sidebar.leads')}>
                                     <Link to='/leads'>
                                         <IconUsers className='size-4' />
                                         <span>{t('sidebar.leads')}</span>
@@ -69,11 +65,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                                 </SidebarMenuButton>
                             </SidebarMenuItem>
                             <SidebarMenuItem>
-                                <SidebarMenuButton
-                                    asChild
-                                    isActive={location.pathname.startsWith('/sellers')}
-                                    tooltip={t('sidebar.sellers')}
-                                >
+                                <SidebarMenuButton asChild isActive={location.pathname.startsWith('/sellers')} tooltip={t('sidebar.sellers')}>
                                     <Link to='/sellers'>
                                         <IconShoppingCart className='size-4' />
                                         <span>{t('sidebar.sellers')}</span>
@@ -81,11 +73,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                                 </SidebarMenuButton>
                             </SidebarMenuItem>
                             <SidebarMenuItem>
-                                <SidebarMenuButton
-                                    asChild
-                                    isActive={location.pathname.startsWith('/collectors')}
-                                    tooltip={t('sidebar.collectors')}
-                                >
+                                <SidebarMenuButton asChild isActive={location.pathname.startsWith('/collectors')} tooltip={t('sidebar.collectors')}>
                                     <Link to='/collectors'>
                                         <IconCash className='size-4' />
                                         <span>{t('sidebar.collectors')}</span>
@@ -101,11 +89,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                     <SidebarGroupContent className='flex flex-col gap-2'>
                         <SidebarMenu>
                             <SidebarMenuItem>
-                                <SidebarMenuButton
-                                    asChild
-                                    isActive={location.pathname.startsWith('/users')}
-                                    tooltip={t('sidebar.users')}
-                                >
+                                <SidebarMenuButton asChild isActive={location.pathname.startsWith('/users')} tooltip={t('sidebar.users')}>
                                     <Link to='/users'>
                                         <IconUser className='size-4' />
                                         <span>{t('sidebar.users')}</span>

@@ -21,12 +21,7 @@ const CheckboxField = <TFieldValues extends FieldValues = FieldValues, TName ext
     return (
         <BaseFields label={label} name={name} required={required}>
             {({ register }) => (
-                <Checkbox
-                    {...register(name)}
-                    checked={checked}
-                    disabled={readOnly}
-                    onCheckedChange={isSelected => setValue(name, (isSelected ? 'true' : 'false') as TFieldValues[TName])}
-                >
+                <Checkbox {...register(name)} checked={checked} disabled={readOnly} onCheckedChange={isSelected => setValue(name, (isSelected ? 'true' : 'false') as TFieldValues[TName])}>
                     {checkboxLabel ?? label}
                 </Checkbox>
             )}

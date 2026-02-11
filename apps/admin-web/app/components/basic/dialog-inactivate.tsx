@@ -1,5 +1,14 @@
-import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@alianza/ui/components/ui/alert-dialog"
-import { useTranslation } from "react-i18next"
+import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle
+} from '@alianza/ui/components/ui/alert-dialog'
+import { useTranslation } from 'react-i18next'
 
 type DialogInactivateProps = {
     description: string
@@ -16,13 +25,13 @@ export function DialogInactivate({ description, isOpen, inactivatePending, handl
         <AlertDialog open={isOpen} onOpenChange={onOpenChange}>
             <AlertDialogContent>
                 <AlertDialogHeader>
-                    <AlertDialogTitle>{t("dialogs.deactivate.title")}</AlertDialogTitle>
-                    <AlertDialogDescription>
-                        {description}
-                    </AlertDialogDescription>
+                    <AlertDialogTitle>{t('dialogs.deactivate.title')}</AlertDialogTitle>
+                    <AlertDialogDescription>{description}</AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
-                    <AlertDialogCancel variant='outline' size='sm'>{t('logout.cancel')}</AlertDialogCancel>
+                    <AlertDialogCancel variant='outline' size='sm'>
+                        {t('logout.cancel')}
+                    </AlertDialogCancel>
                     <AlertDialogAction isPending={inactivatePending} onClick={handleInactivate}>
                         {t('tables.buttons.inactive')}
                     </AlertDialogAction>

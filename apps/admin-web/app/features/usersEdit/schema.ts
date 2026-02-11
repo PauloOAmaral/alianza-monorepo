@@ -10,7 +10,7 @@ export function updateUserSchema(t: TFunction) {
             .min(1, { message: t('fields.users.email.required') })
             .email({ message: t('fields.users.email.invalid') })
             .max(255)
-            .transform((v) => v.trim().toLowerCase()),
+            .transform(v => v.trim().toLowerCase()),
         firstName: z.string().max(50).optional().nullable(),
         lastName: z.string().max(100).optional().nullable()
     })

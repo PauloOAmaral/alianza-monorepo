@@ -51,7 +51,7 @@ export const pt = {
         sellers: sellersPT.dialogs,
         users: usersPT.dialogs,
         activate: ptApplication.dialogs.activate,
-        deactivate: ptApplication.dialogs.deactivate,
+        deactivate: ptApplication.dialogs.deactivate
     },
     tables: ptApplication.tables,
     pagination: ptApplication.pagination,
@@ -59,5 +59,5 @@ export const pt = {
     dates: ptApplication.dates,
     duration: ptApplication.duration,
     errors: { ...ptApplication.errors.auth, ...ptApplication.errors.common, ...ptApplication.errors.base },
-    enums: ptApplication.enums,
+    enums: ptApplication.enums
 }

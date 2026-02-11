@@ -21,7 +21,7 @@ const badgeVariants = cva(
                 info: 'bg-blue-300 border border-blue-400 text-blue-950 [a&]:hover:bg-blue-500/90',
                 muted: 'bg-gray-300 border border-gray-400 text-gray-950 [a&]:hover:bg-gray-500/90',
                 light: 'bg-white border border-gray-200 text-gray-950 [a&]:hover:bg-gray-500/90',
-                dark: 'bg-black border border-gray-800 text-white [a&]:hover:bg-gray-500/90',
+                dark: 'bg-black border border-gray-800 text-white [a&]:hover:bg-gray-500/90'
             }
         },
         defaultVariants: {
@@ -30,12 +30,7 @@ const badgeVariants = cva(
     }
 )
 
-function Badge({
-    className,
-    variant = 'default',
-    asChild = false,
-    ...props
-}: React.ComponentPropsWithoutRef<'span'> & VariantProps<typeof badgeVariants> & { asChild?: boolean }) {
+function Badge({ className, variant = 'default', asChild = false, ...props }: React.ComponentPropsWithoutRef<'span'> & VariantProps<typeof badgeVariants> & { asChild?: boolean }) {
     const Comp = asChild ? Slot : 'span'
 
     return <Comp className={cn(badgeVariants({ variant }), className)} data-slot='badge' data-variant={variant} {...props} />

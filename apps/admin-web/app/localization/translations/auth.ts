@@ -40,7 +40,6 @@ export const authEN = {
             minLength: 'Password must be at least 6 characters',
             maxLength: 'Password must be at most 100 characters'
         }
-
     },
     formPages: {
         title: 'Login to your account',

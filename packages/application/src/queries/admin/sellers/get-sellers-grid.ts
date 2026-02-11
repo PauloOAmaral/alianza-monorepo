@@ -18,12 +18,7 @@ export const getSellersGridQuery = createAction({ schema })
 
         const db = createMainDbClient()
 
-        const searchCondition = query
-            ? or(
-                  sql`unaccent(${sellers.referralCode}) ilike unaccent(${`%${query}%`})`,
-                  sql`unaccent(${sellers.leadPrefix}) ilike unaccent(${`%${query}%`})`
-              )
-            : undefined
+        const searchCondition = query ? or(sql`unaccent(${sellers.referralCode}) ilike unaccent(${`%${query}%`})`, sql`unaccent(${sellers.leadPrefix}) ilike unaccent(${`%${query}%`})`) : undefined
 
         const whereCondition = and(isNull(sellers.deletedAt), searchCondition)
 

@@ -1,8 +1,8 @@
-import { leadStatusOptions } from "@alianza/application/utils/enums/age";
-import type { LeadStatus } from "@alianza/database/types/enum";
-import { Badge } from "@alianza/ui/components/ui/badge";
-import { TableCell } from "@alianza/ui/components/ui/table";
-import { useTranslation } from "react-i18next";
+import { leadStatusOptions } from '@alianza/application/utils/enums/age'
+import type { LeadStatus } from '@alianza/database/types/enum'
+import { Badge } from '@alianza/ui/components/ui/badge'
+import { TableCell } from '@alianza/ui/components/ui/table'
+import { useTranslation } from 'react-i18next'
 
 export function DataTableLeadStatus({ status }: { status: LeadStatus }) {
     const { t } = useTranslation()

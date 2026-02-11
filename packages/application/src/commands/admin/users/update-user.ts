@@ -32,7 +32,7 @@ export const updateUserCommand = createAction({ schema })
 
         const emailNormalized = email.trim().toLowerCase()
 
-        await db.transaction(async (tx) => {
+        await db.transaction(async tx => {
             await tx
                 .update(users)
                 .set({

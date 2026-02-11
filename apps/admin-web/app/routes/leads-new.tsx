@@ -36,7 +36,7 @@ export async function action({ request }: Route.ActionArgs) {
                 leadSource: value.source,
                 internalCampaignId: value.internalCampaignId,
                 sellerId: value.sellerId,
-                companyId: value.companyId,
+                companyId: value.companyId
             })
         )
 

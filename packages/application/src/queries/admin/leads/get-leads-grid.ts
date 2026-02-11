@@ -19,9 +19,7 @@ export const getLeadsGridQuery = createAction({ schema: getLeadsGridSchema })
 
         const db = createMainDbClient()
 
-        const searchCondition = query
-            ? or(sql`unaccent(${leads.name}) ilike unaccent(${`%${query}%`})`)
-            : undefined
+        const searchCondition = query ? or(sql`unaccent(${leads.name}) ilike unaccent(${`%${query}%`})`) : undefined
 
         const whereCondition = and(isNull(leads.deletedAt), searchCondition)
 
@@ -32,7 +30,7 @@ export const getLeadsGridQuery = createAction({ schema: getLeadsGridSchema })
                 email: true,
                 primaryPhoneCountryCode: true,
                 primaryPhoneNumber: true,
-                status: true,
+                status: true
             },
             with: {
                 seller: {
@@ -48,24 +46,24 @@ export const getLeadsGridQuery = createAction({ schema: getLeadsGridSchema })
                                                         CONCAT(${fields.firstName}, ' ', ${fields.lastName})
                                                     `.as('fullName')
                                                 }
-                                            },
-                                        },
-                                    },
-                                },
-                            },
-                        },
-                    },
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
                 },
                 discipline: {
                     columns: {
-                        name: true,
-                    },
-                },
+                        name: true
+                    }
+                }
             },
             where: whereCondition,
             limit,
             offset,
-            orderBy: (leads, { desc }) => desc(leads.createdAt),
+            orderBy: (leads, { desc }) => desc(leads.createdAt)
         })
 
         const countQuery = db.$count(leads, whereCondition)

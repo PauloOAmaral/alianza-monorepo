@@ -73,7 +73,8 @@ export function SellersTable() {
                     </>
                 )}
             </Await>
-        </Suspense>)
+        </Suspense>
+    )
 }
 
 const SellersGridColumns = () => {

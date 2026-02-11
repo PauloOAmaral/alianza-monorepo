@@ -115,9 +115,7 @@ export function LeadNewDialog() {
                 <Separator />
                 <Suspense fallback={<LeadNewFormSkeleton />}>
                     <Await errorElement={<div>{t('errors.databaseNotFound')}</div>} resolve={Promise.all([campaigns, phoneCountries])}>
-                        {([campaignsResult, phoneCountriesResult]) => (
-                            <LeadForm campaigns={campaignsResult.data} phoneCountries={phoneCountriesResult.data.countries} />
-                        )}
+                        {([campaignsResult, phoneCountriesResult]) => <LeadForm campaigns={campaignsResult.data} phoneCountries={phoneCountriesResult.data.countries} />}
                     </Await>
                 </Suspense>
             </DialogContent>

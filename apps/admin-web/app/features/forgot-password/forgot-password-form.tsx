@@ -3,7 +3,6 @@ import { FormProvider, useForm } from 'react-hook-form'
 import { EmailField } from '~/components/form/fields/basic'
 
 const ForgotPasswordForm = () => {
-
     const form = useForm()
     return (
         <FormProvider {...form}>

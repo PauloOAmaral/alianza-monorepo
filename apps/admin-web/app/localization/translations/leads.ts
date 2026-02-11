@@ -15,7 +15,7 @@ export const leadsPT = {
         phoneCountryCode: { label: 'Código de país' },
         phoneNumber: { label: 'Número de teléfono', required: 'Telefono é obrigatório.' },
         secondaryPhoneCountryCode: { label: 'Código de país' },
-        secondaryPhoneNumber: { label: 'Telefono secundario' },
+        secondaryPhoneNumber: { label: 'Telefono secundario' }
     },
     dialogs: {
         new: {
@@ -52,7 +52,7 @@ export const leadsPT = {
             email: 'Email',
             seller: 'Seller',
             status: 'Status',
-            actions: 'Acoes',
+            actions: 'Acoes'
         },
         empty: 'Nenhum lead encontrado.'
     },
@@ -79,7 +79,7 @@ export const leadsEN = {
         phoneCountryCode: { label: 'Country code' },
         phoneNumber: { label: 'Phone number', required: 'Phone number is required.' },
         secondaryPhoneCountryCode: { label: 'Country code' },
-        secondaryPhoneNumber: { label: 'Secondary phone' },
+        secondaryPhoneNumber: { label: 'Secondary phone' }
     },
     dialogs: {
         new: {
@@ -143,7 +143,7 @@ export const leadsES = {
         phoneCountryCode: { label: 'Código de país' },
         phoneNumber: { label: 'Número de teléfono', required: 'Telefono es requerido.' },
         secondaryPhoneCountryCode: { label: 'Código de país' },
-        secondaryPhoneNumber: { label: 'Telefono secundario' },
+        secondaryPhoneNumber: { label: 'Telefono secundario' }
     },
     dialogs: {
         new: {

@@ -1,4 +1,4 @@
-import { Skeleton } from "@alianza/ui/components/ui/skeleton"
+import { Skeleton } from '@alianza/ui/components/ui/skeleton'
 
 export function FieldSkeleton() {
     return (
