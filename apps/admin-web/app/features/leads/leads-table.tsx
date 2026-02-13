@@ -21,6 +21,10 @@ export function LeadsTable() {
         navigate(`/leads/${leadId}/edit`)
     }
 
+    const handleScheduleExperimentalClass = (leadId: string) => {
+        navigate(`/leads/${leadId}/schedule-experimental`)
+    }
+
     return (
         <Suspense fallback={<LeadsTableSkeleton />}>
             <Await resolve={leadsGridResult.data}>
@@ -58,6 +62,9 @@ export function LeadsTable() {
                                                     </DropdownMenuTrigger>
                                                     <DropdownMenuContent align='end'>
                                                         <DropdownMenuItem onClick={() => handleEdit(lead.id)}>{t('tables.buttons.edit')}</DropdownMenuItem>
+                                                        <DropdownMenuItem onClick={() => handleScheduleExperimentalClass(lead.id)}>
+                                                            {t('dialogs.leads.schedule.open')}
+                                                        </DropdownMenuItem>
                                                     </DropdownMenuContent>
                                                 </DropdownMenu>
                                             </TableCell>

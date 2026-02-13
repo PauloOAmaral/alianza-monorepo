@@ -15,6 +15,15 @@ export const es = {
             invalidTurnstileResponse: 'Respuesta inválida del captcha. Por favor, inténtelo de nuevo.',
             databaseNotFound: 'Base de datos no encontrada.',
             commonAlreadyExists: 'Este registro ya existe.',
+            commonExperimentalScheduleLeadNotFound: 'Lead no encontrado para agendar la clase experimental.',
+            commonExperimentalScheduleLeadInactive: 'El lead está inactivo y no puede ser agendado.',
+            commonExperimentalScheduleTeacherNotFound: 'Profesor no encontrado.',
+            commonExperimentalScheduleTeacherInactive: 'Profesor inactivo.',
+            commonExperimentalScheduleTeacherUnavailable: 'El profesor no está disponible en la fecha y hora seleccionadas.',
+            commonExperimentalScheduleTimeBusy: 'El horario seleccionado ya está ocupado.',
+            commonExperimentalScheduleDateInPast: 'Seleccione una fecha y hora futuras.',
+            commonExperimentalScheduleCountryNotFound: 'País no encontrado.',
+            commonExperimentalScheduleAlreadyExists: 'Este lead ya tiene una clase experimental agendada.',
             commonNameAlreadyExists: 'Este nombre ya está en uso. Por favor, elija otro nombre.',
             commonValidationError: 'Los datos proporcionados no son válidos. Por favor, verifique su información e inténtelo de nuevo.',
             commonNotFound: 'No encontrado.',
@@ -159,6 +168,12 @@ export const es = {
             from28To40: '28 a 40',
             from40To65: '40 a 65',
             older65: 'Mayor de 65'
+        },
+        studyReason: {
+            work: 'Trabajo',
+            travel: 'Viaje',
+            apprenticeship: 'Aprendizaje',
+            other: 'Otros'
         }
     }
 }
