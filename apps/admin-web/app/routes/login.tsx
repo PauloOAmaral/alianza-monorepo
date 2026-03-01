@@ -58,7 +58,8 @@ export async function action({ request }: Route.ActionArgs) {
 
 export async function loader() {
     return {
-        siteKey: ENV.CLOUDFLARE_TURNSTILE_SITE_KEY
+        siteKey: ENV.CLOUDFLARE_TURNSTILE_SITE_KEY,
+        googleLoginEnabled: Boolean(ENV.GOOGLE_CLIENT_ID && ENV.GOOGLE_CLIENT_SECRET)
     }
 }
 

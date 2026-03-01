@@ -22,6 +22,8 @@ const envSchema = z.object({
     MAIN_POOL_DATABASE_URL: z.string(),
     MAIN_DIRECT_DATABASE_URL: z.string(),
     NODE_ENV: z.enum(['development', 'test', 'production']).default('development'),
+    GOOGLE_CLIENT_ID: z.string().optional(),
+    GOOGLE_CLIENT_SECRET: z.string().optional(),
     GOOGLE_PLACES_API_KEY: z.string(),
     GOOGLE_PLACES_PROJECT_ID: z.string(),
     I18NEXT_COOKIE_NAME: z.string(),

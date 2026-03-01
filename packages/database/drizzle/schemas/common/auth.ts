@@ -85,6 +85,7 @@ export const users = pgTable(
         id,
         email: varchar('email', { length: 255 }).notNull(),
         password: varchar('password', { length: 255 }),
+        googleId: varchar('google_id', { length: 128 }),
         emailConfirmed: boolean('email_confirmed').default(false).notNull(),
         emailConfirmedAt: timestamp('email_confirmed_at', {
             mode: 'date'
@@ -96,6 +97,7 @@ export const users = pgTable(
     },
     table => [
         uniqueIndex('users_email_key').on(table.email),
+        uniqueIndex('users_google_id_key').on(table.googleId),
         foreignKey({
             columns: [table.userProfileId],
             foreignColumns: [userProfiles.id],

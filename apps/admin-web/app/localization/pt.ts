@@ -190,7 +190,10 @@ export const pt = {
             description: 'Digite seu e-mail abaixo para entrar na sua conta',
             pageTitle: 'Entrar Alianza',
             pageDescription: 'Entre na sua conta Alianza',
-            success: 'Login realizado com sucesso'
+            success: 'Login realizado com sucesso',
+            submit: 'Entrar',
+            orContinueWith: 'Ou continue com',
+            loginWithGoogle: 'Continuar com Google'
         }
     },
     dialogs: {},

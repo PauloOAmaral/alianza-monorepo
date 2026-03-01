@@ -191,7 +191,10 @@ export const es = {
             description: 'Ingresa tu correo electrónico para iniciar sesión en tu cuenta',
             pageTitle: 'Iniciar sesión Alianza',
             pageDescription: 'Inicia sesión en tu cuenta Alianza',
-            success: 'Inicio de sesión exitoso'
+            success: 'Inicio de sesión exitoso',
+            submit: 'Iniciar sesión',
+            orContinueWith: 'O continúa con',
+            loginWithGoogle: 'Continuar con Google'
         }
     },
     dialogs: {},

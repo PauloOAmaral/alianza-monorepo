@@ -8,7 +8,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useRef } from 'react'
 import { useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
-import { useFetcher, useLoaderData } from 'react-router'
+import { Link, useFetcher, useLoaderData } from 'react-router'
 import { EmailField } from '~/components/form/fields/basic/email-field'
 import { PasswordField } from '~/components/form/fields/basic/password-field'
 import { BasicForm } from '~/components/shared/basic-form'
@@ -19,7 +19,7 @@ export function LoginForm({ className, ...props }: React.ComponentProps<'div'>) 
     const { t } = useTranslation()
     const loginWithPasswordSchema = useLoginWithPasswordSchema()
 
-    const { siteKey } = useLoaderData<typeof loader>()
+    const { siteKey, googleLoginEnabled } = useLoaderData<typeof loader>()
 
     const loginWithPasswordFetcher = useFetcher()
     const turnstileRef = useRef<TurnstileInstance>(null)
@@ -58,9 +58,24 @@ export function LoginForm({ className, ...props }: React.ComponentProps<'div'>) 
                             </div>
                             <Field>
                                 <Button isPending={isPending} type='submit'>
-                                    Login
+                                    {t('formPages.login.submit')}
                                 </Button>
                             </Field>
+                            {googleLoginEnabled && (
+                                <>
+                                    <div className='relative'>
+                                        <div className='absolute inset-0 flex items-center'>
+                                            <span className='w-full border-t' />
+                                        </div>
+                                        <div className='relative flex justify-center text-xs uppercase'>
+                                            <span className='bg-card px-2 text-muted-foreground'>{t('formPages.login.orContinueWith')}</span>
+                                        </div>
+                                    </div>
+                                    <Button asChild className='w-full' variant='outline'>
+                                        <Link to='/auth/google'>{t('formPages.login.loginWithGoogle')}</Link>
+                                    </Button>
+                                </>
+                            )}
                         </FieldGroup>
                     </BasicForm>
                 </CardContent>

@@ -9,5 +9,7 @@ export default [
         route('logout', 'routes/logout.tsx')
     ]),
     route('login', 'routes/login.tsx'),
+    route('auth/google', 'routes/auth.google.tsx'),
+    route('auth/google/callback', 'routes/auth.google.callback.tsx'),
     route('forgot-password', 'routes/forgot-password.tsx')
 ] satisfies RouteConfig
