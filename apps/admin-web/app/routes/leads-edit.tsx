@@ -1,15 +1,15 @@
 import { updateLeadCommand } from '@alianza/application/commands/admin'
 import { ApplicationError } from '@alianza/application/error'
+import { getInternalCampaignOptionsQuery, getLeadByIdQuery, getPhoneCountriesQuery } from '@alianza/application/queries/admin'
 import { parseFormDataWithZod } from '@alianza/utils/forms'
-import { data } from 'react-router'
-import { leadSourceCodeByValue } from '~/features/leads/lead-sources'
-import { updateLeadSchema } from '~/features/leads/schema'
+import { LeadEditDialog } from '~/features/leadsEdit/lead-form'
+import { updateLeadSchema } from '~/features/leadsEdit/schema'
 import { getI18nextServerInstance } from '~/middleware/i18next-middleware'
 import { requireSession } from '~/middleware/session-middleware'
 import { parseApplicationError } from '~/utils/server/errors'
 import { createRequest } from '~/utils/server/request-builder'
 import { dataWithError, dataWithSuccess } from '~/utils/server/toasts'
-import type { Route } from './+types/leads.edit'
+import type { Route } from './+types/leads-edit'
 
 export async function action({ request }: Route.ActionArgs) {
     await requireSession(request)
@@ -21,20 +21,20 @@ export async function action({ request }: Route.ActionArgs) {
     const { success, value, errors } = await parseFormDataWithZod(formData, updateLeadSchema(t))
 
     if (!success) {
-        const message = Array.isArray(errors) ? errors.join('. ') : (errors ?? t('serverError.unexpected'))
+        const message = Array.isArray(errors) ? errors.join('. ') : (errors ?? t('errors.unexpectedError'))
 
         return await dataWithError({ success: false, message }, errors ?? [], { status: 400 })
     }
 
     try {
-        const result = await updateLeadCommand(
+        await updateLeadCommand(
             createRequest(request, {
                 leadId: value.leadId,
                 name: value.name,
-                primaryPhoneCountryCode: value.primaryPhoneCountryCode ?? null,
+                primaryPhoneCountryCode: value.primaryPhoneCountryCode,
                 primaryPhoneNumber: value.primaryPhoneNumber,
                 email: value.email ?? null,
-                leadSource: leadSourceCodeByValue.get(value.source) ?? 0,
+                leadSource: value.source,
                 internalCampaignId: value.internalCampaignId ?? null,
                 status: value.status ?? null,
                 sellerId: value.sellerId ?? null,
@@ -51,16 +51,24 @@ export async function action({ request }: Route.ActionArgs) {
             })
         )
 
-        if (result.data.status === 'duplicate') {
-            return data({ status: 'duplicate', duplicate: result.data.duplicate }, { status: 409 })
-        }
-
-        return await dataWithSuccess({ status: 'updated' }, t('leads.edit.messages.updated'))
+        return await dataWithSuccess({ status: 'updated' }, t('dialogs.leads.edit.success'))
     } catch (error) {
         if (error instanceof ApplicationError) {
             return dataWithError({ success: false }, await parseApplicationError(error, request))
         }
 
-        return dataWithError({ success: false }, t('serverError.unexpected'))
+        return dataWithError({ success: false }, t('errors.unexpectedError'))
     }
 }
+
+export async function loader({ request, params }: Route.LoaderArgs) {
+    requireSession(request)
+
+    return {
+        lead: getLeadByIdQuery(createRequest(request, { id: params.id })),
+        campaigns: getInternalCampaignOptionsQuery(request),
+        phoneCountries: getPhoneCountriesQuery(request)
+    }
+}
+
+export default LeadEditDialog

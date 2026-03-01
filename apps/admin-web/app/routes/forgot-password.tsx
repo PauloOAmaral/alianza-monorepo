@@ -1,3 +1,3 @@
-import { ForgotPassword } from "~/features/forgot-password/forgot-password";
+import { ForgotPassword } from '~/features/forgot-password/forgot-password'
 
 export default ForgotPassword

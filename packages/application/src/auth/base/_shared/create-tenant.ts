@@ -27,10 +27,7 @@ export const getOrCreateDefaultPermissionGroup = createAction({
 
         if (!adminGroup) {
             const permissionGroupId = nanoid(16)
-            const [created] = await db
-                .insert(permissionGroups)
-                .values({ id: permissionGroupId, name: 'Admin' })
-                .returning({ id: permissionGroups.id, name: permissionGroups.name })
+            const [created] = await db.insert(permissionGroups).values({ id: permissionGroupId, name: 'Admin' }).returning({ id: permissionGroups.id, name: permissionGroups.name })
 
             if (!created) {
                 throw new ApplicationError('unexpectedError')
@@ -48,6 +45,4 @@ export const getOrCreateDefaultPermissionGroup = createAction({
         return { permissionGroup: adminGroup }
     })
 
-export type GetOrCreateDefaultPermissionGroupResult = Awaited<
-    ReturnType<typeof getOrCreateDefaultPermissionGroup>
->['data']
+export type GetOrCreateDefaultPermissionGroupResult = Awaited<ReturnType<typeof getOrCreateDefaultPermissionGroup>>['data']

@@ -1,15 +1,30 @@
 export const pt = {
+    dialogs: {
+        activate: {
+            title: 'Ativar'
+        },
+        deactivate: {
+            title: 'Desativar'
+        }
+    },
     errors: {
         base: {
             unexpectedError: 'Sorry, an unexpected error occurred. Please try again or contact support.'
         },
         common: {
+            invalidTurnstileResponse: 'Resposta inválida do captcha. Por favor, tente novamente.',
             databaseNotFound: 'Banco de dados não encontrado.',
             commonAlreadyExists: 'Este registro já existe.',
             commonNameAlreadyExists: 'Este nome já está em uso. Por favor, escolha outro nome.',
             commonValidationError: 'Os dados fornecidos são inválidos. Por favor, verifique suas informações e tente novamente.',
             commonNotFound: 'Não encontrado.',
             commonVersionLanguageAlreadyExists: 'Esta combinação de versão e idioma já existe. Por favor, use uma versão ou idioma diferente.'
+        },
+        serverError: {
+            title: 'Erro do servidor',
+            unexpected: 'Ocorreu um erro inesperado. Por favor, tente novamente.',
+            description: 'Ocorreu um erro ao processar a solicitação.',
+            returnHome: 'Voltar para a página inicial'
         },
         auth: {
             authSignupConfirmationExpired: 'O link de confirmação de cadastro expirou. Por favor, solicite um novo link de confirmação para continuar.',
@@ -44,6 +59,106 @@ export const pt = {
             authCannotRemoveYourself: 'Você não pode remover a si mesmo.',
             authTooManyAttempts: 'Muitas tentativas de login incorretas. Sua conta foi bloqueada temporariamente por segurança. Tente novamente mais tarde.',
             authTooManyPasswordResetRequests: 'Muitas solicitações de redefinição de senha. Aguarde alguns minutos antes de tentar novamente.'
+        }
+    },
+    logout: {
+        dialogTitle: 'Encerrando sessão',
+        dialogDescription: 'Sua sessão está sendo encerrada. Deseja continuar?',
+        cancel: 'Cancelar',
+        confirm: 'Encerrar sessão'
+    },
+    tables: {
+        headers: {
+            actions: 'Ações',
+            active: 'Ativo',
+            createdAt: 'Data de cadastro',
+            email: 'Email',
+            inactive: 'Inativo',
+            status: 'Status',
+            protocols: 'Protocolos',
+            type: 'Tipo'
+        },
+        totalRecords: 'Total de registros',
+        summary: 'Mostrando {{start}}-{{end}} de {{count}}',
+        pageOf: 'Página {{page}} de {{total}}',
+        buttons: {
+            edit: 'Editar',
+            delete: 'Remover',
+            actions: 'Ações',
+            active: 'Ativar',
+            inactive: 'Desativar',
+            continue: 'Continuar'
+        }
+    },
+    pagination: {
+        previousPage: 'Página anterior',
+        nextPage: 'Página seguinte'
+    },
+    languages: {
+        pt: 'Português',
+        en: 'Inglês',
+        es: 'Espanhol'
+    },
+    dates: {
+        short: '{{date, short}}',
+        long: '{{date, long}}',
+        ago: '{{date, ago}}'
+    },
+    duration: {
+        short: '{{duration, duration}}',
+        long: '{{duration, durationLong}}'
+    },
+    buttons: {
+        save: 'Salvar',
+        cancel: 'Cancelar',
+        confirm: 'Confirmar'
+    },
+    enums: {
+        gender: {
+            unknown: 'Nao informado',
+            masculine: 'Masculino',
+            feminine: 'Feminino'
+        },
+        status: {
+            preAnalisys: 'Pre-analise',
+            created: 'Cadastrado',
+            inService: 'Em atendimento',
+            experimentalClass: 'Aula experimental',
+            experimentalClassMissed: 'Reagendar',
+            feedback: 'Feedback',
+            contract: 'Assinatura do contrato',
+            waitingPayment: 'Aguardando pagamento',
+            paid: 'Matriculado',
+            talkLater: 'Falar depois',
+            disqualified: 'Desqualificado'
+        },
+        sources: {
+            facebook: 'Facebook',
+            messenger: 'Messenger',
+            instagram: 'Instagram',
+            direct: 'Direto',
+            google: 'Google',
+            tiktok: 'TikTok',
+            youtube: 'YouTube',
+            blog: 'Blog',
+            email: 'Email',
+            indication: 'Indicacao',
+            company: 'Empresa',
+            affiliate: 'Afiliado',
+            influencer: 'Influenciador',
+            studentIndication: 'Indicacao de aluno',
+            facebookForms: 'Formularios Facebook',
+            exStudent: 'Ex-aluno',
+            campaign: 'Campanha'
+        },
+        age: {
+            under12: 'Abaixo de 12',
+            from12To18: '12 a 18',
+            from18To22: '18 a 22',
+            from22To28: '22 a 28',
+            from28To40: '28 a 40',
+            from40To65: '40 a 65',
+            older65: 'Acima de 65'
         }
     }
 }

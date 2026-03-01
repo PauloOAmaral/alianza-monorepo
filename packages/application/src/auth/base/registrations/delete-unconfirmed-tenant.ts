@@ -1,12 +1,5 @@
 import { eq, isNull } from '@alianza/database/drizzle'
-import {
-    medias,
-    userContextPermissionGroups,
-    userContexts,
-    userProfiles,
-    userSessions,
-    users
-} from '@alianza/database/schemas/common'
+import { medias, userContextPermissionGroups, userContexts, userProfiles, userSessions, users } from '@alianza/database/schemas/common'
 import type { AuthDatabaseClient, AuthDatabaseTransaction } from '@alianza/database/types/common'
 import { getSessionsKv } from '@alianza/services/kv'
 import { getImagesBucket } from '@alianza/services/storage'
@@ -62,13 +55,8 @@ export const deleteUnconfirmedUserContext = createAction({ schema: deleteUnconfi
             }
         })
 
-        const sessionsToInvalidate = await db
-            .select({ id: userSessions.id })
-            .from(userSessions)
-            .where(eq(userSessions.userContextId, id))
+        const sessionsToInvalidate = await db.select({ id: userSessions.id }).from(userSessions).where(eq(userSessions.userContextId, id))
         await Promise.allSettled(sessionsToInvalidate.map(s => getSessionsKv().delete(s.id)))
     })
 
-export type DeleteUnconfirmedUserContextResult = Awaited<
-    ReturnType<typeof deleteUnconfirmedUserContext>
->['data']
+export type DeleteUnconfirmedUserContextResult = Awaited<ReturnType<typeof deleteUnconfirmedUserContext>>['data']

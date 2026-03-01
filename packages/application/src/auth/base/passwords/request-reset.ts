@@ -77,11 +77,7 @@ export const requestPasswordReset = createAction({ schema: requestPasswordResetS
             await recordAttempt('password-reset-ip', normalizedIp)
         }
 
-        const [userContext] = await db
-            .select({ id: userContexts.id })
-            .from(userContexts)
-            .where(eq(userContexts.userId, user.id))
-            .limit(1)
+        const [userContext] = await db.select({ id: userContexts.id }).from(userContexts).where(eq(userContexts.userId, user.id)).limit(1)
 
         if (!userContext) {
             throw new ApplicationError('authUserNotFound')

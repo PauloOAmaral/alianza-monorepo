@@ -1,11 +1,4 @@
-import {
-    permissionGroups,
-    permissionGroupsPermissions,
-    userContextPermissionGroups,
-    userContexts,
-    userProfiles,
-    users
-} from '../../../drizzle/schemas/common'
+import { permissionGroups, permissionGroupsPermissions, userContextPermissionGroups, userContexts, userProfiles, users } from '../../../drizzle/schemas/common'
 import { countries, disciplines } from '../../../drizzle/schemas/main'
 import { createMainDbClient } from '../../clients/main'
 
@@ -113,10 +106,7 @@ async function seed() {
                 .onConflictDoNothing({ target: userContextPermissionGroups.id })
             console.log('User context permission group seeded')
 
-            await tx
-                .insert(disciplines)
-                .values({ name: 'Inglês' })
-                .onConflictDoNothing({ target: disciplines.name })
+            await tx.insert(disciplines).values({ name: 'Inglês' }).onConflictDoNothing({ target: disciplines.name })
             console.log('Discipline "Inglês" seeded')
 
             for (const row of LATIN_AMERICAN_COUNTRIES) {

@@ -19,11 +19,7 @@ export function NavMain({
                 <SidebarMenu>
                     {items.map(item => (
                         <SidebarMenuItem key={item.title}>
-                            <SidebarMenuButton
-                                asChild
-                                isActive={item.url === '/' ? currentPath === '/' : Boolean(currentPath?.startsWith(item.url))}
-                                tooltip={item.title}
-                            >
+                            <SidebarMenuButton asChild isActive={item.url === '/' ? currentPath === '/' : Boolean(currentPath?.startsWith(item.url))} tooltip={item.title}>
                                 <a href={item.url}>
                                     {item.icon && <item.icon />}
                                     <span>{item.title}</span>

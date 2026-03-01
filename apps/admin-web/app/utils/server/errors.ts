@@ -7,12 +7,14 @@ export async function parseApplicationError(error: ApplicationError<'base' | 'co
 
     const errorCodes = Array.isArray(error.codes) ? error.codes : [error.codes]
 
+    console.log(errorCodes)
+
     return errorCodes
         .map(code => {
             try {
-                return t(`applicationErrors.${code}`)
+                return t(`errors.${code}`)
             } catch {
-                return t('serverError.unexpected')
+                return t('errors.serverError.unexpected')
             }
         })
         .join('\n')

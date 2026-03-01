@@ -2,7 +2,7 @@ import { boolean, char, foreignKey, index, integer, pgEnum, pgTable, text, varch
 import { createdAt, deletedAt, id, updatedAt } from '../../utils/fields'
 import { gender as genderEnum } from '../common'
 import { disciplines } from './disciplines'
-import { internalCampaigns } from './internal-campaigns'
+import { campaignSource, internalCampaigns } from './internal-campaigns'
 import { sellers } from './sellers'
 
 export const leadStatus = pgEnum('lead_status', [
@@ -51,8 +51,8 @@ export const leads = pgTable(
         internalCampaignId: varchar('internal_campaign_id', { length: 16 }),
         name: varchar('name', { length: 200 }).notNull(),
         email: varchar('email', { length: 200 }),
-        primaryPhoneCountryCode: char('primary_phone_country_code', { length: 4 }),
-        primaryPhoneNumber: char('primary_phone_number', { length: 20 }),
+        primaryPhoneCountryCode: char('primary_phone_country_code', { length: 4 }).notNull(),
+        primaryPhoneNumber: char('primary_phone_number', { length: 20 }).notNull(),
         secondaryPhoneCountryCode: char('secondary_phone_country_code', { length: 4 }),
         secondaryPhoneNumber: char('secondary_phone_number', { length: 20 }),
         status: leadStatus('status').notNull(),
@@ -66,7 +66,7 @@ export const leads = pgTable(
         fbc: varchar('fbc', { length: 255 }),
         fbp: varchar('fbp', { length: 255 }),
         fbLeadsForm: varchar('fb_leads_form', { length: 255 }),
-        leadSource: integer('lead_source'),
+        leadSource: campaignSource('lead_source'),
         createdAt,
         updatedAt,
         deletedAt

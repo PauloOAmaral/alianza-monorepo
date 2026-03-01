@@ -14,7 +14,7 @@ export function FileList({ uploadedFiles, fileProgresses, removeFile }: Uploaded
 
     return (
         <div className={cn('px-6 pb-5 space-y-3 mt-4')}>
-            {uploadedFiles.map((file) => (
+            {uploadedFiles.map(file => (
                 <UploadedFileItem file={file} key={file.name} onRemove={removeFile} progress={fileProgresses[file.name] || 0} />
             ))}
         </div>

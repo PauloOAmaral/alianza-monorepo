@@ -53,3 +53,11 @@ export function alphanumericSearch(textValue: string, inputValue: string) {
 
     return textValueWithoutNonAlphanumeric.includes(inputValueWithoutNonAlphanumeric)
 }
+
+export function alpha2ToFlag(alpha2: string | null) {
+    if (!alpha2 || alpha2.length !== 2) return '🏳️'
+
+    const code = alpha2.toUpperCase()
+
+    return code.replace(/./g, char => String.fromCodePoint(127397 + char.charCodeAt(0)))
+}

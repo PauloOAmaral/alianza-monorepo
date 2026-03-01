@@ -1,9 +1,18 @@
 export const en = {
+    dialogs: {
+        activate: {
+            title: 'Activate'
+        },
+        deactivate: {
+            title: 'Deactivate'
+        }
+    },
     errors: {
         base: {
             unexpectedError: 'Sorry, an unexpected error occurred. Please try again or contact support.'
         },
         common: {
+            invalidTurnstileResponse: 'Invalid captcha response. Please try again.',
             databaseNotFound: 'Database not found.',
             commonAlreadyExists: 'This record already exists.',
             commonNameAlreadyExists: 'This name is already in use. Please choose another name.',
@@ -44,6 +53,112 @@ export const en = {
             authCannotRemoveYourself: 'You cannot remove yourself.',
             authTooManyAttempts: 'Too many incorrect login attempts. Your account has been temporarily locked for security. Please try again later.',
             authTooManyPasswordResetRequests: 'Too many password reset requests. Please wait a few minutes before trying again.'
+        },
+        serverError: {
+            title: 'Server error',
+            unexpected: 'An unexpected error occurred. Please try again.',
+            description: 'An error occurred while processing the request.',
+            returnHome: 'Return to home page'
+        }
+    },
+    logout: {
+        dialogTitle: 'Ending session',
+        dialogDescription: 'Your session is being ended. Do you want to continue?',
+        cancel: 'Cancel',
+        confirm: 'End session'
+    },
+    tables: {
+        headers: {
+            actions: 'Actions',
+            active: 'Active',
+            createdAt: 'Registration date',
+            email: 'Email',
+            inactive: 'Inactive',
+            status: 'Status',
+            protocols: 'Protocols',
+            type: 'Type'
+        },
+        totalRecords: 'Total records',
+        summary: 'Showing {{start}}-{{end}} of {{count}}',
+        pageOf: 'Page {{page}} of {{total}}',
+        buttons: {
+            edit: 'Edit',
+            delete: 'Delete',
+            actions: 'Actions',
+            active: 'Activate',
+            inactive: 'Deactivate',
+            continue: 'Continue'
+        }
+    },
+    pagination: {
+        previousPage: 'Previous page',
+        nextPage: 'Next page'
+    },
+    languages: {
+        pt: 'Portuguese',
+        en: 'English',
+        es: 'Spanish'
+    },
+    dates: {
+        short: '{{date, short}}',
+        long: '{{date, long}}',
+        ago: '{{date, ago}}'
+    },
+    duration: {
+        short: '{{duration, duration}}',
+        long: '{{duration, durationLong}}'
+    },
+    buttons: {
+        save: 'Save',
+        cancel: 'Cancel',
+        confirm: 'Confirm'
+    },
+    enums: {
+        gender: {
+            unknown: 'Not informed',
+            masculine: 'Masculine',
+            feminine: 'Feminine'
+        },
+        status: {
+            preAnalisys: 'Pre-analysis',
+            created: 'Registered',
+            inService: 'In service',
+            experimentalClass: 'Experimental class',
+            experimentalClassMissed: 'Reschedule',
+            feedback: 'Feedback',
+            contract: 'Contract signing',
+            waitingPayment: 'Waiting payment',
+            paid: 'Enrolled',
+            talkLater: 'Talk later',
+            disqualified: 'Disqualified'
+        },
+        sources: {
+            facebook: 'Facebook',
+            messenger: 'Messenger',
+            instagram: 'Instagram',
+            direct: 'Direct',
+            google: 'Google',
+            tiktok: 'TikTok',
+            youtube: 'YouTube',
+            blog: 'Blog',
+            email: 'Email',
+            indication: 'Indication',
+            company: 'Company',
+            affiliate: 'Affiliate',
+            influencer: 'Influencer',
+            studentIndication: 'Student indication',
+            facebookForms: 'Facebook forms',
+            exStudent: 'Ex-student',
+            campaign: 'Campaign'
+        },
+        age: {
+            under12: 'Under 12',
+            from12To18: '12 to 18',
+            from18To22: '18 to 22',
+            from22To28: '22 to 28',
+            from28To40: '28 to 40',
+            from40To65: '40 to 65',
+            older65: 'Over 65'
         }
     }
 }
